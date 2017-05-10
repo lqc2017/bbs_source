@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="grp3022.bbs.dao.HospitalOrderDao" >
+  <resultMap id="BaseResultMap" type="grp3022.bbs.po.HospitalOrder" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PAY_WAY" property="payWay" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="DESCRIBE" property="describe" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="FLOAT" />
+    <result column="PAY_TIME" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="CASHIER_ID" property="cashierId" jdbcType="DECIMAL" />
+    <result column="PATIENT_ID" property="patientId" jdbcType="DECIMAL" />
+    <result column="SUBSIDY" property="subsidy" jdbcType="FLOAT" />
+    <result column="PAID_PRICE" property="paidPrice" jdbcType="FLOAT" />
+    <result column="PAYER" property="payer" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, PAY_WAY, CREATE_TIME, DESCRIBE, STATUS, TOTAL_PRICE, PAY_TIME, CASHIER_ID, PATIENT_ID, 
+    SUBSIDY, PAID_PRICE, PAYER, TYPE, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.HospitalOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from HOSPITAL_ORDER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from HOSPITAL_ORDER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from HOSPITAL_ORDER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="grp3022.bbs.po.HospitalOrderExample" >
+    delete from HOSPITAL_ORDER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="grp3022.po.HospitalOrder" >
+    insert into HOSPITAL_ORDER (ID, PAY_WAY, CREATE_TIME, 
+      DESCRIBE, STATUS, TOTAL_PRICE, 
+      PAY_TIME, CASHIER_ID, PATIENT_ID, 
+      SUBSIDY, PAID_PRICE, PAYER, 
+      TYPE, UPDATE_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{payWay,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{describe,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{totalPrice,jdbcType=FLOAT}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{cashierId,jdbcType=DECIMAL}, #{patientId,jdbcType=DECIMAL}, 
+      #{subsidy,jdbcType=FLOAT}, #{paidPrice,jdbcType=FLOAT}, #{payer,jdbcType=VARCHAR}, 
+      #{type,jdbcType=DECIMAL}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="grp3022.po.HospitalOrder" >
+    insert into HOSPITAL_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="payWay != null" >
+        PAY_WAY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="describe != null" >
+        DESCRIBE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE,
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME,
+      </if>
+      <if test="cashierId != null" >
+        CASHIER_ID,
+      </if>
+      <if test="patientId != null" >
+        PATIENT_ID,
+      </if>
+      <if test="subsidy != null" >
+        SUBSIDY,
+      </if>
+      <if test="paidPrice != null" >
+        PAID_PRICE,
+      </if>
+      <if test="payer != null" >
+        PAYER,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="payWay != null" >
+        #{payWay,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null" >
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=FLOAT},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashierId != null" >
+        #{cashierId,jdbcType=DECIMAL},
+      </if>
+      <if test="patientId != null" >
+        #{patientId,jdbcType=DECIMAL},
+      </if>
+      <if test="subsidy != null" >
+        #{subsidy,jdbcType=FLOAT},
+      </if>
+      <if test="paidPrice != null" >
+        #{paidPrice,jdbcType=FLOAT},
+      </if>
+      <if test="payer != null" >
+        #{payer,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="grp3022.bbs.po.HospitalOrderExample" resultType="java.lang.Integer" >
+    select count(*) from HOSPITAL_ORDER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update HOSPITAL_ORDER
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payWay != null" >
+        PAY_WAY = #{record.payWay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.describe != null" >
+        DESCRIBE = #{record.describe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalPrice != null" >
+        TOTAL_PRICE = #{record.totalPrice,jdbcType=FLOAT},
+      </if>
+      <if test="record.payTime != null" >
+        PAY_TIME = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cashierId != null" >
+        CASHIER_ID = #{record.cashierId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.patientId != null" >
+        PATIENT_ID = #{record.patientId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.subsidy != null" >
+        SUBSIDY = #{record.subsidy,jdbcType=FLOAT},
+      </if>
+      <if test="record.paidPrice != null" >
+        PAID_PRICE = #{record.paidPrice,jdbcType=FLOAT},
+      </if>
+      <if test="record.payer != null" >
+        PAYER = #{record.payer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update HOSPITAL_ORDER
+    set ID = #{record.id,jdbcType=DECIMAL},
+      PAY_WAY = #{record.payWay,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      DESCRIBE = #{record.describe,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      TOTAL_PRICE = #{record.totalPrice,jdbcType=FLOAT},
+      PAY_TIME = #{record.payTime,jdbcType=TIMESTAMP},
+      CASHIER_ID = #{record.cashierId,jdbcType=DECIMAL},
+      PATIENT_ID = #{record.patientId,jdbcType=DECIMAL},
+      SUBSIDY = #{record.subsidy,jdbcType=FLOAT},
+      PAID_PRICE = #{record.paidPrice,jdbcType=FLOAT},
+      PAYER = #{record.payer,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=DECIMAL},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="grp3022.po.HospitalOrder" >
+    update HOSPITAL_ORDER
+    <set >
+      <if test="payWay != null" >
+        PAY_WAY = #{payWay,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null" >
+        DESCRIBE = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE = #{totalPrice,jdbcType=FLOAT},
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashierId != null" >
+        CASHIER_ID = #{cashierId,jdbcType=DECIMAL},
+      </if>
+      <if test="patientId != null" >
+        PATIENT_ID = #{patientId,jdbcType=DECIMAL},
+      </if>
+      <if test="subsidy != null" >
+        SUBSIDY = #{subsidy,jdbcType=FLOAT},
+      </if>
+      <if test="paidPrice != null" >
+        PAID_PRICE = #{paidPrice,jdbcType=FLOAT},
+      </if>
+      <if test="payer != null" >
+        PAYER = #{payer,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="grp3022.po.HospitalOrder" >
+    update HOSPITAL_ORDER
+    set PAY_WAY = #{payWay,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      DESCRIBE = #{describe,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      TOTAL_PRICE = #{totalPrice,jdbcType=FLOAT},
+      PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      CASHIER_ID = #{cashierId,jdbcType=DECIMAL},
+      PATIENT_ID = #{patientId,jdbcType=DECIMAL},
+      SUBSIDY = #{subsidy,jdbcType=FLOAT},
+      PAID_PRICE = #{paidPrice,jdbcType=FLOAT},
+      PAYER = #{payer,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
