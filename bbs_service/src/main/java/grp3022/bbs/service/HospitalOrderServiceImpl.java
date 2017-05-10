@@ -1,4 +1,4 @@
-package grp.bbs.service;
+package grp3022.bbs.service;
 
 import java.util.ArrayList;
 import java.util.Date;
