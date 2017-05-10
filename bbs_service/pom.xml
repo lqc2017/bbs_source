@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>grp3022</groupId>
+	<artifactId>bbs_service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<!-- spring版本号 -->
+		<spring.version>4.3.6.RELEASE</spring.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>grp3022</groupId>
+			<artifactId>bbs_dao</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!--分页 -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		
+		<!-- 添加Spring依赖 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+	</dependencies>
+</project>
