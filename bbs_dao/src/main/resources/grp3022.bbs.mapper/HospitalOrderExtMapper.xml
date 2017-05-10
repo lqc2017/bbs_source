@@ -46,7 +46,7 @@
     </select>
     
   
-  <insert id="add" parameterType="grp3022.po.HospitalOrder" >
+  <insert id="add" parameterType="grp3022.bbs.po.HospitalOrder" >
   		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE">  
 	        SELECT SEQUENCE_ORDER.nextval FROM DUAL
 	    </selectKey>
