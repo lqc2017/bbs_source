@@ -10,6 +10,12 @@
     </properties>
     
     <dependencies>
+        <dependency>
+        <groupId>grp3022</groupId>
+	 	 <artifactId>bbs_bean</artifactId>
+	  	<version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        
      <!-- DAO: MyBatis -->
         <dependency>
             <groupId>org.mybatis</groupId>
