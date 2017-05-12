@@ -23,7 +23,7 @@
             </set>
         </property>
     </bean>
-    <mvc:annotation-driven conversion-service="conversionService"/>
+	<mvc:annotation-driven conversion-service="conversionService" />
      
 	  
     <!-- 2.静态资源默认servlet配置
@@ -33,6 +33,9 @@
     <mvc:resources mapping="/js/**" location="static/js/"/>
     <mvc:resources mapping="/css/**" location="static/css/"/>
     <mvc:resources mapping="/fonts/**" location="static/fonts/"/>
+    <mvc:resources mapping="/image/**" location="static/image/"/>
+    <mvc:resources mapping="/upload/**" location="upload/"/>
+    <mvc:resources mapping="/ckeditor/**" location="static/ckeditor/"/>
 
     <!-- 3.配置jsp 显示ViewResolver -->
     <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
@@ -47,15 +50,14 @@
     </bean>
 
     <!-- 支持上传文件 -->
-    <!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        设置上传文件的最大尺寸为1MB
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize">
-            <value>1048576</value>
+            <value>2097152</value>
         </property>
         <property name="defaultEncoding">
             <value>UTF-8</value>
         </property>
-    </bean> -->
+    </bean>
 
     <!-- 4.扫描web相关的bean -->
     <context:component-scan base-package="grp3022.bbs.controller" />
