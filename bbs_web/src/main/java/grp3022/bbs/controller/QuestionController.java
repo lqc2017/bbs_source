@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import grp3022.bbs.service.HospitalOrderService;
+import com.github.pagehelper.PageInfo;
+
+import grp3022.bbs.po.Question;
+import grp3022.bbs.service.QuestionService;
+import grp3022.bbs.so.QuestionSo;
 
 /**
  * @author 全琛
@@ -28,12 +32,12 @@ import grp3022.bbs.service.HospitalOrderService;
 public class QuestionController {
 
 	@Resource
-	private HospitalOrderService hospitalOrderService;
+	private QuestionService questionService;
 	private final String pathPrefix = "question";
 
+	
 	/**
-	 * 上午11:11:13
-	 * 
+	 * 2017年5月13日 下午5:22:21
 	 * @return
 	 */
 	@RequestMapping(value = "/home")
@@ -41,10 +45,35 @@ public class QuestionController {
 		ModelAndView mav = new ModelAndView(pathPrefix + "/home");
 		return mav;
 	}
-
+	
 	/**
-	 * 下午3:06:55
-	 * 
+	 * 2017年5月13日 下午6:56:35
+	 * @param questionId
+	 * @return
+	 */
+	@RequestMapping(value = "/")
+	public ModelAndView question(Long questionId) {
+		Question question = questionService.getRecordById(questionId);
+		ModelAndView mav = new ModelAndView(pathPrefix + "/question");
+		mav.addObject("question", question);
+		return mav;
+	}
+	
+	/**
+	 * 2017年5月13日 下午6:30:10
+	 * @return
+	 */
+	@RequestMapping(value = "/list")
+	public ModelAndView list() {
+		PageInfo<Question> pageInfo = questionService.getPageBySo(new QuestionSo(),null,null);
+		ModelAndView mav = new ModelAndView(pathPrefix + "/list");
+		mav.addObject("pageInfo", pageInfo);
+		return mav;
+	}
+
+	
+	/**
+	 * 2017年5月13日 下午5:22:38
 	 * @return
 	 */
 	@RequestMapping(value = "/edit")
@@ -52,11 +81,28 @@ public class QuestionController {
 		ModelAndView mav = new ModelAndView(pathPrefix + "/edit");
 		return mav;
 	}
-
+	
 	/**
-	 * 下午3:06:52
-	 * 
+	 * 2017年5月13日 下午5:45:40
+	 * @param question
+	 * @return
+	 */
+	@RequestMapping(value = "/add")
+	public String add(Question question) {
+		try {
+			questionService.add(question);
+		} catch (Exception e) {
+			return "/question/ask_fail";
+		}
+		return "/question/ask_success";
+	}
+
+	
+	/**
+	 * 2017年5月13日 下午5:22:54
 	 * @param file
+	 * @param request
+	 * @param response
 	 * @return
 	 * @throws IOException
 	 */

@@ -48,7 +48,7 @@ CKEDITOR.editorConfig = function(config) {
 		groups : [ 'about' ]
 	} ];
 
-	config.removeButtons = 'NewPage,Save,Source,Templates,Preview,Print,Paste,PasteText,PasteFromWord,Subscript,Superscript,RemoveFormat,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,Find,Replace,SelectAll,Scayt,NumberedList,BulletedList,Indent,Outdent,Blockquote,CreateDiv,JustifyCenter,JustifyLeft,JustifyRight,JustifyBlock,Language,BidiRtl,BidiLtr,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,TextColor,Maximize,ShowBlocks,BGColor,Format,Font,FontSize,About';
+	config.removeButtons = 'NewPage,Save,Source,Templates,Preview,Print,Paste,PasteText,PasteFromWord,Subscript,Superscript,RemoveFormat,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,Find,Replace,SelectAll,Scayt,NumberedList,BulletedList,Indent,Outdent,Blockquote,CreateDiv,JustifyCenter,JustifyLeft,JustifyRight,JustifyBlock,Language,BidiRtl,BidiLtr,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,TextColor,Maximize,ShowBlocks,BGColor,Format,Font,FontSize,About,Anchor';
 	
 	config.filebrowserUploadUrl="/question/ckeditorUpload";
 };

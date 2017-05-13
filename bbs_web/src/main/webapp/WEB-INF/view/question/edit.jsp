@@ -12,16 +12,16 @@
 
 <body>
 	<div style="width: 800px; margin: 20px 200px 0 200px;">
-		<form class="form-horizontal">
+		<form id="add_form" class="form-horizontal" action="/question/add" method="post">
 			<div class="form-group">
 				<label class="col-sm-2 control-label">标题</label><div class="col-sm-6"><input class="form-control" name="title" /></div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">标签</label><div class="col-sm-6"><input class="form-control" name="tags" /></div>
+				<label class="col-sm-2 control-label">标签</label><div class="col-sm-6"><input class="form-control" name="" /></div>
 			</div>
 
 				<div style="width: 680px;margin: 0 0 0 75px;">
-					<textarea id="ckeditor" name="content" cols="20" rows="2"
+					<textarea id="ckeditor" name="describe" cols="20" rows="2"
 						class="ckeditor"></textarea>
 				</div>
 		</form>
@@ -29,7 +29,7 @@
 
 	<div style="width: 800px;hight：auto; margin: 10px 200px;">
 		<div style="width: 680px;hight：auto; margin: 0 0 0 75px;">
-			<button style="float:right" class="btn btn-success">提交</button>
+			<button name="add-btn" style="float:right" class="btn btn-sm btn-success">提交</button>
 		</div>
 	</div>
 
@@ -38,6 +38,10 @@
 		CKEDITOR.replace('ckeditor',{
 	        customConfig : '/ckeditor/question_config.js'
 	    });
+		
+		$("button[name='add-btn']").bind("click",function(){
+			$("#add_form").submit();
+		})
 	</script>
 </body>
 

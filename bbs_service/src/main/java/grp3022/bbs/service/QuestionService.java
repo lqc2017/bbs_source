@@ -1,15 +1,17 @@
 package grp3022.bbs.service;
 
+import com.github.pagehelper.PageInfo;
+
 import grp3022.bbs.po.Question;
+import grp3022.bbs.so.QuestionSo;
 
 public interface QuestionService {
 	Question getRecordById(Long id);
-	/*	增  */
+	
 	Long add(Question recodrd);
-	/*	删  
-	void deleteRecord(Long id);
-		改  
-	void updateRecordById(Question recodrd);
-		查  
-	PageInfo<Question> getPageBySo(QuestionSo hospitalOrderSo,Integer pageNo,Integer size);*/
+	
+	/*void deleteRecord(Long id);
+	void updateRecordById(Question recodrd);*/
+	
+	PageInfo<Question> getPageBySo(QuestionSo hospitalOrderSo,Integer pageNo,Integer size);
 }
