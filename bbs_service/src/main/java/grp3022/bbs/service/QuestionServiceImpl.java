@@ -30,6 +30,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public Long add(Question record) {
 		record.setCreateTime(new Date());
+		record.setUpdateTime(new Date());
 		questionDao.insertSelective(record);
 		return record.getId();
 	}
@@ -51,7 +52,10 @@ public class QuestionServiceImpl implements QuestionService {
 		size = size == null?10:size;
         PageHelper.startPage(pageNo, size);
         //List<Question> records = questionDao.selectBySo(so);
-        List<Question> records = questionDao.selectByExample(new QuestionExample());
+        QuestionExample example = new QuestionExample();
+        example.or().andCreateByEqualTo(so.getCreateBy());
+        example.setOrderByClause("CREATE_TIME DESC");
+        List<Question> records = questionDao.selectByExample(example);
         PageInfo<Question> page = new PageInfo<Question>(records);
         if(page.getPageNum()>page.getPages())
         	page.setPageNum(page.getPages());

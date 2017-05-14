@@ -1,6 +1,8 @@
 package grp3022.bbs.so;
 
 public class QuestionSo {
+	private Long createBy;
+	
     private String title;
 
     private String describe;
@@ -30,5 +32,13 @@ public class QuestionSo {
     public void setStatus(Short status) {
         this.status = status;
     }
+
+	public Long getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(Long createBy) {
+		this.createBy = createBy;
+	}
 
 }

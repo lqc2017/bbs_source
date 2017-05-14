@@ -2,6 +2,7 @@ package grp3022.bbs.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -18,9 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
 
+import grp3022.bbs.po.Answer;
 import grp3022.bbs.po.Question;
+import grp3022.bbs.service.AnswerService;
 import grp3022.bbs.service.QuestionService;
+import grp3022.bbs.so.AnswerSo;
 import grp3022.bbs.so.QuestionSo;
+import grp3022.bbs.util.Format;
 
 /**
  * @author 全琛
@@ -33,7 +38,10 @@ public class QuestionController {
 
 	@Resource
 	private QuestionService questionService;
+	@Resource
+	private AnswerService answerService;
 	private final String pathPrefix = "question";
+	
 
 	
 	/**
@@ -51,11 +59,16 @@ public class QuestionController {
 	 * @param questionId
 	 * @return
 	 */
-	@RequestMapping(value = "/")
-	public ModelAndView question(Long questionId) {
-		Question question = questionService.getRecordById(questionId);
+	@RequestMapping(value = "")
+	public ModelAndView question(Long q) {
+		Question question = questionService.getRecordById(q);
+		AnswerSo answerSo = new AnswerSo();
+		answerSo.setQuestionId(q);
+		List<Answer> answers = answerService.getAllBySo(answerSo);
 		ModelAndView mav = new ModelAndView(pathPrefix + "/question");
+		
 		mav.addObject("question", question);
+		mav.addObject("answers", answers);
 		return mav;
 	}
 	
@@ -64,10 +77,13 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list")
-	public ModelAndView list() {
-		PageInfo<Question> pageInfo = questionService.getPageBySo(new QuestionSo(),null,null);
+	public ModelAndView list(QuestionSo questionSo,Integer pn) {
+		PageInfo<Question> pageInfo = questionService.getPageBySo(questionSo,pn,null);
 		ModelAndView mav = new ModelAndView(pathPrefix + "/list");
 		mav.addObject("pageInfo", pageInfo);
+		mav.addObject("so", questionSo);
+		mav.addObject("username", "username");
+		mav.addObject("format", new Format());
 		return mav;
 	}
 
@@ -90,6 +106,8 @@ public class QuestionController {
 	@RequestMapping(value = "/add")
 	public String add(Question question) {
 		try {
+			question.setCreateBy((long)1);
+			question.setUpdateBy((long)1);
 			questionService.add(question);
 		} catch (Exception e) {
 			return "/question/ask_fail";
@@ -141,9 +159,9 @@ public class QuestionController {
 		if (file.getSize() > 2 * 1024 * 1024) {
 			result += "<script type=\"text/javascript\">";
 			result += "window.parent.CKEDITOR.tools.callFunction(" +
-					  callback + ",''," + "'文件大小不得大于2');";
+					  callback + ",''," + "'文件大小不得大于2MB');";
 			result += "</script>";
-			return null;
+			return result;
 		}
 
 		String fileName = UUID.randomUUID().toString() + expandedName;

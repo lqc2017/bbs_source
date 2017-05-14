@@ -5,50 +5,27 @@
  */
 
 CKEDITOR.editorConfig = function(config) {
+	config.extraPlugins = 'codesnippet';
 	config.language = 'zh-cn';
 
-	config.toolbarGroups = [ {
-		name : 'basicstyles',
-		groups : [ 'basicstyles', 'cleanup' ]
-	}, {
-		name : 'clipboard',
-		groups : [ 'clipboard', 'undo' ]
-	}, {
-		name : 'links',
-		groups : [ 'links' ]
-	}, {
-		name : 'insert',
-		groups : [ 'insert' ]
-	}, {
-		name : 'document',
-		groups : [ 'mode', 'document', 'doctools' ]
-	}, {
-		name : 'editing',
-		groups : [ 'find', 'selection', 'spellchecker', 'editing' ]
-	}, {
-		name : 'forms',
-		groups : [ 'forms' ]
-	}, '/', {
-		name : 'paragraph',
-		groups : [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ]
-	}, '/', {
-		name : 'styles',
-		groups : [ 'styles' ]
-	}, {
-		name : 'colors',
-		groups : [ 'colors' ]
-	}, {
-		name : 'tools',
-		groups : [ 'tools' ]
-	}, {
-		name : 'others',
-		groups : [ 'others' ]
-	}, {
-		name : 'about',
-		groups : [ 'about' ]
-	} ];
+	config.toolbarGroups = [
+		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+		{ name: 'forms', groups: [ 'forms' ] },
+		{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+		{ name: 'links', groups: [ 'links' ] },
+		{ name: 'insert', groups: [ 'insert' ] },
+		'/',
+		{ name: 'styles', groups: [ 'styles' ] },
+		{ name: 'colors', groups: [ 'colors' ] },
+		{ name: 'tools', groups: [ 'tools' ] },
+		{ name: 'others', groups: [ 'others' ] },
+		{ name: 'about', groups: [ 'about' ] }
+	];
 
-	config.removeButtons = 'NewPage,Save,Source,Templates,Preview,Print,Paste,PasteText,PasteFromWord,Subscript,Superscript,RemoveFormat,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,Find,Replace,SelectAll,Scayt,NumberedList,BulletedList,Indent,Outdent,Blockquote,CreateDiv,JustifyCenter,JustifyLeft,JustifyRight,JustifyBlock,Language,BidiRtl,BidiLtr,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,TextColor,Maximize,ShowBlocks,BGColor,Format,Font,FontSize,About,Anchor';
-	
+	config.removeButtons = 'Source,Save,NewPage,Preview,Print,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Templates,Subscript,Superscript,RemoveFormat,CopyFormatting,NumberedList,BulletedList,Indent,Outdent,Blockquote,CreateDiv,JustifyCenter,JustifyLeft,JustifyRight,JustifyBlock,Language,BidiRtl,BidiLtr,Anchor,Cut,Flash,Table,Smiley,SpecialChar,PageBreak,Iframe,Styles,TextColor,BGColor,ShowBlocks,Maximize,About,Format,Font,FontSize';
+
 	config.filebrowserUploadUrl="/question/ckeditorUpload";
 };

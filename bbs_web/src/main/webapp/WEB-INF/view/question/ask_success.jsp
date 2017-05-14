@@ -7,12 +7,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>提问成功</title>
 <%@ include file="../source.jsp"%>
-<script src="/ckeditor/ckeditor.js"></script>
 </head>
 
 <body>
 	<div><h2>提问成功</h2></div>
-	<div><a href="/question/list">查看我的问题</a></div>
+	<div><a href="/question/list?createBy=1">查看我的问题</a></div>
 	<script defer type="text/javascript">
 	</script>
 </body>

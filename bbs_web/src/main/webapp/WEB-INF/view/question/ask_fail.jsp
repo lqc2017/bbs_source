@@ -7,7 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>提问失败</title>
 <%@ include file="../source.jsp"%>
-<script src="/ckeditor/ckeditor.js"></script>
 </head>
 
 <body>

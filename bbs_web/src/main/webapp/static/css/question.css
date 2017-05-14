@@ -1,0 +1,74 @@
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft Yahei", sans-serif;
+}
+
+div.div-control {
+	max-width:48em;
+    width:48em;
+    line-height:2.1;
+    word-wrap: break-word;
+    margin:0 1em;
+}
+
+p.p-control{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+div.questoin-message>label.create-time{
+	float:right;
+	font-size=1;
+	font-weight: 100;
+	font-size:8px;
+	color:#999;
+}
+
+div.answer-message>label.create-time{
+	font-size=1;
+	font-weight: 100;
+	font-size:8px;
+	margin:0 0 0 2px;
+	color:#999;
+}
+
+div.questoin-message,div.answer-message {
+    width:48em;
+    margin:1em 5px 2px 1em;
+}
+
+div.question {
+    width:50em;
+    margin:30px 0 0 200px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+
+div.middle {
+    width:50em;
+    height:2em;
+    margin:20px 0 0 200px;
+}
+
+.middle>label {
+	margin:5px 0 0 5px;
+}
+
+div.answers {
+    width:50em;
+    margin:10px 0 0 200px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+div.input {
+    width:50em;
+    margin:20px 0 0 200px;
+}
+
+div.bottom {
+    width:50em;
+    height:2em;
+    margin:5px 0 20px 200px;
+}
