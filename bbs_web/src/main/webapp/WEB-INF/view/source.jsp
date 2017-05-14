@@ -10,6 +10,7 @@
 <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <link href="/css/bootstrapValidator.css" rel="stylesheet">
 <link href="/css/toastr.min.css" rel="stylesheet">
+<link href="/css/global.css" rel="stylesheet">
 
 <script src="/js/core/jquery.js"></script>
 <script src="/js/core/jquery-ui.min.js"></script>
