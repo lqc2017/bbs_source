@@ -414,6 +414,66 @@ public class AnswerExample {
             addCriterion("QUESTION_ID not between", value1, value2, "questionId");
             return (Criteria) this;
         }
+
+        public Criteria andHelpfulIsNull() {
+            addCriterion("HELPFUL is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulIsNotNull() {
+            addCriterion("HELPFUL is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulEqualTo(Integer value) {
+            addCriterion("HELPFUL =", value, "helpful");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulNotEqualTo(Integer value) {
+            addCriterion("HELPFUL <>", value, "helpful");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulGreaterThan(Integer value) {
+            addCriterion("HELPFUL >", value, "helpful");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulGreaterThanOrEqualTo(Integer value) {
+            addCriterion("HELPFUL >=", value, "helpful");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulLessThan(Integer value) {
+            addCriterion("HELPFUL <", value, "helpful");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulLessThanOrEqualTo(Integer value) {
+            addCriterion("HELPFUL <=", value, "helpful");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulIn(List<Integer> values) {
+            addCriterion("HELPFUL in", values, "helpful");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulNotIn(List<Integer> values) {
+            addCriterion("HELPFUL not in", values, "helpful");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulBetween(Integer value1, Integer value2) {
+            addCriterion("HELPFUL between", value1, value2, "helpful");
+            return (Criteria) this;
+        }
+
+        public Criteria andHelpfulNotBetween(Integer value1, Integer value2) {
+            addCriterion("HELPFUL not between", value1, value2, "helpful");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

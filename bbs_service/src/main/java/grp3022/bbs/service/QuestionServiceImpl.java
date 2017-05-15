@@ -21,7 +21,7 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionMapper questionDao;
 
 	@Override
-	public Question getRecordById(Long id) {
+	public Question getById(Long id) {
 		Question record = new Question();
         record = questionDao.selectByPrimaryKey(id);
         return record;
@@ -39,12 +39,12 @@ public class QuestionServiceImpl implements QuestionService {
 	public void deleteRecord(Long id) {
 		questionDao.deleteByPrimaryKey(id);
 
-	}
+	}*/
 
 	@Override
-	public void updateRecordById(Question question) {
-		questionDao.updateByPrimaryKeySelective(question);
-	}*/
+	public void updateById(Question record) {
+		questionDao.updateByPrimaryKeySelective(record);
+	}
 
 	@Override
 	public PageInfo<Question> getPageBySo(QuestionSo so, Integer pageNo,Integer size) {

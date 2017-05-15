@@ -13,13 +13,16 @@
 </head>
 
 <body>
-	<div class="question">
-		<div class="div-control"><h2><c:out value="${question.title}" escapeXml="true"></c:out></h2></div>
-		<hr/>
-		<div class="div-control">${question.describe}</div>
+	<div class="panel panel-info question">
+		<div class="panel-heading">
+			<h2>
+				<c:out value="${question.title}" escapeXml="true"></c:out>
+			</h2>
+		</div>
+		<div class="panel-body div-control">${question.describe}</div>
 		<div class="questoin-message">
-			<a href="">${'username'}</a> 
-			<label class="create-time">创建于：<fmt:formatDate value="${question.createTime}" pattern="yyyy-MM-dd" /></label>
+			<a href="">${'username'}</a> <label class="create-time">创建于：<fmt:formatDate
+					value="${question.createTime}" pattern="yyyy-MM-dd" /></label>
 		</div>
 	</div>
 	<div class="middle">
@@ -27,16 +30,28 @@
 		<a href="#input" style="float: right"
 			class="btn btn-sm btn-success">填写答案</a>
 	</div>
-	<div class="answers">
+	<div class="panel panel-default answers">
 		<c:forEach items="${answers}" var="answer" varStatus="vs">
 			<div>
-				<div class="div-control">${answer.content}</div>
+				<div class="panel-body div-control ">${answer.content}</div>
 				<div class="answer-message">
 					<a href="">${'username'}</a> <label class="create-time"><fmt:formatDate
 							value="${answer.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></label>
+					<label class="helpful-block">
+						<%-- <span <c:if test="${!helpEnable.get(vs.count-1)}">disable</c:if>>有用</span>
+						<span <c:if test="${!helpEnable.get(vs.count-1)}">disable</c:if>>无用</span> --%>
+
+						<span class="glyphicon  glyphicon-chevron-left default <c:if test="${helpEnable.get(vs.count-1)}">helpless</c:if>"
+						a="${answer.id}" value="0" data-toggle="tooltip"
+						data-placement="left" title="<c:if test="${helpEnable.get(vs.count-1)}">毫无作用</c:if><c:if test="${!helpEnable.get(vs.count-1)}">您已评价！</c:if>"></span>
+						<span id="helpful">${answer.helpful}</span> 
+						<span class="glyphicon glyphicon-chevron-right default <c:if test="${helpEnable.get(vs.count-1)}">helpful</c:if>"
+						a="${answer.id}" value="1" data-toggle="tooltip"
+						data-placement="right" title="<c:if test="${helpEnable.get(vs.count-1)}">对我有用</c:if><c:if test="${!helpEnable.get(vs.count-1)}">您已评价！</c:if>"></span>
+					</label>
 				</div>
 			</div>
-			<c:if test="${!vs.last}"><hr/></c:if>
+			<hr <c:if test="${vs.last}">style="border-top:0px;"</c:if>/>
 		</c:forEach>
 	</div>
 
@@ -54,14 +69,65 @@
 
 	<script defer type="text/javascript">
 		$("img").parent("p").addClass("p-control");
+		$("[data-toggle='tooltip']").tooltip();
 		
 		var editor=CKEDITOR.replace('ckeditor',{
 	        customConfig : '/ckeditor/question_config.js'
 	    });
 		
-		/* $("button[name='add-btn']").bind("click",function(){
-			$("#add_form").submit();
-		}) */
+		$(".helpful").bind("mouseover",function(){
+			$(this).addClass("success");
+		});
+		
+		$(".helpful").bind("mouseout",function(){
+			$(this).removeClass("success");
+		});
+		
+		$(".helpless").bind("mouseover",function(){
+			$(this).addClass("fail");
+		});
+		
+		$(".helpless").bind("mouseout",function(){
+			$(this).removeClass("fail");
+		});
+		
+		$(".helpful,.helpless").bind("click",function(){
+			var value = $(this).attr("value");
+			var a = $(this).attr("a");
+			var data = {"value":value,"a":a};
+			
+			var helpfulBtn = $(this).parent("label").children(".helpful");
+			var helplessBtn = $(this).parent("label").children(".helpless");
+			
+			
+			$.ajax({	
+				async : false,
+				type : "POST",
+				url : "/answer/answer_help",
+				data : $.param(data),
+				datatype : 'json',
+				success : function(result) {
+					if (result != "fail") {
+						toastr.success("评价成功！");
+						$("#helpful").empty();
+						$("#helpful").append(result);
+						
+						helpfulBtn.unbind("mouseout mouseover click");
+						helpfulBtn.removeClass("success");
+						helpfulBtn.attr("data-original-title","您已评价！")
+						helplessBtn.unbind("mouseout mouseover click");
+						helplessBtn.removeClass("fail");
+						helplessBtn.attr("data-original-title","您已评价！")
+					}else{
+						toastr.error("评价失败");
+					}
+				},
+				error : function(jqXHR,textStatus,errorThrown) {
+							alert(textStatus);
+				}
+			});
+		});
+		
 		
 		$("button[name='add-btn']").bind("click",function(){
 			$("#ckeditor").val(editor.getData());

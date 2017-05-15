@@ -13,6 +13,8 @@ public class Answer {
 
     private Long questionId;
 
+    private Integer helpful;
+
     public Long getId() {
         return id;
     }
@@ -51,5 +53,13 @@ public class Answer {
 
     public void setQuestionId(Long questionId) {
         this.questionId = questionId;
+    }
+
+    public Integer getHelpful() {
+        return helpful;
+    }
+
+    public void setHelpful(Integer helpful) {
+        this.helpful = helpful;
     }
 }

@@ -18,7 +18,7 @@ public class AnswerServiceImpl implements AnswerService {
     private AnswerMapper answerDao;
 
 	@Override
-	public Answer getRecordById(Long id) {
+	public Answer getById(Long id) {
 		Answer record = new Answer();
         record = answerDao.selectByPrimaryKey(id);
         return record;
@@ -31,16 +31,10 @@ public class AnswerServiceImpl implements AnswerService {
 		return record.getId();
 	}
 
-	/*@Override
-	public void deleteRecord(Long id) {
-		answerDao.deleteByPrimaryKey(id);
-
-	}
-
 	@Override
-	public void updateRecordById(Answer answer) {
+	public void updateById(Answer answer) {
 		answerDao.updateByPrimaryKeySelective(answer);
-	}*/
+	}
 
 	/*@Override
 	public PageInfo<Answer> getPageBySo(AnswerSo so, Integer pageNo,Integer size) {

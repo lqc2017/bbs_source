@@ -2,6 +2,7 @@ package grp3022.bbs.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.pagehelper.PageInfo;
 
 import grp3022.bbs.po.Answer;
+import grp3022.bbs.po.AnswerHelpKey;
 import grp3022.bbs.po.Question;
+import grp3022.bbs.service.AnswerHelpService;
 import grp3022.bbs.service.AnswerService;
 import grp3022.bbs.service.QuestionService;
 import grp3022.bbs.so.AnswerSo;
@@ -40,6 +43,8 @@ public class QuestionController {
 	private QuestionService questionService;
 	@Resource
 	private AnswerService answerService;
+	@Resource
+	private AnswerHelpService answerHelpService;
 	private final String pathPrefix = "question";
 	
 
@@ -54,21 +59,41 @@ public class QuestionController {
 		return mav;
 	}
 	
+	
 	/**
-	 * 2017年5月13日 下午6:56:35
-	 * @param questionId
+	 * 2017年5月15日 下午4:29:50
+	 * @param q
 	 * @return
 	 */
 	@RequestMapping(value = "")
 	public ModelAndView question(Long q) {
-		Question question = questionService.getRecordById(q);
+		long userId = 2;
+		
+		/*初始化问题答案*/
 		AnswerSo answerSo = new AnswerSo();
 		answerSo.setQuestionId(q);
 		List<Answer> answers = answerService.getAllBySo(answerSo);
+		/*初始化答案评价*/
+		List<Boolean> helpEnable = new ArrayList<Boolean>();
+		for(Answer answer : answers){
+			AnswerHelpKey key = new AnswerHelpKey();
+			key.setUserId(userId);
+			key.setAnswerId(answer.getId());
+			if(answerHelpService.getByKey(key)!=null)
+				helpEnable.add(false);
+			else
+				helpEnable.add(true);
+		}
+		/*更新问题信息*/
+		Question question = questionService.getById(q);
+		question.setViews(question.getViews()+1);
+		questionService.updateById(question);
+		
 		ModelAndView mav = new ModelAndView(pathPrefix + "/question");
 		
 		mav.addObject("question", question);
 		mav.addObject("answers", answers);
+		mav.addObject("helpEnable", helpEnable);
 		return mav;
 	}
 	

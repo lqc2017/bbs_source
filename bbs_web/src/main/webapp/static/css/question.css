@@ -3,17 +3,20 @@ body {
 }
 
 div.div-control {
-	max-width:48em;
-    width:48em;
     line-height:2.1;
     word-wrap: break-word;
-    margin:0 1em;
+    margin:0;
 }
 
 p.p-control{
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+div.questoin-message,div.answer-message {
+    width:48em;
+    margin:0 5px 2px 1em;
 }
 
 div.questoin-message>label.create-time{
@@ -32,9 +35,13 @@ div.answer-message>label.create-time{
 	color:#999;
 }
 
-div.questoin-message,div.answer-message {
-    width:48em;
-    margin:1em 5px 2px 1em;
+div.answer-message>label.helpful-block{
+	float:right;
+	font-size=1;
+	font-weight: 100;
+	font-size:15px;
+	margin:0 5px 0 0;
+	/* color:#5cb85c; */
 }
 
 div.question {
@@ -71,4 +78,17 @@ div.bottom {
     width:50em;
     height:2em;
     margin:5px 0 20px 200px;
+}
+
+span.default {
+	color:#ccc;
+	cursor: pointer;
+}
+
+span.success {
+	color:#5cb85c;
+}
+
+span.fail {
+	color:#d9534f;
 }
