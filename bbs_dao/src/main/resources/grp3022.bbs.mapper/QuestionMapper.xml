@@ -12,6 +12,7 @@
     <result column="VIEWS" property="views" jdbcType="DECIMAL" />
     <result column="ANSWERS" property="answers" jdbcType="DECIMAL" />
     <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="TAGS" property="tags" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, TITLE, DESCRIBE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, VIEWS, ANSWERS, 
-    STATUS
+    STATUS, TAGS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.QuestionExample" >
     select
@@ -109,16 +110,13 @@
     insert into QUESTION (ID, TITLE, DESCRIBE, 
       CREATE_BY, CREATE_TIME, UPDATE_BY, 
       UPDATE_TIME, VIEWS, ANSWERS, 
-      STATUS)
+      STATUS, TAGS)
     values (#{id,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=DECIMAL}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{views,jdbcType=DECIMAL}, #{answers,jdbcType=DECIMAL}, 
-      #{status,jdbcType=DECIMAL})
+      #{status,jdbcType=DECIMAL}, #{tags,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.Question" >
-  	<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE">  
-	        SELECT SEQUENCE_QUESTION.nextval FROM DUAL
-	</selectKey>
     insert into QUESTION
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -151,6 +149,9 @@
       <if test="status != null" >
         STATUS,
       </if>
+      <if test="tags != null" >
+        TAGS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -182,6 +183,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -224,6 +228,9 @@
       <if test="record.status != null" >
         STATUS = #{record.status,jdbcType=DECIMAL},
       </if>
+      <if test="record.tags != null" >
+        TAGS = #{record.tags,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -240,7 +247,8 @@
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       VIEWS = #{record.views,jdbcType=DECIMAL},
       ANSWERS = #{record.answers,jdbcType=DECIMAL},
-      STATUS = #{record.status,jdbcType=DECIMAL}
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      TAGS = #{record.tags,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -275,6 +283,9 @@
       <if test="status != null" >
         STATUS = #{status,jdbcType=DECIMAL},
       </if>
+      <if test="tags != null" >
+        TAGS = #{tags,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
@@ -288,7 +299,8 @@
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       VIEWS = #{views,jdbcType=DECIMAL},
       ANSWERS = #{answers,jdbcType=DECIMAL},
-      STATUS = #{status,jdbcType=DECIMAL}
+      STATUS = #{status,jdbcType=DECIMAL},
+      TAGS = #{tags,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
 </mapper>

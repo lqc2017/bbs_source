@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import grp3022.bbs.po.Answer;
@@ -28,6 +29,7 @@ import grp3022.bbs.service.AnswerService;
 import grp3022.bbs.service.QuestionService;
 import grp3022.bbs.so.AnswerSo;
 import grp3022.bbs.so.QuestionSo;
+import grp3022.bbs.type.Tag;
 import grp3022.bbs.util.Format;
 
 /**
@@ -88,10 +90,21 @@ public class QuestionController {
 		Question question = questionService.getById(q);
 		question.setViews(question.getViews()+1);
 		questionService.updateById(question);
+		/*初始化问题标签*/
+		List<String> tags = new ArrayList<String>();
+		List<Integer> indexes = JSON.parseArray(question.getTags(), Integer.class);
+		for(int index:indexes){
+			for  (Tag tag : Tag.values()) {  
+	            if  (tag.getIndex() == index) {  
+	            	tags.add(tag.getName());
+	            }
+	        }  
+		}
 		
 		ModelAndView mav = new ModelAndView(pathPrefix + "/question");
 		
 		mav.addObject("question", question);
+		mav.addObject("tags", tags);
 		mav.addObject("answers", answers);
 		mav.addObject("helpEnable", helpEnable);
 		return mav;
@@ -135,6 +148,7 @@ public class QuestionController {
 			question.setUpdateBy((long)1);
 			questionService.add(question);
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return "/question/ask_fail";
 		}
 		return "/question/ask_success";

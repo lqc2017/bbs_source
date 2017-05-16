@@ -18,3 +18,7 @@ div.operation > span.glyphicon-trash {color:#9c9c9c;cursor:pointer;margin:auto 5
     background-color: #03afd6;
     border-radius: 20px;
 }
+
+body {
+	font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}

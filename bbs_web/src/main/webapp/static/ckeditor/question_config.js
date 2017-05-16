@@ -7,6 +7,7 @@
 CKEDITOR.editorConfig = function(config) {
 	config.extraPlugins = 'codesnippet';
 	config.language = 'zh-cn';
+    config.height = 100;
 
 	config.toolbarGroups = [
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },

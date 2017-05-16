@@ -1,8 +1,9 @@
-body {
-	font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft Yahei", sans-serif;
+h3{
+	letter-spacing:2px;
 }
 
 div.div-control {
+	letter-spacing:1px;
     line-height:2.1;
     word-wrap: break-word;
     margin:0;
@@ -13,10 +14,47 @@ p.p-control{
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+div.message{
+	padding:0;
+    width:53em;
+    margin:2px 5px 8px 1em;
+}
 
-div.questoin-message,div.answer-message {
-    width:48em;
-    margin:0 5px 2px 1em;
+div.questoin-tags{
+	display:inline;
+    width:10px;
+    margin:0 20px 0 0;
+}
+
+div.questoin-tags>a.tag{
+	display: inline-block;
+    padding: 0 8px;
+    color: #5583ab;
+    background-color: rgba(1, 126, 102, 0.08); 
+    height: 24px;
+    line-height: 24px;
+    font-weight: normal;
+    font-size: 13px;
+    text-align: center;
+    text-decoration:none;
+}
+
+div.questoin-tags>a:hover{
+	color: #f4f4f4;
+	background-color: #2e485f;
+	text-decoration:none;
+}
+
+div.questoin-message{
+	display:inline;
+	float:right;
+	padding:2px; 
+    width:20em;
+    margin:0;
+}
+
+div.questoin-message>a{
+	float:right;
 }
 
 div.questoin-message>label.create-time{
@@ -24,7 +62,14 @@ div.questoin-message>label.create-time{
 	font-size=1;
 	font-weight: 100;
 	font-size:8px;
+	margin:2px 0 0 4px;
 	color:#999;
+}
+
+div.answer-message {
+	padding:2px; 
+    width:53em;
+    margin:0 5px 2px 1em;
 }
 
 div.answer-message>label.create-time{
@@ -45,7 +90,7 @@ div.answer-message>label.helpful-block{
 }
 
 div.question {
-    width:50em;
+    width:55em;
     margin:30px 0 0 200px;
     border-width: 1px;
     border-style: solid;
@@ -53,7 +98,7 @@ div.question {
 
 
 div.middle {
-    width:50em;
+    width:55em;
     height:2em;
     margin:20px 0 0 200px;
 }
@@ -63,19 +108,19 @@ div.middle {
 }
 
 div.answers {
-    width:50em;
+    width:55em;
     margin:10px 0 0 200px;
     border-width: 1px;
     border-style: solid;
 }
 
 div.input {
-    width:50em;
+    width:55em;
     margin:20px 0 0 200px;
 }
 
 div.bottom {
-    width:50em;
+    width:55em;
     height:2em;
     margin:5px 0 20px 200px;
 }

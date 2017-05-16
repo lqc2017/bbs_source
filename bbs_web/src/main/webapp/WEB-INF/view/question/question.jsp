@@ -15,15 +15,29 @@
 <body>
 	<div class="panel panel-info question">
 		<div class="panel-heading">
-			<h2>
+			<h3> 
 				<c:out value="${question.title}" escapeXml="true"></c:out>
-			</h2>
+			</h3>
 		</div>
 		<div class="panel-body div-control">${question.describe}</div>
-		<div class="questoin-message">
-			<a href="">${'username'}</a> <label class="create-time">创建于：<fmt:formatDate
-					value="${question.createTime}" pattern="yyyy-MM-dd" /></label>
+		<div class="message">
+			<c:if test="${tags.size()!=0}">
+				<div class="questoin-tags">
+					<c:forEach items="${tags}" var="tag" varStatus="vs">
+						<a class="tag" href="">${tag}</a>
+					</c:forEach>
+				</div>
+			</c:if>
+			<div class="questoin-message">
+				<label class="create-time">创建于：<fmt:formatDate
+						value="${question.createTime}" pattern="yyyy-MM-dd" /></label><a
+					class="test" href="">usernamennnnnnnnn</a>
+			</div>
 		</div>
+		<%-- <div class="questoin-message">
+			 <!-- <a class="test" href=""> -->${'username'}</a><label class="create-time">创建于：<fmt:formatDate
+					value="${question.createTime}" pattern="yyyy-MM-dd" /></label>
+		</div> --%>
 	</div>
 	<div class="middle">
 		<label style="float: left">${answers.size()}个回答：</label>

@@ -23,7 +23,7 @@ public class Question {
 
     private Short status;
 
-    private String picUrls;
+    private String tags;
 
     public Long getId() {
         return id;
@@ -105,11 +105,11 @@ public class Question {
         this.status = status;
     }
 
-    public String getPicUrls() {
-        return picUrls;
+    public String getTags() {
+        return tags;
     }
 
-    public void setPicUrls(String picUrls) {
-        this.picUrls = picUrls == null ? null : picUrls.trim();
+    public void setTags(String tags) {
+        this.tags = tags == null ? null : tags.trim();
     }
 }

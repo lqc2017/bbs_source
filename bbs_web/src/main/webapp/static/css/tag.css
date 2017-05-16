@@ -1,0 +1,39 @@
+.tag-list__itembody {
+    padding: 20px 0;
+    margin-bottom: 0;
+}
+.taglist--inline, .taglist--block {
+    list-style: none;
+    padding: 0;
+    font-size: 0;
+}
+.tag {
+    display: inline-block;
+    padding: 0 8px;
+    color: #5583ab;
+    /* background-color: rgba(1, 126, 102, 0.08); */
+    height: 24px;
+    line-height: 24px;
+    font-weight: normal;
+    font-size: 13px;
+    text-align: center;
+}
+.taglist--inline.multi > li {
+	cursor: pointer;
+    margin-bottom: 5px;
+}
+.taglist--inline.multi > li > a:hover{
+	color: #2e485f;
+	text-decoration:none;
+}
+a.delete:hover{
+	color: #d9534f;
+	text-decoration:none;
+}
+a.select{
+	color: #79d679;
+}
+.taglist--inline > li {
+    display: inline-block;
+    margin-right: 5px;
+}
