@@ -1,0 +1,121 @@
+div.main{
+	width:710px;
+	margin:100px 0 0 200px;
+	padding:5px;
+}
+
+div.main>div.question-list{
+	height:90px;
+ 	border-top:1px solid #2e485f;
+ 	/* border-bottom:1px solid #2e485f; */
+ 	border-left:0;
+ 	border-right:0;
+ 	padding:5px;
+}
+div.question-list>div.attr{
+	display:inline-block;
+	height:38px;
+	width:45px;
+	border:2px solid #4259ad;
+	text-align: center;
+	font-size: 10px;
+	font-weight: 1200;
+	margin:15px 0 0 5px;
+}
+
+div.attr>div.number{
+	font-size: 14px;
+	margin:0 0 0 0;
+}
+
+div.question-list>div.info{
+	width:575px;
+	height:80px;
+	text-align: center;
+	position:relative;
+	left:116px;
+	top:-58px;
+}
+
+div.info>div.title{
+	width:400px;
+	height:50px;
+	text-align: left;
+	position:absolute;
+	padding:20px 0 0 0;
+	font-size: 16px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	left:6px;
+	top:0;
+}
+
+div.info>div.tag{
+	width:400px;
+	height:25px;
+	text-align: left;
+	position:absolute;
+	left:6px;
+	top:55px;
+	overflow:hidden;
+}
+
+div.info>div.message{
+	padding:20px 0 0 0;
+	width:160px;
+	height:40px;
+	text-align: center;
+	font-size: 8px;
+	position:absolute;
+	left:415px;
+	top:40px
+}
+
+div.message>div{
+	display:inline-block;
+	margin:0 0 0 2px;
+	width:4px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	color:#000000;
+	
+}
+div.message>div.createtime{
+	font-size=1;
+	width:80px;
+	font-weight: 100;
+	font-size:8px;
+	color:#999;
+}
+
+div.message>div.username{
+	width:62px;
+}
+
+div.title a:hover,div.username a:hover{
+	color: #2e485f;
+	text-decoration:none;
+}
+
+div.tag>a {
+    display: inline-block;
+    padding: 0 8px;
+    color: #5583ab;
+    background-color: rgba(1, 126, 102, 0.08); 
+    height: 24px;
+    line-height: 24px;
+    font-weight: normal;
+    font-size: 13px;
+    text-align: center;
+    text-decoration:none;
+    margin:0 4px 0 0;
+}
+
+div.tag>a:hover{
+	color: #f4f4f4;
+	background-color: #2e485f;
+	text-decoration:none;
+}
+

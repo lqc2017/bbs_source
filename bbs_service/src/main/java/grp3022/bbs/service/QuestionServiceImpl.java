@@ -18,13 +18,13 @@ import grp3022.bbs.so.QuestionSo;
 public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
-    private QuestionMapper questionDao;
+	private QuestionMapper questionDao;
 
 	@Override
 	public Question getById(Long id) {
 		Question record = new Question();
-        record = questionDao.selectByPrimaryKey(id);
-        return record;
+		record = questionDao.selectByPrimaryKey(id);
+		return record;
 	}
 
 	@Override
@@ -35,11 +35,12 @@ public class QuestionServiceImpl implements QuestionService {
 		return record.getId();
 	}
 
-	/*@Override
-	public void deleteRecord(Long id) {
-		questionDao.deleteByPrimaryKey(id);
-
-	}*/
+	/*
+	 * @Override public void deleteRecord(Long id) {
+	 * questionDao.deleteByPrimaryKey(id);
+	 * 
+	 * }
+	 */
 
 	@Override
 	public void updateById(Question record) {
@@ -47,18 +48,22 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public PageInfo<Question> getPageBySo(QuestionSo so, Integer pageNo,Integer size) {
-		pageNo = pageNo == null?1:pageNo;
-		size = size == null?10:size;
-        PageHelper.startPage(pageNo, size);
-        //List<Question> records = questionDao.selectBySo(so);
-        QuestionExample example = new QuestionExample();
-        example.or().andCreateByEqualTo(so.getCreateBy());
-        example.setOrderByClause("CREATE_TIME DESC");
-        List<Question> records = questionDao.selectByExample(example);
-        PageInfo<Question> page = new PageInfo<Question>(records);
-        if(page.getPageNum()>page.getPages())
-        	page.setPageNum(page.getPages());
-        return page;
+	public PageInfo<Question> getPageBySo(QuestionSo so, Integer pageNo, Integer size) {
+		pageNo = pageNo == null ? 1 : pageNo;
+		size = size == null ? 10 : size;
+		PageHelper.startPage(pageNo, size);
+		// List<Question> records = questionDao.selectBySo(so);
+		QuestionExample example = new QuestionExample();
+		if (so.getCreateBy() != null)
+			example.or().andCreateByEqualTo(so.getCreateBy());
+		if (so.getTagIndex() != null)
+			example.or().andTagsLike("%"+so.getTagIndex()+"%");
+		example.setOrderByClause("CREATE_TIME DESC");
+		List<Question> records = questionDao.selectByExample(example);
+		//System.out.println(records.size());
+		PageInfo<Question> page = new PageInfo<Question>(records);
+		if (page.getPageNum() > page.getPages())
+			page.setPageNum(page.getPages());
+		return page;
 	}
 }

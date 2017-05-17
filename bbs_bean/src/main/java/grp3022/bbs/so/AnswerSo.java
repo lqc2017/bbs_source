@@ -9,6 +9,8 @@ public class AnswerSo {
     private Date createTime;*/
 
     private Long questionId;
+    
+    private Short order;
 
 
     /*public String getContent() {
@@ -42,4 +44,12 @@ public class AnswerSo {
     public void setQuestionId(Long questionId) {
         this.questionId = questionId;
     }
+
+	public Short getOrder() {
+		return order;
+	}
+
+	public void setOrder(Short order) {
+		this.order = order;
+	}
 }

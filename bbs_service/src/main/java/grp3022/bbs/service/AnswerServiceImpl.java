@@ -55,7 +55,10 @@ public class AnswerServiceImpl implements AnswerService {
 	public List<Answer> getAllBySo(AnswerSo so) {
         AnswerExample example = new AnswerExample();
         example.or().andQuestionIdEqualTo(so.getQuestionId());
-        example.setOrderByClause("CREATE_TIME DESC");
+        if(so.getOrder()==null||so.getOrder()==0)
+        	example.setOrderByClause("CREATE_TIME DESC");
+        else
+        	example.setOrderByClause("HELPFUL DESC");
         List<Answer> records = answerDao.selectByExample(example);
         
         return records;

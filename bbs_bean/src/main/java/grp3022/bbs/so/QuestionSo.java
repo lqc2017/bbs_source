@@ -8,6 +8,8 @@ public class QuestionSo {
     private String describe;
 
     private Short status;
+    
+    private String tagIndex;
 
     public String getTitle() {
         return title;
@@ -39,6 +41,14 @@ public class QuestionSo {
 
 	public void setCreateBy(Long createBy) {
 		this.createBy = createBy;
+	}
+
+	public String getTagIndex() {
+		return tagIndex;
+	}
+
+	public void setTagIndex(String tagIndex) {
+		this.tagIndex = tagIndex;
 	}
 
 }

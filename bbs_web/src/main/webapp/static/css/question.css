@@ -17,6 +17,7 @@ p.p-control{
 div.message{
 	padding:0;
     width:53em;
+    height:24px;
     margin:2px 5px 8px 1em;
 }
 
@@ -101,6 +102,10 @@ div.middle {
     width:55em;
     height:2em;
     margin:20px 0 0 200px;
+}
+
+div.middle>div {
+    margin:5px 0 0 5px;
 }
 
 .middle>label {

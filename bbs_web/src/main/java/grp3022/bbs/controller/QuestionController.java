@@ -3,7 +3,9 @@ package grp3022.bbs.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -56,8 +58,31 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/home")
-	public ModelAndView home() {
+	public ModelAndView home(QuestionSo questionSo) {
+		if(questionSo==null)
+			questionSo = new QuestionSo();
+		PageInfo<Question> pageInfo = questionService.getPageBySo(questionSo,null,15);
+		
+		/*初始化标签*/
+		Map<String,ArrayList<Tag>> tagsMap = new HashMap<String,ArrayList<Tag>>();
+		for (Question question : pageInfo.getList()) {
+			ArrayList<Tag> tags = new ArrayList<Tag>();
+			List<Integer> indexes = JSON.parseArray(question.getTags(), Integer.class);
+			for (int index : indexes) {
+				for (Tag tag : Tag.values()) {
+					if (tag.getIndex() == index) {
+						tags.add(tag);
+					}
+				}
+			}
+			tagsMap.put(question.getId().toString(),tags);
+		}
+		
 		ModelAndView mav = new ModelAndView(pathPrefix + "/home");
+		mav.addObject("pageInfo", pageInfo);
+		mav.addObject("tagsMap", tagsMap);
+		mav.addObject("so", questionSo);
+		mav.addObject("format", new Format());
 		return mav;
 	}
 	
@@ -68,11 +93,12 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "")
-	public ModelAndView question(Long q) {
+	public ModelAndView question(Long q,AnswerSo answerSo) {
 		long userId = 2;
 		
 		/*初始化问题答案*/
-		AnswerSo answerSo = new AnswerSo();
+		if(answerSo==null)
+			answerSo = new AnswerSo();
 		answerSo.setQuestionId(q);
 		List<Answer> answers = answerService.getAllBySo(answerSo);
 		/*初始化答案评价*/
@@ -91,12 +117,12 @@ public class QuestionController {
 		question.setViews(question.getViews()+1);
 		questionService.updateById(question);
 		/*初始化问题标签*/
-		List<String> tags = new ArrayList<String>();
+		List<Tag> tags = new ArrayList<Tag>();
 		List<Integer> indexes = JSON.parseArray(question.getTags(), Integer.class);
 		for(int index:indexes){
 			for  (Tag tag : Tag.values()) {  
 	            if  (tag.getIndex() == index) {  
-	            	tags.add(tag.getName());
+	            	tags.add(tag);
 	            }
 	        }  
 		}
@@ -104,11 +130,14 @@ public class QuestionController {
 		ModelAndView mav = new ModelAndView(pathPrefix + "/question");
 		
 		mav.addObject("question", question);
+		mav.addObject("userId", (long)1);
 		mav.addObject("tags", tags);
 		mav.addObject("answers", answers);
+		mav.addObject("answerSo", answerSo);
 		mav.addObject("helpEnable", helpEnable);
 		return mav;
 	}
+	
 	
 	/**
 	 * 2017年5月13日 下午6:30:10
@@ -152,6 +181,27 @@ public class QuestionController {
 			return "/question/ask_fail";
 		}
 		return "/question/ask_success";
+	}
+	
+	/**
+	 * 2017年5月17日 下午7:55:23
+	 * @param q
+	 * @param u
+	 * @return
+	 */
+	@RequestMapping(value = "/solved")
+	public @ResponseBody String solved(Long q,Long u) {
+		try {
+			Question question = questionService.getById(q);
+			if(question.getCreateBy()!=u)
+				return "fail";
+			question.setStatus((short)20);
+			questionService.updateById(question);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "fail";
+		}
+		return "success";
 	}
 
 	
