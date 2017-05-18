@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="grp3022.bbs.dao.AnswerMapper" >
+  <resultMap id="BaseResultMap" type="grp3022.bbs.po.Answer" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="QUESTION_ID" property="questionId" jdbcType="DECIMAL" />
+    <result column="HELPFUL" property="helpful" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, CONTENT, CREATE_BY, CREATE_TIME, QUESTION_ID, HELPFUL
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.AnswerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ANSWER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ANSWER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ANSWER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="grp3022.bbs.po.AnswerExample" >
+    delete from ANSWER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="grp3022.bbs.po.Answer" >
+    insert into ANSWER (ID, CONTENT, CREATE_BY, 
+      CREATE_TIME, QUESTION_ID, HELPFUL
+      )
+    values (#{id,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, #{createBy,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{questionId,jdbcType=DECIMAL}, #{helpful,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="grp3022.bbs.po.Answer" >
+  	<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE">  
+	        SELECT SEQUENCE_ANSWER.nextval FROM DUAL
+	</selectKey>
+    insert into ANSWER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="questionId != null" >
+        QUESTION_ID,
+      </if>
+      <if test="helpful != null" >
+        HELPFUL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=DECIMAL},
+      </if>
+      <if test="helpful != null" >
+        #{helpful,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="grp3022.bbs.po.AnswerExample" resultType="java.lang.Integer" >
+    select count(*) from ANSWER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ANSWER
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.content != null" >
+        CONTENT = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null" >
+        CREATE_BY = #{record.createBy,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.questionId != null" >
+        QUESTION_ID = #{record.questionId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.helpful != null" >
+        HELPFUL = #{record.helpful,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ANSWER
+    set ID = #{record.id,jdbcType=DECIMAL},
+      CONTENT = #{record.content,jdbcType=VARCHAR},
+      CREATE_BY = #{record.createBy,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      QUESTION_ID = #{record.questionId,jdbcType=DECIMAL},
+      HELPFUL = #{record.helpful,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="grp3022.bbs.po.Answer" >
+    update ANSWER
+    <set >
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="questionId != null" >
+        QUESTION_ID = #{questionId,jdbcType=DECIMAL},
+      </if>
+      <if test="helpful != null" >
+        HELPFUL = #{helpful,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="grp3022.bbs.po.Answer" >
+    update ANSWER
+    set CONTENT = #{content,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      QUESTION_ID = #{questionId,jdbcType=DECIMAL},
+      HELPFUL = #{helpful,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

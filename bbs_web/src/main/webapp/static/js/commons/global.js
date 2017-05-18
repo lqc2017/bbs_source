@@ -100,3 +100,23 @@ Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
         j = (j = i.length) > 3 ? j % 3 : 0;
     return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
 }
+
+function getLen(str){
+	var length = 0;
+	
+	var re1 = /[^\x00-\xff]+/g;
+	var re2 = /[\x00-\xff]+/g;
+	var arr1 = str.match(re1);
+	if(arr1!=null){
+		arr1.forEach(function(e){
+		    length += e.toString().length*2;
+		})
+	}
+	var arr2 = str.match(re2);
+	if(arr2!=null){
+		arr2.forEach(function(e){
+		    length += e.toString().length;
+		})
+	}
+	return length;
+}
