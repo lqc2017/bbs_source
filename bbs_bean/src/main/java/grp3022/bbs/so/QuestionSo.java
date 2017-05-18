@@ -1,31 +1,23 @@
 package grp3022.bbs.so;
 
+import java.util.Date;
+
 public class QuestionSo {
 	private Long createBy;
 	
-    private String title;
-
-    private String describe;
-
     private Short status;
     
     private String tagIndex;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
-
-    public String getDescribe() {
-        return describe;
-    }
-
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
-    }
+    
+    private Short order;
+    
+    private Short timeFrame;
+    
+    private String keywords;
+    
+    private Date startTime;
+    
+    private Date endTime;
 
     public Short getStatus() {
         return status;
@@ -49,6 +41,46 @@ public class QuestionSo {
 
 	public void setTagIndex(String tagIndex) {
 		this.tagIndex = tagIndex;
+	}
+
+	public Short getOrder() {
+		return order;
+	}
+
+	public void setOrder(Short order) {
+		this.order = order;
+	}
+
+	public Short getTimeFrame() {
+		return timeFrame;
+	}
+
+	public void setTimeFrame(Short timeFrame) {
+		this.timeFrame = timeFrame;
+	}
+
+	public String getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 }

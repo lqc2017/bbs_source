@@ -3,6 +3,7 @@ package grp3022.bbs.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,10 +59,10 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/home")
-	public ModelAndView home(QuestionSo questionSo) {
-		if(questionSo==null)
-			questionSo = new QuestionSo();
-		PageInfo<Question> pageInfo = questionService.getPageBySo(questionSo,null,15);
+	public ModelAndView home(QuestionSo questionSo,Integer pn) {
+		if((questionSo.getKeywords()==null||questionSo.getKeywords().equals("")) && questionSo.getTimeFrame()==null)
+			questionSo.setTimeFrame((short)10);
+		PageInfo<Question> pageInfo = questionService.getPageBySo(questionSo,pn,10);
 		
 		/*初始化标签*/
 		Map<String,ArrayList<Tag>> tagsMap = new HashMap<String,ArrayList<Tag>>();
@@ -77,11 +78,23 @@ public class QuestionController {
 			}
 			tagsMap.put(question.getId().toString(),tags);
 		}
+		/*初始化选中标签*/
+		Tag s_tag = null;
+		if (questionSo.getTagIndex() != null && !questionSo.getTagIndex().equals("")) {
+			int index = Integer.parseInt(questionSo.getTagIndex());
+			for (Tag tag : Tag.values()) {
+				if (tag.getIndex() == index) {
+					s_tag=tag;
+				}
+			}
+		}
+			
 		
 		ModelAndView mav = new ModelAndView(pathPrefix + "/home");
 		mav.addObject("pageInfo", pageInfo);
 		mav.addObject("tagsMap", tagsMap);
-		mav.addObject("so", questionSo);
+		mav.addObject("s_tag", s_tag);
+		mav.addObject("questionSo", questionSo);
 		mav.addObject("format", new Format());
 		return mav;
 	}
@@ -196,6 +209,8 @@ public class QuestionController {
 			if(question.getCreateBy()!=u)
 				return "fail";
 			question.setStatus((short)20);
+			question.setUpdateBy(u);
+			question.setUpdateTime(new Date());
 			questionService.updateById(question);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

@@ -2,6 +2,8 @@ package grp3022.bbs.dao;
 
 import grp3022.bbs.po.Question;
 import grp3022.bbs.po.QuestionExample;
+import grp3022.bbs.so.QuestionSo;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,6 @@ public interface QuestionMapper {
     int updateByPrimaryKeySelective(Question record);
 
     int updateByPrimaryKey(Question record);
+    
+    List<Question> selectBySo(QuestionSo so);
 }

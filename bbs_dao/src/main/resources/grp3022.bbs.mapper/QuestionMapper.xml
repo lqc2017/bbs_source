@@ -303,4 +303,44 @@
       TAGS = #{tags,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
+  
+  <select id="selectBySo" resultMap="BaseResultMap" parameterType="grp3022.bbs.so.QuestionSo">
+		SELECT
+		<include refid="Base_Column_List" />
+		from QUESTION
+		<where>
+			<if test="createBy!=null">
+				CREATE_BY = #{createBy,jdbcType=DECIMAL}
+			</if>
+			
+			<if test="status!=null">
+				AND STATUS = #{status,jdbcType=DECIMAL}
+			</if>
+			
+			<if test="tagIndex!=null and tagIndex!=''">
+				AND TAGS LIKE '%'||#{tagIndex,jdbcType=VARCHAR}||'%'
+			</if>
+			
+			<!-- <if test="timeFrame!=null">
+				AND to_char(CREATE_TIME,'YYYY-MM-DD') =
+				to_char(#{createTime,jdbcType=TIMESTAMP},'YYYY-MM-DD')
+			</if> -->
+			
+			<if test="timeFrame!=null and startTime!=null and endTime!=null">
+				AND CREATE_TIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+			</if>
+			
+			<if test="keywords!=null and keywords!=''">
+				AND (TITLE LIKE '%'||#{keywords,jdbcType=VARCHAR}||'%' OR DESCRIBE LIKE '%'||#{keywords,jdbcType=VARCHAR}||'%')
+			</if>
+			
+		</where>
+		ORDER BY 
+		<if test="order==0 or order==null">
+			CREATE_TIME DESC
+		</if>
+		<if test="order==1">
+			VIEWS DESC,ANSWERS DESC
+		</if>
+	</select>
 </mapper>

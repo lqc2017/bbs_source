@@ -1,5 +1,6 @@
 package grp3022.bbs.service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import com.github.pagehelper.PageInfo;
 
 import grp3022.bbs.dao.QuestionMapper;
 import grp3022.bbs.po.Question;
-import grp3022.bbs.po.QuestionExample;
 import grp3022.bbs.so.QuestionSo;
 
 @Service
@@ -52,18 +52,29 @@ public class QuestionServiceImpl implements QuestionService {
 		pageNo = pageNo == null ? 1 : pageNo;
 		size = size == null ? 10 : size;
 		PageHelper.startPage(pageNo, size);
-		// List<Question> records = questionDao.selectBySo(so);
-		QuestionExample example = new QuestionExample();
-		if (so.getCreateBy() != null)
-			example.or().andCreateByEqualTo(so.getCreateBy());
-		if (so.getTagIndex() != null)
-			example.or().andTagsLike("%"+so.getTagIndex()+"%");
-		example.setOrderByClause("CREATE_TIME DESC");
-		List<Question> records = questionDao.selectByExample(example);
-		//System.out.println(records.size());
+		/*初始化日期范围*/
+		if (so.getTimeFrame() != null){
+			Calendar cal = Calendar.getInstance();
+			if(so.getTimeFrame()==10){
+				cal.setTime(new Date()); 
+			}else if(so.getTimeFrame()==20){
+				cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			}else{
+				cal.set(Calendar.DAY_OF_MONTH, 1);
+			}
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			so.setStartTime(cal.getTime());
+			so.setEndTime(new Date());
+			System.out.println(cal.getTime());
+		}
+		List<Question> records = questionDao.selectBySo(so);
+		
+		System.out.println(records.size());
 		PageInfo<Question> page = new PageInfo<Question>(records);
 		if (page.getPageNum() > page.getPages())
-			page.setPageNum(page.getPages());
+			page.setPageNum(1);
 		return page;
 	}
 }
