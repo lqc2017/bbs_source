@@ -15,6 +15,10 @@ public class Answer {
 
     private Integer helpful;
 
+    private String name;
+
+    private Short isAcclaimed;
+
     public Long getId() {
         return id;
     }
@@ -61,5 +65,21 @@ public class Answer {
 
     public void setHelpful(Integer helpful) {
         this.helpful = helpful;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Short getIsAcclaimed() {
+        return isAcclaimed;
+    }
+
+    public void setIsAcclaimed(Short isAcclaimed) {
+        this.isAcclaimed = isAcclaimed;
     }
 }

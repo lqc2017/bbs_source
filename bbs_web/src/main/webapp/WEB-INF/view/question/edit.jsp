@@ -14,6 +14,9 @@
 <body>
 	<div style="width: 800px; margin: 20px 200px 0 200px;">
 		<form id="add_form" class="form-horizontal" action="/question/add" method="post">
+			<input type="hidden" name="name" value="${user.nickname}"/>
+			<input type="hidden" name="createBy" value="${user.id}"/>
+			<input type="hidden" name="updateBy" value="${user.id}"/>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">标题</label><div class="col-sm-6"><input class="form-control" name="title" data-toggle="collapse" data-parent="#accordion"/></div>
 			</div>

@@ -27,4 +27,7 @@ public interface AnswerMapper {
     int updateByPrimaryKeySelective(Answer record);
 
     int updateByPrimaryKey(Answer record);
+    
+    /*得到问题id集合*/
+    List<Long> selectQIds(Long createBy);
 }

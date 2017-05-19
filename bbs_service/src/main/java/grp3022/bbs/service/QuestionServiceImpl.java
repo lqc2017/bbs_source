@@ -1,5 +1,6 @@
 package grp3022.bbs.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,8 @@ import com.github.pagehelper.PageInfo;
 
 import grp3022.bbs.dao.QuestionMapper;
 import grp3022.bbs.po.Question;
+import grp3022.bbs.po.QuestionExample;
+import grp3022.bbs.po.QuestionExample.Criteria;
 import grp3022.bbs.so.QuestionSo;
 
 @Service
@@ -33,6 +36,13 @@ public class QuestionServiceImpl implements QuestionService {
 		record.setUpdateTime(new Date());
 		questionDao.insertSelective(record);
 		return record.getId();
+	}
+	
+	@Override
+	public int countBySo(QuestionSo so) {
+		QuestionExample example = new QuestionExample();
+		example.or().andIdIn(so.getIds()).andTagsLike("%"+so.getTagIndex()+"%");
+		return questionDao.countByExample(example);
 	}
 
 	/*
@@ -67,7 +77,6 @@ public class QuestionServiceImpl implements QuestionService {
 			cal.set(Calendar.SECOND, 0);
 			so.setStartTime(cal.getTime());
 			so.setEndTime(new Date());
-			System.out.println(cal.getTime());
 		}
 		List<Question> records = questionDao.selectBySo(so);
 		
@@ -76,5 +85,18 @@ public class QuestionServiceImpl implements QuestionService {
 		if (page.getPageNum() > page.getPages())
 			page.setPageNum(1);
 		return page;
+	}
+
+	@Override
+	public List<Long> getIdsBySo(QuestionSo questionSo) {
+		QuestionExample example = new QuestionExample();
+		Criteria c = example.or();
+		c.andTagsLike("%"+questionSo.getTagIndex()+"%");
+		List<Question> records = questionDao.selectByExample(example);
+		List<Long> ids = new ArrayList<Long>();
+		for(Question record: records){
+			ids.add(record.getId());
+		}
+		return ids;
 	}
 }

@@ -8,6 +8,8 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="QUESTION_ID" property="questionId" jdbcType="DECIMAL" />
     <result column="HELPFUL" property="helpful" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="IS_ACCLAIMED" property="isAcclaimed" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CONTENT, CREATE_BY, CREATE_TIME, QUESTION_ID, HELPFUL
+    ID, CONTENT, CREATE_BY, CREATE_TIME, QUESTION_ID, HELPFUL, NAME, IS_ACCLAIMED
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.AnswerExample" >
     select
@@ -102,16 +104,13 @@
   </delete>
   <insert id="insert" parameterType="grp3022.bbs.po.Answer" >
     insert into ANSWER (ID, CONTENT, CREATE_BY, 
-      CREATE_TIME, QUESTION_ID, HELPFUL
-      )
+      CREATE_TIME, QUESTION_ID, HELPFUL, 
+      NAME, IS_ACCLAIMED)
     values (#{id,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, #{createBy,jdbcType=DECIMAL}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{questionId,jdbcType=DECIMAL}, #{helpful,jdbcType=DECIMAL}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{questionId,jdbcType=DECIMAL}, #{helpful,jdbcType=DECIMAL}, 
+      #{name,jdbcType=VARCHAR}, #{isAcclaimed,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.Answer" >
-  	<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE">  
-	        SELECT SEQUENCE_ANSWER.nextval FROM DUAL
-	</selectKey>
     insert into ANSWER
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -132,6 +131,12 @@
       <if test="helpful != null" >
         HELPFUL,
       </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="isAcclaimed != null" >
+        IS_ACCLAIMED,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -151,6 +156,12 @@
       </if>
       <if test="helpful != null" >
         #{helpful,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isAcclaimed != null" >
+        #{isAcclaimed,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -181,6 +192,12 @@
       <if test="record.helpful != null" >
         HELPFUL = #{record.helpful,jdbcType=DECIMAL},
       </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAcclaimed != null" >
+        IS_ACCLAIMED = #{record.isAcclaimed,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -193,7 +210,9 @@
       CREATE_BY = #{record.createBy,jdbcType=DECIMAL},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       QUESTION_ID = #{record.questionId,jdbcType=DECIMAL},
-      HELPFUL = #{record.helpful,jdbcType=DECIMAL}
+      HELPFUL = #{record.helpful,jdbcType=DECIMAL},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      IS_ACCLAIMED = #{record.isAcclaimed,jdbcType=DECIMAL}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -216,6 +235,12 @@
       <if test="helpful != null" >
         HELPFUL = #{helpful,jdbcType=DECIMAL},
       </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isAcclaimed != null" >
+        IS_ACCLAIMED = #{isAcclaimed,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
@@ -225,7 +250,15 @@
       CREATE_BY = #{createBy,jdbcType=DECIMAL},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       QUESTION_ID = #{questionId,jdbcType=DECIMAL},
-      HELPFUL = #{helpful,jdbcType=DECIMAL}
+      HELPFUL = #{helpful,jdbcType=DECIMAL},
+      NAME = #{name,jdbcType=VARCHAR},
+      IS_ACCLAIMED = #{isAcclaimed,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
+  <select id="selectQIds" parameterType="java.lang.Long" resultType="java.lang.Long">
+  	select distinct QUESTION_ID 
+  	from ANSWER 
+  	WHERE CREATE_BY = #{createBy,jdbcType=DECIMAL} 
+  	ORDER BY QUESTION_ID
+  </select>
 </mapper>

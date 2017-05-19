@@ -1,5 +1,7 @@
 package grp3022.bbs.service;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 
 import grp3022.bbs.po.Question;
@@ -10,8 +12,12 @@ public interface QuestionService {
 	
 	Long add(Question recodrd);
 	
+	int countBySo(QuestionSo so);
+	
 	//void deleteRecord(Long id);
 	void updateById(Question recodrd);
 	
-	PageInfo<Question> getPageBySo(QuestionSo hospitalOrderSo,Integer pageNo,Integer size);
+	PageInfo<Question> getPageBySo(QuestionSo so,Integer pageNo,Integer size);
+
+	List<Long> getIdsBySo(QuestionSo questionSo);
 }

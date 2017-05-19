@@ -13,6 +13,7 @@
     <result column="ANSWERS" property="answers" jdbcType="DECIMAL" />
     <result column="STATUS" property="status" jdbcType="DECIMAL" />
     <result column="TAGS" property="tags" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, TITLE, DESCRIBE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, VIEWS, ANSWERS, 
-    STATUS, TAGS
+    STATUS, TAGS, NAME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.QuestionExample" >
     select
@@ -110,11 +111,11 @@
     insert into QUESTION (ID, TITLE, DESCRIBE, 
       CREATE_BY, CREATE_TIME, UPDATE_BY, 
       UPDATE_TIME, VIEWS, ANSWERS, 
-      STATUS, TAGS)
+      STATUS, TAGS, NAME)
     values (#{id,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=DECIMAL}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{views,jdbcType=DECIMAL}, #{answers,jdbcType=DECIMAL}, 
-      #{status,jdbcType=DECIMAL}, #{tags,jdbcType=VARCHAR})
+      #{status,jdbcType=DECIMAL}, #{tags,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.Question" >
     insert into QUESTION
@@ -152,6 +153,9 @@
       <if test="tags != null" >
         TAGS,
       </if>
+      <if test="name != null" >
+        NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -186,6 +190,9 @@
       </if>
       <if test="tags != null" >
         #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,6 +238,9 @@
       <if test="record.tags != null" >
         TAGS = #{record.tags,jdbcType=VARCHAR},
       </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +258,8 @@
       VIEWS = #{record.views,jdbcType=DECIMAL},
       ANSWERS = #{record.answers,jdbcType=DECIMAL},
       STATUS = #{record.status,jdbcType=DECIMAL},
-      TAGS = #{record.tags,jdbcType=VARCHAR}
+      TAGS = #{record.tags,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +297,9 @@
       <if test="tags != null" >
         TAGS = #{tags,jdbcType=VARCHAR},
       </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
@@ -300,10 +314,10 @@
       VIEWS = #{views,jdbcType=DECIMAL},
       ANSWERS = #{answers,jdbcType=DECIMAL},
       STATUS = #{status,jdbcType=DECIMAL},
-      TAGS = #{tags,jdbcType=VARCHAR}
+      TAGS = #{tags,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  
   <select id="selectBySo" resultMap="BaseResultMap" parameterType="grp3022.bbs.so.QuestionSo">
 		SELECT
 		<include refid="Base_Column_List" />
@@ -320,11 +334,6 @@
 			<if test="tagIndex!=null and tagIndex!=''">
 				AND TAGS LIKE '%'||#{tagIndex,jdbcType=VARCHAR}||'%'
 			</if>
-			
-			<!-- <if test="timeFrame!=null">
-				AND to_char(CREATE_TIME,'YYYY-MM-DD') =
-				to_char(#{createTime,jdbcType=TIMESTAMP},'YYYY-MM-DD')
-			</if> -->
 			
 			<if test="timeFrame!=null and startTime!=null and endTime!=null">
 				AND CREATE_TIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}

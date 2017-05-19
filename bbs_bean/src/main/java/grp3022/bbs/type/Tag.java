@@ -21,18 +21,18 @@ public enum Tag {
 	HTML(30000,"html"), HTML5(30050,"html5"), CSS(30100,"css"), CSS3(30150,"css3"), JQUERY(30200,"jquery"), JSON(30250,"json"), 
 	AJAX(30300,"ajax"), BOOTSTRAP(30350,"bootstrap");
 	
-    private int index;
+    private Integer index;
     private String name;
     
-    private Tag(int index,String name) {  
+    private Tag(Integer index,String name) {  
         this.index = index; 
         this.name = name;
     }  
-    public int getIndex() {  
+    public Integer getIndex() {  
         return index;  
     }  
     
-    public void setIndex(int index) {  
+    public void setIndex(Integer index) {  
         this.index = index;  
     }
     

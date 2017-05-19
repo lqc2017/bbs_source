@@ -474,6 +474,136 @@ public class AnswerExample {
             addCriterion("HELPFUL not between", value1, value2, "helpful");
             return (Criteria) this;
         }
+
+        public Criteria andNameIsNull() {
+            addCriterion("NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNotNull() {
+            addCriterion("NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("NAME =", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("NAME <>", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("NAME >", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("NAME >=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThan(String value) {
+            addCriterion("NAME <", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("NAME <=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLike(String value) {
+            addCriterion("NAME like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotLike(String value) {
+            addCriterion("NAME not like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("NAME in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("NAME not in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("NAME between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("NAME not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedIsNull() {
+            addCriterion("IS_ACCLAIMED is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedIsNotNull() {
+            addCriterion("IS_ACCLAIMED is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedEqualTo(Short value) {
+            addCriterion("IS_ACCLAIMED =", value, "isAcclaimed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedNotEqualTo(Short value) {
+            addCriterion("IS_ACCLAIMED <>", value, "isAcclaimed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedGreaterThan(Short value) {
+            addCriterion("IS_ACCLAIMED >", value, "isAcclaimed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedGreaterThanOrEqualTo(Short value) {
+            addCriterion("IS_ACCLAIMED >=", value, "isAcclaimed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedLessThan(Short value) {
+            addCriterion("IS_ACCLAIMED <", value, "isAcclaimed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedLessThanOrEqualTo(Short value) {
+            addCriterion("IS_ACCLAIMED <=", value, "isAcclaimed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedIn(List<Short> values) {
+            addCriterion("IS_ACCLAIMED in", values, "isAcclaimed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedNotIn(List<Short> values) {
+            addCriterion("IS_ACCLAIMED not in", values, "isAcclaimed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedBetween(Short value1, Short value2) {
+            addCriterion("IS_ACCLAIMED between", value1, value2, "isAcclaimed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAcclaimedNotBetween(Short value1, Short value2) {
+            addCriterion("IS_ACCLAIMED not between", value1, value2, "isAcclaimed");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

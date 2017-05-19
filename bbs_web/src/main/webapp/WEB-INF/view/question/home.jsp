@@ -103,7 +103,7 @@
 					</div>
 					<div class="message">
 					<div class="username">
-						<a href="">usernasssss</a>
+						<a href="">${question.name}</a>
 					</div>
 					<div>|</div>
 					<div class="createtime">${format.getTime(question.createTime)}</div>
@@ -111,7 +111,7 @@
 			</div>
 		</div>
 		</c:forEach>
-		<div id="paginator" style="width: 23%; margin: 10px auto;"></div>
+		<div id="paginator" style="width: 30%; margin: 10px auto;"></div>
 	</div>
 
 	<form id="search_form" class="form-inline" method="get" action="/question/home">

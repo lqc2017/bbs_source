@@ -31,7 +31,7 @@
 			<div class="questoin-message">
 				<label class="create-time">创建于：<fmt:formatDate
 						value="${question.createTime}" pattern="yyyy-MM-dd" /></label><a
-					class="test" href="">usernamennnnnnnnn</a>
+					class="test" href="">${question.name}</a>
 			</div>
 		</div>
 	</div>
@@ -40,13 +40,13 @@
 		<c:if test="${answers.size()!=0}">
 		<div class="btn-group">
 			<a href="/question?q=${question.id}&order=0" class="btn btn-default btn-xs <c:if test="${answerSo.order==null||answerSo.order==0}">active</c:if>">时间</a>
-			<a href="/question?q=${question.id}&order=1" class="btn btn-default btn-xs <c:if test="${answerSo.order==1}">active</c:if>">有用</a>
+			<a href="/question?q=${question.id}&order=10" class="btn btn-default btn-xs <c:if test="${answerSo.order==10}">active</c:if>">有用</a>
 		</div>
 		</c:if>
-		<c:if test="${question.status==10&&userId==question.createBy}">
+		<c:if test="${question.status==10&&user.id==question.createBy}">
 			<a name="solved-btn" href="javascipt:;" style="float: right" class="btn btn-sm btn-success">问题解决</a>
 		</c:if>
-		<c:if test="${question.status==10&&userId!=question.createBy}">
+		<c:if test="${question.status==10&&user.id!=question.createBy}">
 			<a href="#input" style="float: right" class="btn btn-sm btn-success">填写答案</a>
 		</c:if>
 	</div>
@@ -55,7 +55,7 @@
 			<div>
 				<div class="panel-body div-control content">${answer.content}</div>
 				<div class="answer-message">
-					<a href="">${'username'}</a> <label class="create-time"><fmt:formatDate
+					<a href="">${answer.name}</a> <label class="create-time"><fmt:formatDate
 							value="${answer.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></label>
 					<label class="helpful-block">
 						<span class="glyphicon  glyphicon-chevron-left default <c:if test="${helpEnable.get(vs.count-1)}">helpless</c:if>"
@@ -71,9 +71,11 @@
 			<hr <c:if test="${vs.last}">style="border-top:0px;"</c:if>/>
 		</c:forEach>
 	</div>
-	<c:if test="${question.status==10&&userId!=question.createBy}">
+	<c:if test="${question.status==10&&user.id!=question.createBy}">
 	<div class="input" id="input">
 		<form id="add_form" method="post" action="/answer">
+			<input type="hidden" name="name" value="${user.nickname}"/>
+			<input type="hidden" name="createBy" value="${user.id}"/>
 			<textarea id="ckeditor" name="content" cols="20" rows="5"
 				class="ckeditor"></textarea>
 			<input type="hidden" name="questionId" value="${question.id}">
@@ -89,7 +91,7 @@
 		$("img").parent("p").addClass("p-control");
 		$("[data-toggle='tooltip']").tooltip();
 		
-		<c:if test="${question.status==10&&userId!=question.createBy}">
+		<c:if test="${question.status==10&&user.id!=question.createBy}">
 		var editor=CKEDITOR.replace('ckeditor',{
 	        customConfig : '/ckeditor/question_config.js'
 	    });
@@ -177,7 +179,7 @@
 			$.ajax({	
 				async : false,
 				type : "get",
-				url : "/question/solved?q=${question.id}&u=${userId}",
+				url : "/question/solved?q=${question.id}&u=${user.id}",
 				datatype : 'json',
 				success : function(result) {
 					if (result == "success") {

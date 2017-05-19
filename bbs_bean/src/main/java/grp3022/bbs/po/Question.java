@@ -25,6 +25,8 @@ public class Question {
 
     private String tags;
 
+    private String name;
+
     public Long getId() {
         return id;
     }
@@ -111,5 +113,13 @@ public class Question {
 
     public void setTags(String tags) {
         this.tags = tags == null ? null : tags.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 }
