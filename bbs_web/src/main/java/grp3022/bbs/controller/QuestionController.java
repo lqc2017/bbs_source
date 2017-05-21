@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.github.pagehelper.PageInfo;
 
+import grp3022.bbs.jo.Percentage;
 import grp3022.bbs.po.Answer;
 import grp3022.bbs.po.AnswerHelpKey;
 import grp3022.bbs.po.BBSUser;
@@ -29,7 +29,7 @@ import grp3022.bbs.so.AnswerSo;
 import grp3022.bbs.so.QuestionSo;
 import grp3022.bbs.type.Tag;
 import grp3022.bbs.util.Format;
-import grp3022.bbs.util.Init;
+import grp3022.bbs.util.TagBuilder;
 
 /**
  * @author 全琛
@@ -63,17 +63,10 @@ public class QuestionController {
 		PageInfo<Question> pageInfo = questionService.getPageBySo(questionSo, pn, 10);
 
 		/* 初始化标签 */
-		Map<String, ArrayList<Tag>> tagsMap = new HashMap<String, ArrayList<Tag>>();
+		Map<String, List<Tag>> tagsMap = new HashMap<String, List<Tag>>();
 		for (Question question : pageInfo.getList()) {
-			ArrayList<Tag> tags = new ArrayList<Tag>();
 			List<Integer> indexes = JSON.parseArray(question.getTags(), Integer.class);
-			for (int index : indexes) {
-				for (Tag tag : Tag.values()) {
-					if (tag.getIndex() == index) {
-						tags.add(tag);
-					}
-				}
-			}
+			List<Tag> tags = TagBuilder.getTagListByIndex(indexes);
 			tagsMap.put(question.getId().toString(), tags);
 		}
 		/* 初始化选中标签 */
@@ -209,12 +202,14 @@ public class QuestionController {
 			Question question = questionService.getById(q);
 			if (question.getCreateBy() != u)
 				return "fail";
+			
+			/* 统计并更新users */
+			this.statistic(q);
+			
 			question.setStatus((short) 20);
 			question.setUpdateBy(u);
 			question.setUpdateTime(new Date());
 			questionService.updateById(question);
-			/* 统计并更新users */
-			this.statistic(q);
 
 		} catch (Exception e) {
 			return "fail";
@@ -227,32 +222,32 @@ public class QuestionController {
 	 * 
 	 * @param q问题id
 	 */
-	private void statistic(Long q) {
-		/* 初始化问题答案按好评度排序 */
+	/*private void statistic(Long q) {
+		 初始化问题答案按好评度排序 
 		Question question = questionService.getById(q);
 		AnswerSo answerSo = new AnswerSo();
 		answerSo.setQuestionId(q);
 		answerSo.setOrder((short) 10);
 		List<Answer> answers = answerService.getAllBySo(answerSo);
 
-		/* 初始化问题标签集合 */
+		 初始化问题标签集合 
 		List<Tag> tags = Init.InitTagList(question.getTags());
 
-		/* 取回答好评率前五并判断其评价数是否大于5,重置好评属性 */
+		 取回答好评率前五并判断其评价数是否大于5,重置好评属性 
 		if (answers.size() > 5)
 			answers = answers.subList(0, 4);
 		for (Answer answer : answers) {
 			if (answer.getHelpful() >= 5) {
-				/*更新好评字段*/
+				更新好评字段
 				answer.setIsAcclaimed((short) 1);
 				answerService.updateById(answer);
 
-				/* 获得每位答题者获得好评的总回答数量 */
+				 获得每位答题者获得好评的总回答数量 
 				Long userId = answer.getCreateBy();
 				BBSUser user = userService.getById(userId);
 				//int total = answerService.countBySo(new AnswerSo((short) 1, user.getId()));
 				
-				/*更新擅长领域百分比*/
+				更新擅长领域百分比
 				System.out.println(user.getqMajor());
 				Map<String, Float> percents = JSON.parseObject(user.getqMajor(), new TypeReference<Map<String, Float>>(){});
 				Map<String, Float> buffer = new HashMap<String,Float>();
@@ -277,9 +272,53 @@ public class QuestionController {
 				user.setqMajor(JSON.toJSONString(buffer));
 				user.setGaCnt(total);
 				System.out.println(user.getqMajor());
-				/*提交*/
+				提交
 				userService.updateById(user);
 			}
+		}
+	}*/
+	private void statistic(Long q) {
+		/* 初始化问题答案按好评度排序 */
+		List<Answer> answers = answerService.getAllBySo(new AnswerSo(q,(short) 10));
+
+		/* 取回答好评率前五并判断其评价数是否大于5,重置好评属性 */
+		if (answers.size() > 5)
+			answers = answers.subList(0, 4);
+		for (Answer answer : answers) {
+			if (answer.getHelpful() >= 5) {
+				/*更新好评字段*/
+				answer.setIsAcclaimed((short) 1);
+				answerService.updateById(answer);
+			}
+		}
+		/* 统计每位回答者的擅长百分比 */
+		for (Answer answer : answers) {
+			Long userId = answer.getCreateBy();
+			BBSUser user = userService.getById(userId);
+			
+			/* 获得每位答题者获得好评的問題集合 */
+			List<Answer> as = answerService.getAllBySo(new AnswerSo((short) 1, user.getId()));
+			List<Question> questions = new ArrayList<Question>();
+			for(Answer a : as){
+				questions.add(questionService.getById(a.getQuestionId()));
+			}
+			/*统计分母*/
+			int total = 0;
+			for (Question question : questions) {
+				List<Integer> indexes = JSON.parseArray(question.getTags(), Integer.class);
+				total += indexes.size();
+			}
+			/*统计百分比*/
+			List<Percentage> percentsList = TagBuilder.getTagPercentage(questions, total);
+
+			for(Percentage p : percentsList){
+				System.out.println(p.getIndex()+":"+p.getPercent());
+			}
+			System.out.println(JSON.toJSONString(percentsList));
+			/*toJSONString储存*/
+			user.setqMajor(JSON.toJSONString(percentsList));;
+			/*提交*/
+			userService.updateById(user);
 		}
 	}
 	/*

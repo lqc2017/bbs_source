@@ -45,7 +45,12 @@ public class AnswerSo {
         this.content = content == null ? null : content.trim();
     }*/
 
-    public Long getCreateBy() {
+    public AnswerSo(Long questionId, short order) {
+    	this.setQuestionId(questionId);
+    	this.setOrder(order);
+	}
+
+	public Long getCreateBy() {
         return createBy;
     }
 

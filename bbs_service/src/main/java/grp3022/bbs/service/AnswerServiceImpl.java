@@ -71,9 +71,14 @@ public class AnswerServiceImpl implements AnswerService {
 	public List<Answer> getAllBySo(AnswerSo so) {
         AnswerExample example = new AnswerExample();
         Criteria c = example.or();
-        c.andQuestionIdEqualTo(so.getQuestionId());
         if(so.getIsAcclaimed()!=null){
         	c.andIsAcclaimedEqualTo(so.getIsAcclaimed());
+        }
+        if(so.getQuestionId()!=null){
+        	c.andQuestionIdEqualTo(so.getQuestionId());
+        }
+        if(so.getCreateBy()!=null){
+        	c.andCreateByEqualTo(so.getCreateBy());
         }
         if(so.getOrder()==null||so.getOrder()==0)
         	example.setOrderByClause("CREATE_TIME DESC");

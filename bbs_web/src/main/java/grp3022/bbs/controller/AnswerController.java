@@ -1,10 +1,9 @@
 package grp3022.bbs.controller;
 
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -14,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 
+import grp3022.bbs.jo.Percentage;
 import grp3022.bbs.po.Answer;
 import grp3022.bbs.po.AnswerHelp;
 import grp3022.bbs.po.BBSUser;
@@ -25,9 +24,7 @@ import grp3022.bbs.service.AnswerService;
 import grp3022.bbs.service.BBSUserService;
 import grp3022.bbs.service.QuestionService;
 import grp3022.bbs.so.AnswerSo;
-import grp3022.bbs.so.QuestionSo;
-import grp3022.bbs.type.Tag;
-import grp3022.bbs.util.Init;
+import grp3022.bbs.util.TagBuilder;
 
 /**
  * @author 全琛
@@ -73,7 +70,8 @@ public class AnswerController {
 			
 			/*如果是第一次回答问题，统计并更新user*/
 			if(answerService.countBySo(new AnswerSo(answer.getQuestionId(),user.getId()))==1)
-				this.statistic(user,answer.getQuestionId());
+				//this.statistic(user,answer.getQuestionId());
+				this.statistic(user);
 			
 		} catch (Exception e) {
 			return "fail";
@@ -117,18 +115,18 @@ public class AnswerController {
 	 * @param user
 	 * @param q 问题id
 	 */
-	private void statistic(BBSUser user,Long q){
-		/*初始化问题*/
+	/*private void statistic(BBSUser user,Long q){
+		初始化问题
 		Question question = questionService.getById(q);
-		/*初始化问题标签集合*/
+		初始化问题标签集合
 		List<Tag> tags = Init.InitTagList(question.getTags());
-		/*获得回答的总条目数*/
+		获得回答的总条目数
 		List<Long> qIds = answerService.getQIdsByCreateBy(user.getId());
 		float preSize = user.getAqCnt();
 		user.setAqCnt(qIds.size());
 		QuestionSo questionSo = new QuestionSo();
 		
-		/*更新标签参与度百分比，先更新问题标签中的百分比，再更新Map中其他标签的百分比，时间复杂度小于O(n^2)*/
+		更新标签参与度百分比，先更新问题标签中的百分比，再更新Map中其他标签的百分比，时间复杂度小于O(n^2)
 		System.out.println(user.getqParticipate());
 		Map<String, Float> percents = JSON.parseObject(user.getqParticipate(), new TypeReference<Map<String, Float>>(){});
 		Map<String, Float> buffer = new HashMap<String,Float>();
@@ -149,6 +147,27 @@ public class AnswerController {
 		}
 		user.setqParticipate(JSON.toJSONString(buffer));
 		System.out.println(user.getqParticipate());
+		提交
+		userService.updateById(user);
+	}*/
+	private void statistic(BBSUser user){
+		/*（查询）获得回答的过的问题id集合*/
+		List<Long> qIds = answerService.getQIdsByCreateBy(user.getId());
+		user.setAqCnt(qIds.size());
+		/*（查询*n）获得回答过的問題集合*/
+		List<Question> questions = new ArrayList<Question>();
+		for(Long id : qIds){
+			questions.add(questionService.getById(id));
+		}
+		/*统计百分比*/
+		List<Percentage> percentsList = TagBuilder.getTagPercentage(questions, user.getAqCnt());
+		
+		for(Percentage p : percentsList){
+			System.out.println(p.getIndex()+":"+p.getPercent());
+		}
+		
+		/*toJSONString储存*/
+		user.setqParticipate(JSON.toJSONString(percentsList));
 		/*提交*/
 		userService.updateById(user);
 	}

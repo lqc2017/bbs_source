@@ -68,7 +68,7 @@ public class QuestionServiceImpl implements QuestionService {
 			if(so.getTimeFrame()==10){
 				cal.setTime(new Date()); 
 			}else if(so.getTimeFrame()==20){
-				cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+				cal.set(Calendar.DAY_OF_WEEK, 1);
 			}else{
 				cal.set(Calendar.DAY_OF_MONTH, 1);
 			}

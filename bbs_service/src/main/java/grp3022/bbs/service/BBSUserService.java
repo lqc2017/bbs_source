@@ -3,9 +3,8 @@ package grp3022.bbs.service;
 
 
 import grp3022.bbs.po.BBSUser;
+public interface BBSUserService{
 
-
-public interface BBSUserService {
 	BBSUser getById(Long id);
 	
 	//void add(BBSUser recodrd);

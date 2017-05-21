@@ -166,8 +166,8 @@
 		$("button[name='add-btn']").bind("click",function(){
 			var validator = $('#add_form').data('bootstrapValidator');
 			var describe = editor.getData().toString();
-			alert("标题长度:"+getLen($("input[name='title']").val()));
-			alert("描述长度:"+getLen(describe));
+			/* alert("标题长度:"+getLen($("input[name='title']").val()));
+			alert("描述长度:"+getLen(describe)); */
 			
 			validator.validate();
 			if (!validator.isValid()) {
@@ -187,10 +187,6 @@
 		
 		$(".tag").bind("click",function(){
 			var data = $(this).attr("data");
-			if(tagList.length>=5){
-				toastr.warning("最多添加5个标签！");
-				return
-			}
 			if($.inArray(data,tagList)>-1){
 				$(this).removeClass("select");
 				$(this).children(".glyphicon-remove").remove();
@@ -200,6 +196,10 @@
 				
 				printTags();
 			}else{
+				if(tagList.length>=5){
+					toastr.warning("最多添加5个标签！");
+					return
+				}
 				tagList.push(data);
 				$(this).bind("mouseover",function(){
 					$(this).append("<span class='glyphicon glyphicon-remove'></span>")

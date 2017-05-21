@@ -3,17 +3,16 @@
  */
 var id;
 var path;
-/* data变量用于接受资源参数*/
 var data;
 
-$().ready(function() {
+/*$().ready(function() {
     path = "";
-    /*初始化路径*/
+    初始化路径
     var basePath = window.location.pathname.split("/");
     for (var i = 1; i < basePath.length - 1; i++) {
         path += "/" + basePath[i];
     }
-});
+});*/
 
 /* 获取url参数*/
 function GetQueryString(name){
@@ -119,4 +118,12 @@ function getLen(str){
 		})
 	}
 	return length;
+}
+
+function getRandomColor() {
+	return '#' +
+	(function(color) {
+		return (color += '0123456789abcdef'[Math.floor(Math.random() * 16)])
+		&& (color.length == 6) ? color : arguments.callee(color);
+	})('');
 }
