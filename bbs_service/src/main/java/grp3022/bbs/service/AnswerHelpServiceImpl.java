@@ -1,13 +1,17 @@
 package grp3022.bbs.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import grp3022.bbs.dao.AnswerHelpMapper;
 import grp3022.bbs.po.AnswerHelp;
+import grp3022.bbs.po.AnswerHelpExample;
+import grp3022.bbs.po.AnswerHelpExample.Criteria;
 import grp3022.bbs.po.AnswerHelpKey;
+import grp3022.bbs.so.AnswerHelpSo;
 
 @Service
 public class AnswerHelpServiceImpl implements AnswerHelpService {
@@ -26,6 +30,15 @@ public class AnswerHelpServiceImpl implements AnswerHelpService {
 	public void add(AnswerHelp record) {
 		record.setCreateTime(new Date());
 		answerHelpDao.insertSelective(record);
+	}
+
+	@Override
+	public List<AnswerHelp> getAllBySo(AnswerHelpSo so) {
+		AnswerHelpExample example = new AnswerHelpExample();
+		Criteria c = example.or();
+		c.andUserIdEqualTo(so.getUserId());
+		example.setOrderByClause("CREATE_TIME DESC");
+        return answerHelpDao.selectByExample(example);
 	}
 
 	/*@Override

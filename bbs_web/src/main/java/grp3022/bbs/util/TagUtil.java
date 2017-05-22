@@ -13,7 +13,7 @@ import grp3022.bbs.jo.Percentage;
 import grp3022.bbs.po.Question;
 import grp3022.bbs.type.Tag;
 
-public final class TagBuilder {
+public final class TagUtil {
 	/**
 	 * 2017年5月14日 下午1:55:40
 	 * 

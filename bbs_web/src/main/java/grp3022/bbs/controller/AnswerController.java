@@ -24,7 +24,7 @@ import grp3022.bbs.service.AnswerService;
 import grp3022.bbs.service.BBSUserService;
 import grp3022.bbs.service.QuestionService;
 import grp3022.bbs.so.AnswerSo;
-import grp3022.bbs.util.TagBuilder;
+import grp3022.bbs.util.TagUtil;
 
 /**
  * @author 全琛
@@ -69,7 +69,7 @@ public class AnswerController {
 			questionService.updateById(question);
 			
 			/*如果是第一次回答问题，统计并更新user*/
-			if(answerService.countBySo(new AnswerSo(answer.getQuestionId(),user.getId()))==1)
+			if(answerService.countBySo(new AnswerSo(user.getId(),answer.getQuestionId()))==1)
 				//this.statistic(user,answer.getQuestionId());
 				this.statistic(user);
 			
@@ -160,7 +160,7 @@ public class AnswerController {
 			questions.add(questionService.getById(id));
 		}
 		/*统计百分比*/
-		List<Percentage> percentsList = TagBuilder.getTagPercentage(questions, user.getAqCnt());
+		List<Percentage> percentsList = TagUtil.getTagPercentage(questions, user.getAqCnt());
 		
 		for(Percentage p : percentsList){
 			System.out.println(p.getIndex()+":"+p.getPercent());

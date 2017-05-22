@@ -22,7 +22,13 @@ public class QuestionSo {
     
     private Date endTime;
 
-    public Short getStatus() {
+    public QuestionSo(){}
+    
+    public QuestionSo(Long createBy) {
+		this.setCreateBy(createBy);
+	}
+
+	public Short getStatus() {
         return status;
     }
 

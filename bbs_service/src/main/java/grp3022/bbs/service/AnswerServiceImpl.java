@@ -35,8 +35,6 @@ public class AnswerServiceImpl implements AnswerService {
         	c.andQuestionIdEqualTo(so.getQuestionId());
         if(so.getIsAcclaimed()!=null)
         	c.andIsAcclaimedEqualTo((short)1);
-        if(so.getQuestionIds()!=null)
-        	c.andQuestionIdIn(so.getQuestionIds());
         return answerDao.countByExample(example);
 	}
 

@@ -1,15 +1,11 @@
 package grp3022.bbs.so;
 
-import java.util.List;
-
 public class AnswerSo {
 
     //private String content;
 
     private Long createBy;
     
-    private List<Long> questionIds;
-
     //private Date createTime;
 
     private Long questionId;
@@ -18,25 +14,22 @@ public class AnswerSo {
     
     private Short order;
     
-    public AnswerSo(Long questionId,Long createBy){
-    	this.setQuestionId(questionId);
-    	this.setCreateBy(createBy);
-    }
-    
-    public AnswerSo(Short isAcclaimed,Long createBy){
-    	this.setIsAcclaimed(isAcclaimed);
-    	this.setCreateBy(createBy);
-    }
-    
-    public AnswerSo(Short isAcclaimed,Long createBy,List<Long> questionIds){
-    	this.setIsAcclaimed(isAcclaimed);
-    	this.setCreateBy(createBy);
-    	this.setQuestionIds(questionIds);
-    }
-    
     public AnswerSo(){}
-
-
+    
+    public AnswerSo(Long createBy) {
+		this.setCreateBy(createBy);
+	}
+    
+	public AnswerSo(Long createBy, Long questionId) {
+		this.setQuestionId(questionId);
+		this.setCreateBy(createBy);
+	}
+    
+	public AnswerSo(Long createBy,Short isAcclaimed){
+    	this.setIsAcclaimed(isAcclaimed);
+    	this.setCreateBy(createBy);
+    }
+    
     /*public String getContent() {
         return content;
     }
@@ -44,11 +37,6 @@ public class AnswerSo {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }*/
-
-    public AnswerSo(Long questionId, short order) {
-    	this.setQuestionId(questionId);
-    	this.setOrder(order);
-	}
 
 	public Long getCreateBy() {
         return createBy;
@@ -88,13 +76,5 @@ public class AnswerSo {
 
 	public void setIsAcclaimed(Short isAcclaimed) {
 		this.isAcclaimed = isAcclaimed;
-	}
-
-	public List<Long> getQuestionIds() {
-		return questionIds;
-	}
-
-	public void setQuestionIds(List<Long> questionIds) {
-		this.questionIds = questionIds;
 	}
 }

@@ -1,0 +1,51 @@
+div{
+	display:block;
+}
+
+div.container{
+	width:1020px;
+	margin:70px auto 0 auto;
+}
+
+div.left-panel{
+	width:25%;
+	float:left;
+	padding:0 20px 0 0;
+	/* border:1px solid #2e485f; */
+}
+
+div.main-panel{
+	width:75%;
+	float:left;
+	padding:0 0 0 10px;
+	/* border:1px solid #2e485f; */
+}
+
+div.content{
+	padding:10px 5px 0 5px;
+}
+
+div.data-chart{
+	display: inline-block;
+	width: 45%; 
+}
+.data-chart>div.text{
+	margin:0 0 0 127px;
+	font-size: 13px;
+}
+
+.nav>li>a.spacing{
+	padding:10px 40px;
+}
+
+p.p-control{
+	font-size:12px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+.btn-op {
+    background-color: #0000a0;
+    margin:20px 0 0 0;
+}

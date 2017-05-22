@@ -5,7 +5,7 @@ public class AnswerHelpKey {
 
     private Long userId;
 
-    public Long getAnswerId() {
+	public Long getAnswerId() {
         return answerId;
     }
 

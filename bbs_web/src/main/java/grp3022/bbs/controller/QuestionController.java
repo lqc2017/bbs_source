@@ -29,7 +29,7 @@ import grp3022.bbs.so.AnswerSo;
 import grp3022.bbs.so.QuestionSo;
 import grp3022.bbs.type.Tag;
 import grp3022.bbs.util.Format;
-import grp3022.bbs.util.TagBuilder;
+import grp3022.bbs.util.TagUtil;
 
 /**
  * @author 全琛
@@ -66,7 +66,7 @@ public class QuestionController {
 		Map<String, List<Tag>> tagsMap = new HashMap<String, List<Tag>>();
 		for (Question question : pageInfo.getList()) {
 			List<Integer> indexes = JSON.parseArray(question.getTags(), Integer.class);
-			List<Tag> tags = TagBuilder.getTagListByIndex(indexes);
+			List<Tag> tags = TagUtil.getTagListByIndex(indexes);
 			tagsMap.put(question.getId().toString(), tags);
 		}
 		/* 初始化选中标签 */
@@ -165,7 +165,7 @@ public class QuestionController {
 	 */
 	@RequestMapping(value = "/edit")
 	public ModelAndView edit() {
-		BBSUser user = userService.getById((long) 2);
+		BBSUser user = userService.getById((long) 3);
 		ModelAndView mav = new ModelAndView(pathPrefix + "/edit");
 		mav.addObject("user", user);
 		return mav;
@@ -222,61 +222,6 @@ public class QuestionController {
 	 * 
 	 * @param q问题id
 	 */
-	/*private void statistic(Long q) {
-		 初始化问题答案按好评度排序 
-		Question question = questionService.getById(q);
-		AnswerSo answerSo = new AnswerSo();
-		answerSo.setQuestionId(q);
-		answerSo.setOrder((short) 10);
-		List<Answer> answers = answerService.getAllBySo(answerSo);
-
-		 初始化问题标签集合 
-		List<Tag> tags = Init.InitTagList(question.getTags());
-
-		 取回答好评率前五并判断其评价数是否大于5,重置好评属性 
-		if (answers.size() > 5)
-			answers = answers.subList(0, 4);
-		for (Answer answer : answers) {
-			if (answer.getHelpful() >= 5) {
-				更新好评字段
-				answer.setIsAcclaimed((short) 1);
-				answerService.updateById(answer);
-
-				 获得每位答题者获得好评的总回答数量 
-				Long userId = answer.getCreateBy();
-				BBSUser user = userService.getById(userId);
-				//int total = answerService.countBySo(new AnswerSo((short) 1, user.getId()));
-				
-				更新擅长领域百分比
-				System.out.println(user.getqMajor());
-				Map<String, Float> percents = JSON.parseObject(user.getqMajor(), new TypeReference<Map<String, Float>>(){});
-				Map<String, Float> buffer = new HashMap<String,Float>();
-				float preSize = percents.size();
-				int total = tags.size()+user.getGaCnt();
-				
-				for(Tag tag:tags){
-					String index = tag.getIndex().toString();
-					if(percents.containsKey(index)){
-						float newValue = (percents.get(index)*user.getGaCnt()+1)/total;
-						buffer.put(index,newValue);
-						percents.remove(index);
-					}else{
-						float newValue = (float)1/total;
-						buffer.put(tag.getIndex().toString(),newValue);
-					}
-				}
-				for (Map.Entry<String, Float> entry : percents.entrySet()) {
-					float newValue = entry.getValue()*preSize/total;
-					buffer.put(entry.getKey(),newValue);
-				}
-				user.setqMajor(JSON.toJSONString(buffer));
-				user.setGaCnt(total);
-				System.out.println(user.getqMajor());
-				提交
-				userService.updateById(user);
-			}
-		}
-	}*/
 	private void statistic(Long q) {
 		/* 初始化问题答案按好评度排序 */
 		List<Answer> answers = answerService.getAllBySo(new AnswerSo(q,(short) 10));
@@ -297,7 +242,7 @@ public class QuestionController {
 			BBSUser user = userService.getById(userId);
 			
 			/* 获得每位答题者获得好评的問題集合 */
-			List<Answer> as = answerService.getAllBySo(new AnswerSo((short) 1, user.getId()));
+			List<Answer> as = answerService.getAllBySo(new AnswerSo(user.getId(), (short) 1));
 			List<Question> questions = new ArrayList<Question>();
 			for(Answer a : as){
 				questions.add(questionService.getById(a.getQuestionId()));
@@ -309,7 +254,7 @@ public class QuestionController {
 				total += indexes.size();
 			}
 			/*统计百分比*/
-			List<Percentage> percentsList = TagBuilder.getTagPercentage(questions, total);
+			List<Percentage> percentsList = TagUtil.getTagPercentage(questions, total);
 
 			for(Percentage p : percentsList){
 				System.out.println(p.getIndex()+":"+p.getPercent());
