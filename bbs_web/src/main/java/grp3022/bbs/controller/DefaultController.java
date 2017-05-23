@@ -99,10 +99,10 @@ public class DefaultController {
 		List<Activity> activities = new ArrayList<Activity>();
 		if (true) {
 			List<Question> questions = questionService.getPageBySo(new QuestionSo(user.getId()), 1, itemSize).getList();
-			System.out.println("Question____________________");
-			System.out.println("size:"+questions.size());
+			//System.out.println("Question____________________");
+			//System.out.println("size:"+questions.size());
 			for(Question q : questions){
-				System.out.println("createTime:"+q.getCreateTime());
+				//System.out.println("createTime:"+q.getCreateTime());
 				activities.add(new Activity(q.getCreateTime(),(short)10,q));
 			}
 		}
@@ -110,10 +110,10 @@ public class DefaultController {
 			List<Answer> answers = answerService.getAllBySo(new AnswerSo(user.getId()));
 			if(answers.size()>itemSize)
 				answers = answers.subList(0, itemSize-1);
-			System.out.println("Answers____________________");
-			System.out.println("size:"+answers.size());
+			//System.out.println("Answers____________________");
+			//System.out.println("size:"+answers.size());
 			for(Answer a : answers){
-				System.out.println("createTime:"+a.getCreateTime());
+				//System.out.println("createTime:"+a.getCreateTime());
 				Question q = questionService.getById(a.getQuestionId());
 				BBSUser u = userService.getById(q.getCreateBy());
 				activities.add(new Activity(a.getCreateTime(),(short)20,q,u));
@@ -123,10 +123,10 @@ public class DefaultController {
 			List<AnswerHelp> answerHelps = answerHelpService.getAllBySo(new AnswerHelpSo(user.getId()));
 			if(answerHelps.size()>itemSize)
 				answerHelps = answerHelps.subList(0, itemSize);
-			System.out.println("AnswerHelps____________________");
-			System.out.println("size:"+answerHelps.size());
+			//System.out.println("AnswerHelps____________________");
+			//System.out.println("size:"+answerHelps.size());
 			for(AnswerHelp ah : answerHelps){
-				System.out.println("createTime:"+ah.getCreateTime());
+				//System.out.println("createTime:"+ah.getCreateTime());
 				Long qId = answerService.getById(ah.getAnswerId()).getQuestionId();
 				Question q = questionService.getById(qId);
 				BBSUser u = userService.getById(ah.getUserId());

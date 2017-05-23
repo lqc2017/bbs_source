@@ -80,7 +80,7 @@ public class QuestionServiceImpl implements QuestionService {
 		}
 		List<Question> records = questionDao.selectBySo(so);
 		
-		System.out.println(records.size());
+		//System.out.println(records.size());
 		PageInfo<Question> page = new PageInfo<Question>(records);
 		if (page.getPageNum() > page.getPages())
 			page.setPageNum(1);

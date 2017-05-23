@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http auto-config="true">
+		<headers>
+			<frame-options policy="SAMEORIGIN" />
+		</headers>
+
+		<!-- PatientAction -->
+		<!-- <intercept-url access="hasRole('PATIENT')" pattern="/patient/**" /> -->
+
+		<!-- <session-management invalid-session-url="/login?timeout" /> -->
+
+		<form-login authentication-failure-url="/login?error" authentication-success-handler-ref="loginSuccessHandler"
+			login-processing-url="/login" password-parameter="password" username-parameter="ssoId" />
+
+		<!-- <form-login authentication-failure-url="/login?error" authentication-success-handler-ref="loginSuccessHandler" 
+			login-page="/login" password-parameter="password" username-parameter="ssoId" 
+			/> -->
+
+		<csrf></csrf>
+	</http>
+
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="AuthorityService">
+
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean name="AuthorityService" class="grp3022.bbs.service.AuthorityServiceImpl"></beans:bean>
+
+	<beans:bean class="grp3022.bbs.security.LoginSuccessHandler"
+		id="loginSuccessHandler">
+	</beans:bean>
+</beans:beans>

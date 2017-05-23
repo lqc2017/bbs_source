@@ -4,7 +4,7 @@ div{
 
 div.container{
 	width:1020px;
-	margin:70px auto 0 auto;
+	margin:0 auto;
 }
 
 div.left-panel{
@@ -48,4 +48,12 @@ p.p-control{
 .btn-op {
     background-color: #0000a0;
     margin:20px 0 0 0;
+}
+
+ul.float-right{
+	float:right;
+}
+
+a.sign{
+	font-size:15px;
 }
