@@ -29,22 +29,28 @@
 				<li><a href="#">问答</a></li>
 			</ul>
 			<ul class="nav navbar-nav float-right">
-			<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication==null }">
-			<li><a class="sign" href="javascript:;" data-toggle="modal" data-target="#myModal">登陆/注册</a></li>
-			</c:if>
-			<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
-			<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"><img src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
-				height="20" width="20"><b class="caret"></b>
-				</a>
-					<ul class="dropdown-menu">
-						<li><a href="#">个人信息</a></li>
-						<li><a href="#">EJB</a></li>
-						<li class="divider"></li>
-						<li><a href="/logout">登出</a></li>
-						<li class="divider"></li>
-						<li><a href="#">设置</a></li>
-					</ul></li></c:if>
+				<c:if
+					test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication==null }">
+					<li><a class="sign" href="javascript:;" data-toggle="modal"
+						data-target="#myModal">登陆/注册</a></li>
+				</c:if>
+				<c:if
+					test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><img
+							src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
+							height="20" width="20"><b class="caret"></b> </a>
+						<ul class="dropdown-menu">
+							<li><p class="p-cur-user">当前用户：${user.nickname}</p></li>
+							<li class="divider"></li>
+							<li><a href="#">个人信息</a></li>
+							<li><a href="#">消息</a></li>
+							<li class="divider"></li>
+							<li><a href="/logout">登出</a></li>
+							<li class="divider"></li>
+							<li><a href="#">设置</a></li>
+						</ul></li>
+				</c:if>
 			</ul>
 		</div>
 	</div>
@@ -55,7 +61,7 @@
 			String s = sessEnum.nextElement();
 			out.print(s);
 			out.println("==" + request.getSession().getAttribute(s));
-	--%><!-- <br /> -->
+	--%> <!-- <br /> -->
 	<%--
 		}
 	--%>
@@ -63,22 +69,27 @@
 		<div class="left-panel">
 			<img src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
 				height="230" class="img-rounded img-responsive">
-			<a class="btn btn-default btn-block btn-op">Edit profile</a>
+			<div>
+				<div class="left-block">关注<p>123<p></div>
+				<div class="right-block">粉丝<p>123<p></div>
+			</div>
+			<a class="btn btn-default btn-block btn-op">编辑</a>
 		</div>
 		<div class="main-panel">
 			<ul id="myTab" class="nav nav-tabs">
-				<li><a class="spacing" href="#information" data-toggle="tab">个人信息</a></li>
+				<li class="active"><a class="spacing" href="#information" data-toggle="tab">个人信息</a></li>
 				<li><a class="spacing" href="#BBS" data-toggle="tab">论坛</a></li>
-				<li class="active"><a class="spacing" href="#AQ"
-					data-toggle="tab">问答</a></li>
+				<li><a class="spacing" href="#AQ" data-toggle="tab">问答</a></li>
+				<li><a class="spacing" href="#message" data-toggle="tab">消息</a></li>
 			</ul>
 			<div id="myTabContent" class="tab-content">
-				<div class="tab-pane fade" id="information">
-					<div class="content">用户已设为私密</div></div>
-					<div class="tab-pane fade" id="BBS">
+				<div class="tab-pane fade  in active" id="information">
+					<div class="content">用户已设为私密</div>
+				</div>
+				<div class="tab-pane fade" id="BBS">
 					<div class="content">ceshi</div>
 				</div>
-				<div class="tab-pane fade in active" id="AQ">
+				<div class="tab-pane fade" id="AQ">
 					<div class="content" id="test">
 						<div class="panel panel-default">
 							<div class="panel-heading">数据</div>
@@ -114,7 +125,10 @@
 							</div>
 						</div>
 					</div>
-					
+				</div>
+				
+				<div class="tab-pane fade" id="message">
+					<div class="content">ceshi</div>
 				</div>
 			</div>
 		</div>
@@ -137,21 +151,6 @@
 						<div class="tab-pane fade active in" id="information1">
 							<div style="margin: 10px 30px 20px 30px">
 								<form action="/login" method="post" class="form-horizontal">
-									<!-- <s:if test="#parameters.error != null">
-							<div class="alert alert-danger">
-								<p>Invalid username and password.</p>
-							</div>
-						</s:if>
-						<s:if test="#parameters.logout != null">
-							<div class="alert alert-success">
-								<p>成功退出登录</p>
-							</div>
-						</s:if>
-						<s:if test="#parameters.timeout != null">
-							<div class="alert alert-danger">
-								<p>会话超时，重新登录</p>
-							</div>
-						</s:if> -->
 									<div class="input-group input-sm">
 										<label class="input-group-addon" for="username"><span
 											class="glyphicon glyphicon-user"></span></label> <input type="text"
@@ -200,14 +199,16 @@
 			type: 'pie',
 			data : {
 			    labels: [
+			    	<c:if test="${majars.size()==0}">'暂无'</c:if>
 			        <c:forEach items="${majars}" var="major">"${tagMap[major.index].name}"<c:if test="${!vs.last}">,</c:if></c:forEach>
 			    ],
 			    datasets: [
 			        {
-			            data: [
+			            data: [<c:if test="${majars.size()==0}">1</c:if>
 			            	<c:forEach items="${majars}" var="major">${major.percent}<c:if test="${!vs.last}">,</c:if></c:forEach>
 						],
 			            backgroundColor: [
+			            	<c:if test="${majars.size()==0}">'#999999'</c:if>
 			            	<c:forEach items="${majars}" var="major">"${tagMap[major.index].color}"<c:if test="${!vs.last}">,</c:if></c:forEach>
 			            ],
 			            hoverBackgroundColor: [
@@ -251,19 +252,7 @@
 			}
 	    };
 	window.onload = function() {
-        var ctx = document.getElementById("major").getContext("2d");
-        window.myPie = new Chart(ctx, majorConfig);
-        
-        ctx = document.getElementById("participate").getContext("2d");
-        window.myBar = new Chart(ctx, participateConfig);
-        
-		/* 防止标签页因为高度不一抖动 */
-        var maxH = 0;
-        $(".content").each(function(){
-        	if($(this).height()>maxH)
-        		maxH = $(this).height();
-        });
-        $(".content").height(maxH);
+        $(".content").height(700);
     };
     
    $("a[href='#AQ']").bind("click",loadChart);
@@ -278,10 +267,6 @@
          window.myBar = new Chart(ctx, participateConfig);
          
     }
-    $(function () { $('#myModal').modal('hide')});
-    /* $(function () { $('#myModal').on('hide.bs.modal', function () {
-	      alert('嘿，我听说您喜欢模态框...');})
-	   }); */
 	</script>
 </body>
 

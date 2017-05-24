@@ -11,7 +11,11 @@
     <result column="Q_PARTICIPATE" property="qParticipate" jdbcType="VARCHAR" />
     <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
     <result column="AQ_CNT" property="aqCnt" jdbcType="DECIMAL" />
-    <result column="GA_CNT" property="gaCnt" jdbcType="DECIMAL" />
+    <result column="FOLLOW" property="follow" jdbcType="VARCHAR" />
+    <result column="COLLEGE" property="college" jdbcType="VARCHAR" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="QQ" property="qq" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, NICKNAME, SEX, TELEPHONE, BIRTHDAY, Q_MAJOR, Q_PARTICIPATE, ADDRESS, AQ_CNT, 
-    GA_CNT
+    FOLLOW, COLLEGE, COMPANY, EMAIL, QQ
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.BBSUserExample" >
     select
@@ -109,11 +113,13 @@
     insert into BBS_USER (ID, NICKNAME, SEX, 
       TELEPHONE, BIRTHDAY, Q_MAJOR, 
       Q_PARTICIPATE, ADDRESS, AQ_CNT, 
-      GA_CNT)
+      FOLLOW, COLLEGE, COMPANY, 
+      EMAIL, QQ)
     values (#{id,jdbcType=DECIMAL}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=DECIMAL}, 
       #{telephone,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{qMajor,jdbcType=VARCHAR}, 
       #{qParticipate,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{aqCnt,jdbcType=DECIMAL}, 
-      #{gaCnt,jdbcType=DECIMAL})
+      #{follow,jdbcType=VARCHAR}, #{college,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.BBSUser" >
     insert into BBS_USER
@@ -145,8 +151,20 @@
       <if test="aqCnt != null" >
         AQ_CNT,
       </if>
-      <if test="gaCnt != null" >
-        GA_CNT,
+      <if test="follow != null" >
+        FOLLOW,
+      </if>
+      <if test="college != null" >
+        COLLEGE,
+      </if>
+      <if test="company != null" >
+        COMPANY,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="qq != null" >
+        QQ,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -177,8 +195,20 @@
       <if test="aqCnt != null" >
         #{aqCnt,jdbcType=DECIMAL},
       </if>
-      <if test="gaCnt != null" >
-        #{gaCnt,jdbcType=DECIMAL},
+      <if test="follow != null" >
+        #{follow,jdbcType=VARCHAR},
+      </if>
+      <if test="college != null" >
+        #{college,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -218,8 +248,20 @@
       <if test="record.aqCnt != null" >
         AQ_CNT = #{record.aqCnt,jdbcType=DECIMAL},
       </if>
-      <if test="record.gaCnt != null" >
-        GA_CNT = #{record.gaCnt,jdbcType=DECIMAL},
+      <if test="record.follow != null" >
+        FOLLOW = #{record.follow,jdbcType=VARCHAR},
+      </if>
+      <if test="record.college != null" >
+        COLLEGE = #{record.college,jdbcType=VARCHAR},
+      </if>
+      <if test="record.company != null" >
+        COMPANY = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qq != null" >
+        QQ = #{record.qq,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -237,7 +279,11 @@
       Q_PARTICIPATE = #{record.qParticipate,jdbcType=VARCHAR},
       ADDRESS = #{record.address,jdbcType=VARCHAR},
       AQ_CNT = #{record.aqCnt,jdbcType=DECIMAL},
-      GA_CNT = #{record.gaCnt,jdbcType=DECIMAL}
+      FOLLOW = #{record.follow,jdbcType=VARCHAR},
+      COLLEGE = #{record.college,jdbcType=VARCHAR},
+      COMPANY = #{record.company,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      QQ = #{record.qq,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -269,8 +315,20 @@
       <if test="aqCnt != null" >
         AQ_CNT = #{aqCnt,jdbcType=DECIMAL},
       </if>
-      <if test="gaCnt != null" >
-        GA_CNT = #{gaCnt,jdbcType=DECIMAL},
+      <if test="follow != null" >
+        FOLLOW = #{follow,jdbcType=VARCHAR},
+      </if>
+      <if test="college != null" >
+        COLLEGE = #{college,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        COMPANY = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        QQ = #{qq,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
@@ -285,7 +343,11 @@
       Q_PARTICIPATE = #{qParticipate,jdbcType=VARCHAR},
       ADDRESS = #{address,jdbcType=VARCHAR},
       AQ_CNT = #{aqCnt,jdbcType=DECIMAL},
-      GA_CNT = #{gaCnt,jdbcType=DECIMAL}
+      FOLLOW = #{follow,jdbcType=VARCHAR},
+      COLLEGE = #{college,jdbcType=VARCHAR},
+      COMPANY = #{company,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      QQ = #{qq,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
 </mapper>

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,21 +16,25 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import grp3022.bbs.service.AccountService;
+
 @Component
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	@Resource
+	private AccountService accountService;
 	
 	@Override
 	protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException {
 
-		//System.out.println("handle");
 		if (response.isCommitted()) {
 			System.out.println("Can't redirect");
 			return;
 		}
-		//System.out.println(request.getHeader("Referer"));
+		//System.out.println(authentication.getName());
+		request.getSession().setAttribute("userId",accountService.getById(authentication.getName()).getUserid());
 		redirectStrategy.sendRedirect(request, response, request.getHeader("Referer"));
 	}
 

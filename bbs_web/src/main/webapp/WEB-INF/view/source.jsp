@@ -5,6 +5,8 @@
   Time: 10:14
   To change this template use File | Settings | File Templates.
 --%>
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <link href="/css/jquery-ui.min.css" rel="stylesheet">
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet">

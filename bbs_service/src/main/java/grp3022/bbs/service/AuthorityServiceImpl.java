@@ -4,6 +4,7 @@
  */
 package grp3022.bbs.service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +42,8 @@ public class AuthorityServiceImpl implements UserDetailsService {
 			switch (role) {
 			case 10:
 				authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+				account.setLatestLogin(new Date());
+				accountDao.updateByPrimaryKey(account);
 			}
 		}
 		return new User(userName, passWord, authorities);

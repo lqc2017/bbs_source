@@ -17,15 +17,17 @@ public class Question {
 
     private Date updateTime;
 
-    private Long views;
+    private Integer views;
 
-    private Long answers;
+    private Integer answers;
 
     private Short status;
 
     private String tags;
 
     private String name;
+
+    private Integer reminder;
 
     public Long getId() {
         return id;
@@ -83,19 +85,19 @@ public class Question {
         this.updateTime = updateTime;
     }
 
-    public Long getViews() {
+    public Integer getViews() {
         return views;
     }
 
-    public void setViews(Long views) {
+    public void setViews(Integer views) {
         this.views = views;
     }
 
-    public Long getAnswers() {
+    public Integer getAnswers() {
         return answers;
     }
 
-    public void setAnswers(Long answers) {
+    public void setAnswers(Integer answers) {
         this.answers = answers;
     }
 
@@ -121,5 +123,13 @@ public class Question {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getReminder() {
+        return reminder;
+    }
+
+    public void setReminder(Integer reminder) {
+        this.reminder = reminder;
     }
 }

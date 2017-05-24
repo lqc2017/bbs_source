@@ -53,12 +53,8 @@ public class AnswerController {
 	@RequestMapping(value = "")
 	public @ResponseBody String add(Answer answer) {
 		try {
-			long userId = 3;
-			BBSUser user = userService.getById(userId);
-			
-			
-			/*添加answer*/
-			answer.setCreateBy(userId);
+			System.out.println(answer.getCreateBy());
+			BBSUser user = userService.getById(answer.getCreateBy());
 			answerService.add(answer);
 			
 			/*更新question*/
@@ -70,7 +66,6 @@ public class AnswerController {
 			
 			/*如果是第一次回答问题，统计并更新user*/
 			if(answerService.countBySo(new AnswerSo(user.getId(),answer.getQuestionId()))==1)
-				//this.statistic(user,answer.getQuestionId());
 				this.statistic(user);
 			
 		} catch (Exception e) {

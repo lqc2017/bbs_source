@@ -1,5 +1,7 @@
 package grp3022.bbs.po;
 
+import java.util.Date;
+
 public class Account {
     private String username;
 
@@ -8,6 +10,8 @@ public class Account {
     private Long userid;
 
     private Short role;
+
+    private Date latestLogin;
 
     public String getUsername() {
         return username;
@@ -39,5 +43,13 @@ public class Account {
 
     public void setRole(Short role) {
         this.role = role;
+    }
+
+    public Date getLatestLogin() {
+        return latestLogin;
+    }
+
+    public void setLatestLogin(Date latestLogin) {
+        this.latestLogin = latestLogin;
     }
 }

@@ -6,6 +6,7 @@
     <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
     <result column="USERID" property="userid" jdbcType="DECIMAL" />
     <result column="ROLE" property="role" jdbcType="DECIMAL" />
+    <result column="LATEST_LOGIN" property="latestLogin" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    USERNAME, PASSWORD, USERID, ROLE
+    USERNAME, PASSWORD, USERID, ROLE, LATEST_LOGIN
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.AccountExample" >
     select
@@ -100,9 +101,9 @@
   </delete>
   <insert id="insert" parameterType="grp3022.bbs.po.Account" >
     insert into ACCOUNT (USERNAME, PASSWORD, USERID, 
-      ROLE)
+      ROLE, LATEST_LOGIN)
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userid,jdbcType=DECIMAL}, 
-      #{role,jdbcType=DECIMAL})
+      #{role,jdbcType=DECIMAL}, #{latestLogin,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.Account" >
     insert into ACCOUNT
@@ -119,6 +120,9 @@
       <if test="role != null" >
         ROLE,
       </if>
+      <if test="latestLogin != null" >
+        LATEST_LOGIN,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="username != null" >
@@ -132,6 +136,9 @@
       </if>
       <if test="role != null" >
         #{role,jdbcType=DECIMAL},
+      </if>
+      <if test="latestLogin != null" >
+        #{latestLogin,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="record.role != null" >
         ROLE = #{record.role,jdbcType=DECIMAL},
       </if>
+      <if test="record.latestLogin != null" >
+        LATEST_LOGIN = #{record.latestLogin,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +176,8 @@
     set USERNAME = #{record.username,jdbcType=VARCHAR},
       PASSWORD = #{record.password,jdbcType=VARCHAR},
       USERID = #{record.userid,jdbcType=DECIMAL},
-      ROLE = #{record.role,jdbcType=DECIMAL}
+      ROLE = #{record.role,jdbcType=DECIMAL},
+      LATEST_LOGIN = #{record.latestLogin,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +194,9 @@
       <if test="role != null" >
         ROLE = #{role,jdbcType=DECIMAL},
       </if>
+      <if test="latestLogin != null" >
+        LATEST_LOGIN = #{latestLogin,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where USERNAME = #{username,jdbcType=VARCHAR}
   </update>
@@ -190,7 +204,8 @@
     update ACCOUNT
     set PASSWORD = #{password,jdbcType=VARCHAR},
       USERID = #{userid,jdbcType=DECIMAL},
-      ROLE = #{role,jdbcType=DECIMAL}
+      ROLE = #{role,jdbcType=DECIMAL},
+      LATEST_LOGIN = #{latestLogin,jdbcType=TIMESTAMP}
     where USERNAME = #{username,jdbcType=VARCHAR}
   </update>
 </mapper>

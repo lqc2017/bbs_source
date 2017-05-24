@@ -10,7 +10,7 @@ public interface AccountService{
 	//void add(Account record);
 	
 	//void deleteRecord(Long id);
-	//void updateById(Account record);
+	void updateById(Account record);
 	
 	//PageInfo<Account> getPageBySo(BBSUserSo so,Integer pageNo,Integer size);
 	

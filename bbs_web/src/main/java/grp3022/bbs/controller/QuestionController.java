@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -97,29 +99,38 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "")
-	public ModelAndView question(Long q, AnswerSo answerSo) {
-		long userId = 3;
-		BBSUser user = userService.getById(userId);
+	public String question(Long q, AnswerSo answerSo,HttpSession session,Model model) {
 		/* 初始化问题答案 */
 		if (answerSo == null)
 			answerSo = new AnswerSo();
 		answerSo.setQuestionId(q);
 		List<Answer> answers = answerService.getAllBySo(answerSo);
-		/* 初始化答案评价 */
-		List<Boolean> helpEnable = new ArrayList<Boolean>();
-		for (Answer answer : answers) {
-			AnswerHelpKey key = new AnswerHelpKey();
-			key.setUserId(userId);
-			key.setAnswerId(answer.getId());
-			if (answerHelpService.getByKey(key) != null)
-				helpEnable.add(false);
-			else
-				helpEnable.add(true);
+		
+		if(session.getAttribute("userId")!=null){
+			long userId = Long.parseLong(session.getAttribute("userId").toString());
+			BBSUser user = userService.getById(userId);
+			
+			/* 初始化评价 */
+			List<Boolean> helpEnable = new ArrayList<Boolean>();
+			for (Answer answer : answers) {
+				AnswerHelpKey key = new AnswerHelpKey();
+				key.setUserId(userId);
+				key.setAnswerId(answer.getId());
+				if (answerHelpService.getByKey(key) != null)
+					helpEnable.add(false);
+				else
+					helpEnable.add(true);
+			}
+			
+			model.addAttribute("user", user);
+			model.addAttribute("helpEnable", helpEnable);
 		}
+		
 		/* 更新问题信息 */
 		Question question = questionService.getById(q);
 		question.setViews(question.getViews() + 1);
 		questionService.updateById(question);
+		
 		/* 初始化问题标签 */
 		List<Tag> tags = new ArrayList<Tag>();
 		List<Integer> indexes = JSON.parseArray(question.getTags(), Integer.class);
@@ -131,15 +142,11 @@ public class QuestionController {
 			}
 		}
 
-		ModelAndView mav = new ModelAndView(pathPrefix + "/question");
-
-		mav.addObject("question", question);
-		mav.addObject("user", user);
-		mav.addObject("tags", tags);
-		mav.addObject("answers", answers);
-		mav.addObject("answerSo", answerSo);
-		mav.addObject("helpEnable", helpEnable);
-		return mav;
+		model.addAttribute("question", question);
+		model.addAttribute("tags", tags);
+		model.addAttribute("answers", answers);
+		model.addAttribute("order", answerSo.getOrder());
+		return "/question/question";
 	}
 
 	/**
@@ -164,11 +171,13 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/edit")
-	public ModelAndView edit() {
-		BBSUser user = userService.getById((long) 3);
-		ModelAndView mav = new ModelAndView(pathPrefix + "/edit");
-		mav.addObject("user", user);
-		return mav;
+	public String edit(Model model,HttpSession session) {
+		if(session.getAttribute("userId")!=null){
+			long userId = Long.parseLong(session.getAttribute("userId").toString());
+			BBSUser user = userService.getById(userId);
+			model.addAttribute("user", user);
+		}
+		return "/question/edit";
 	}
 
 	/**
@@ -204,7 +213,7 @@ public class QuestionController {
 				return "fail";
 			
 			/* 统计并更新users */
-			this.statistic(q);
+			this.majorStatistic(q,5,5);
 			
 			question.setStatus((short) 20);
 			question.setUpdateBy(u);
@@ -218,19 +227,20 @@ public class QuestionController {
 	}
 
 	/**
-	 * 2017年5月19日 上午9:09:09
-	 * 
-	 * @param q问题id
+	 * 2017年5月24日 下午4:38:35
+	 * @param q 问题id
+	 * @param minCnt 答案评优的最低好评数
+	 * @param maxSize 最大优质答案个数
 	 */
-	private void statistic(Long q) {
+	private void majorStatistic(Long q,int minCnt,int maxSize) {
 		/* 初始化问题答案按好评度排序 */
 		List<Answer> answers = answerService.getAllBySo(new AnswerSo(q,(short) 10));
 
 		/* 取回答好评率前五并判断其评价数是否大于5,重置好评属性 */
-		if (answers.size() > 5)
-			answers = answers.subList(0, 4);
+		if (answers.size() > maxSize)
+			answers = answers.subList(0, maxSize-1);
 		for (Answer answer : answers) {
-			if (answer.getHelpful() >= 5) {
+			if (answer.getHelpful() >= minCnt) {
 				/*更新好评字段*/
 				answer.setIsAcclaimed((short) 1);
 				answerService.updateById(answer);
@@ -266,12 +276,4 @@ public class QuestionController {
 			userService.updateById(user);
 		}
 	}
-	/*
-	 * private String getPrincipal(){ String userName = null; Object principal =
-	 * SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	 * 
-	 * if (principal instanceof UserDetails) { userName =
-	 * ((UserDetails)principal).getUsername(); } else { userName =
-	 * principal.toString(); } return userName; }
-	 */
 }

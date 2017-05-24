@@ -21,7 +21,15 @@ public class BBSUser {
 
     private Integer aqCnt;
 
-    private Integer gaCnt;
+    private String follow;
+
+    private String college;
+
+    private String company;
+
+    private String email;
+
+    private String qq;
 
     public Long getId() {
         return id;
@@ -95,11 +103,43 @@ public class BBSUser {
         this.aqCnt = aqCnt;
     }
 
-    public Integer getGaCnt() {
-        return gaCnt;
+    public String getFollow() {
+        return follow;
     }
 
-    public void setGaCnt(Integer gaCnt) {
-        this.gaCnt = gaCnt;
+    public void setFollow(String follow) {
+        this.follow = follow == null ? null : follow.trim();
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college == null ? null : college.trim();
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company == null ? null : company.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq == null ? null : qq.trim();
     }
 }

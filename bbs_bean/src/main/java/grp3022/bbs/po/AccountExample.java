@@ -1,6 +1,7 @@
 package grp3022.bbs.po;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AccountExample {
@@ -361,6 +362,66 @@ public class AccountExample {
 
         public Criteria andRoleNotBetween(Short value1, Short value2) {
             addCriterion("ROLE not between", value1, value2, "role");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginIsNull() {
+            addCriterion("LATEST_LOGIN is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginIsNotNull() {
+            addCriterion("LATEST_LOGIN is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginEqualTo(Date value) {
+            addCriterion("LATEST_LOGIN =", value, "latestLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginNotEqualTo(Date value) {
+            addCriterion("LATEST_LOGIN <>", value, "latestLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginGreaterThan(Date value) {
+            addCriterion("LATEST_LOGIN >", value, "latestLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginGreaterThanOrEqualTo(Date value) {
+            addCriterion("LATEST_LOGIN >=", value, "latestLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginLessThan(Date value) {
+            addCriterion("LATEST_LOGIN <", value, "latestLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginLessThanOrEqualTo(Date value) {
+            addCriterion("LATEST_LOGIN <=", value, "latestLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginIn(List<Date> values) {
+            addCriterion("LATEST_LOGIN in", values, "latestLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginNotIn(List<Date> values) {
+            addCriterion("LATEST_LOGIN not in", values, "latestLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginBetween(Date value1, Date value2) {
+            addCriterion("LATEST_LOGIN between", value1, value2, "latestLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatestLoginNotBetween(Date value1, Date value2) {
+            addCriterion("LATEST_LOGIN not between", value1, value2, "latestLogin");
             return (Criteria) this;
         }
     }

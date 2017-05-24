@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <title><c:out value="${question.title}" escapeXml="true"></c:out></title>
 <link href="/css/question.css" rel="stylesheet">
 <%@ include file="../source.jsp"%>
@@ -13,6 +15,46 @@
 </head>
 
 <body>
+	<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#example-navbar-collapse">
+				<span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">codeground</a>
+		</div>
+		<div class="collapse navbar-collapse" id="example-navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li class=""><a href="#">论坛</a></li>
+				<li><a href="#">问答</a></li>
+			</ul>
+			<ul class="nav navbar-nav float-right">
+				<c:if
+					test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication==null }">
+					<li><a class="sign" href="javascript:;" data-toggle="modal"
+						data-target="#myModal">登陆/注册</a></li>
+				</c:if>
+				<c:if
+					test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><img
+							src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
+							height="20" width="20"><b class="caret"></b> </a>
+						<ul class="dropdown-menu">
+							<li><a href="#">个人信息</a></li>
+							<li><a href="#">EJB</a></li>
+							<li class="divider"></li>
+							<li><a href="/logout">登出</a></li>
+							<li class="divider"></li>
+							<li><a href="#">设置</a></li>
+						</ul></li>
+				</c:if>
+			</ul>
+		</div>
+	</div>
+	</nav>
 	<div class="panel panel-info question">
 		<div class="panel-heading">
 			<h3> 
@@ -39,15 +81,18 @@
 		<label style="float: left">${answers.size()}个回答：</label>
 		<c:if test="${answers.size()!=0}">
 		<div class="btn-group">
-			<a href="/question?q=${question.id}&order=0" class="btn btn-default btn-xs <c:if test="${answerSo.order==null||answerSo.order==0}">active</c:if>">时间</a>
-			<a href="/question?q=${question.id}&order=10" class="btn btn-default btn-xs <c:if test="${answerSo.order==10}">active</c:if>">有用</a>
+			<a href="/question?q=${question.id}&order=0" class="btn btn-default btn-xs <c:if test="${order==null||order.order==0}">active</c:if>">时间</a>
+			<a href="/question?q=${question.id}&order=10" class="btn btn-default btn-xs <c:if test="${order==10}">active</c:if>">有用</a>
 		</div>
 		</c:if>
-		<c:if test="${question.status==10&&user.id==question.createBy}">
-			<a name="solved-btn" href="javascipt:;" style="float: right" class="btn btn-sm btn-success">问题解决</a>
-		</c:if>
-		<c:if test="${question.status==10&&user.id!=question.createBy}">
-			<a href="#input" style="float: right" class="btn btn-sm btn-success">填写答案</a>
+		<c:if test="${question.status==10}">
+			<c:if test="${user.id==question.createBy}">
+				<a name="solved-btn" href="javascipt:;" style="float: right"
+					class="btn btn-sm btn-success">问题解决</a>
+			</c:if>
+			<c:if test="${user.id==null||user.id!=question.createBy}">
+				<a href="#input" style="float: right" class="btn btn-sm btn-success">填写答案</a>
+			</c:if>
 		</c:if>
 	</div>
 	<div class="panel panel-default answers">
@@ -85,17 +130,75 @@
 		<button  name='add-btn' style="float: right"
 			class="btn btn-sm btn-success">提交</button>
 	</div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">登陆/注册</h4>
+				</div>
+				<div class="modal-body">
+					<ul id="myTab1" class="nav nav-tabs">
+						<li class="active"><a href="#information1" data-toggle="tab">登陆</a></li>
+						<li><a href="#BBS1" data-toggle="tab">注册</a></li>
+					</ul>
+					<div id="myTabContent1" class="tab-content">
+						<div class="tab-pane fade active in" id="information1">
+							<div style="margin: 10px 30px 20px 30px">
+								<form action="/login" method="post" class="form-horizontal">
+									<div class="input-group input-sm">
+										<label class="input-group-addon" for="username"><span
+											class="glyphicon glyphicon-user"></span></label> <input type="text"
+											class="form-control" id="username" name="ssoId"
+											placeholder="用户名" required>
+									</div>
+									<div class="input-group input-sm">
+										<label class="input-group-addon" for="password"><span
+											class="glyphicon glyphicon-lock"></span></label> <input
+											type="password" class="form-control" id="password"
+											name="password" placeholder="密码" required>
+									</div>
+									<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+
+									<div class="form-actions" style="width: 95%; margin: 0 auto;">
+										<input type="submit"
+											class="btn btn-block btn-primary" value="登陆">
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="BBS1">
+							<div style="margin: 10px 30px 20px 30px">
+								<form action="/signUp" method="post" class="form-horizontal">
+										<label class="label-control" for="username">用户名</label> <input type="text"
+											class="form-control" name="username"
+											placeholder="用户名" required>
+										<label class="label-control" for="password">密码</label> <input
+											type="password" class="form-control"
+											name="password" placeholder="密码" required>
+											<input type="submit"
+											class="btn btn-block btn-success form-control" style="margin:15px 0 0 0;" value="注册">
+											</form>
+									</div>
+									<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</c:if>
 
+	<c:if test="${question.status==10&&user.id!=question.createBy}">
+	<script src="/js/commons/editorInit.js"></script>
+	</c:if>
 	<script defer type="text/javascript">
 		$("img").parent("p").addClass("p-control");
 		$("[data-toggle='tooltip']").tooltip();
 		
-		<c:if test="${question.status==10&&user.id!=question.createBy}">
-		var editor=CKEDITOR.replace('ckeditor',{
-	        customConfig : '/ckeditor/question_config.js'
-	    });
-		</c:if>
 		
 		$(".helpful").bind("mouseover",function(){
 			$(this).addClass("success");

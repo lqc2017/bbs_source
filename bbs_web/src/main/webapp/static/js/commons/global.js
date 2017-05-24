@@ -126,4 +126,14 @@ function getRandomColor() {
 		return (color += '0123456789abcdef'[Math.floor(Math.random() * 16)])
 		&& (color.length == 6) ? color : arguments.callee(color);
 	})('');
+
+//初始化登陆模态框
+$(function () { $('#myModal').modal('hide')});
 }
+
+//初始化ajax csrf
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
+$(document).ajaxSend(function(e, xhr, options) {  
+    xhr.setRequestHeader(header, token);  
+});

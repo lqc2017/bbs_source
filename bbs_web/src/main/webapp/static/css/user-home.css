@@ -14,6 +14,26 @@ div.left-panel{
 	/* border:1px solid #2e485f; */
 }
 
+div.left-panel>div{
+	height:54px;margin:8px 0
+}
+
+div.left-panel>div>div{
+	width:50%;display:inline-block;text-align:center;font-size:17px;
+}
+
+div.left-panel>div>div>p{
+	font-size:14px;
+}
+
+div.left-block{
+	border-right:0.5px solid #e8e8e8;
+}
+
+div.right-block{
+	float:right;
+}
+
 div.main-panel{
 	width:75%;
 	float:left;
@@ -45,15 +65,22 @@ p.p-control{
 	text-overflow:ellipsis;
 }
 
-.btn-op {
-    background-color: #0000a0;
-    margin:20px 0 0 0;
+p.p-cur-user{
+	font-size:12px;
+	font-weight:700;
+	margin:0;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
 }
 
-ul.float-right{
-	float:right;
+.btn-op {
+    background-color: #0000a0;
+    margin:10px 0 0 0;
 }
 
 a.sign{
 	font-size:15px;
 }
+
+

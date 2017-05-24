@@ -30,10 +30,10 @@ public class AccountServiceImpl implements AccountService {
 
 	}*/
 
-	/*@Override
+	@Override
 	public void updateById(Account answer) {
 		accountDao.updateByPrimaryKeySelective(answer);
-	}*/
+	}
 
 	/*@Override
 	public PageInfo<Answer> getPageBySo(AnswerSo so, Integer pageNo,Integer size) {
