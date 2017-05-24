@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
@@ -21,10 +22,12 @@ import grp3022.bbs.jo.Percentage;
 import grp3022.bbs.po.Answer;
 import grp3022.bbs.po.AnswerHelp;
 import grp3022.bbs.po.BBSUser;
+import grp3022.bbs.po.FollowKey;
 import grp3022.bbs.po.Question;
 import grp3022.bbs.service.AnswerHelpService;
 import grp3022.bbs.service.AnswerService;
 import grp3022.bbs.service.BBSUserService;
+import grp3022.bbs.service.FollowService;
 import grp3022.bbs.service.QuestionService;
 import grp3022.bbs.so.AnswerHelpSo;
 import grp3022.bbs.so.AnswerSo;
@@ -39,7 +42,6 @@ import grp3022.bbs.wo.Activity;
  *
  */
 @Controller
-@RequestMapping(value = "/u")
 public class UserController {
 
 	@Resource
@@ -50,29 +52,52 @@ public class UserController {
 	private AnswerService answerService;
 	@Resource
 	private AnswerHelpService answerHelpService;
+	@Resource
+	private FollowService followService;
 	
 	/**
 	 * 2017年5月20日 下午2:59:37
 	 * @return
 	 */
-	@RequestMapping(value = "")
-	public String home(Model model,HttpSession session) {
-		BBSUser user = new BBSUser();
+	@RequestMapping(value = "/u/{userId}")
+	public String home(Model model,HttpSession session,@PathVariable Long userId) {
 		if(session.getAttribute("userId")!=null){
-			long userId = Long.parseLong(session.getAttribute("userId").toString());
-			user = userService.getById(userId);
+			//处理当前登陆情况判断
+			long currentUserId = Long.parseLong(session.getAttribute("userId").toString());
+			BBSUser currentUser =  userService.getById(currentUserId);
+			model.addAttribute("currentUser", currentUser);
+			
+			//处理关注
+			if(userId!=currentUser.getId()){
+				FollowKey key = new FollowKey();
+				key.setUserId(userId);
+				key.setFollowerId(currentUser.getId());
+				model.addAttribute("followed",followService.getByKey(key)!=null?true:false);
+			}
 		}
-		else
-			user = userService.getById((long) 3);
+		BBSUser user = userService.getById(userId);
+		this.loadFolow(user,model);
 		this.loadData(user,model);
 		this.loadActivity(user,model);
+		model.addAttribute("user",user);
 		
-		model.addAttribute("user", user);
 		return "profile";
 	}
 	
 	/**
+	 * 2017年5月24日 下午9:28:25
+	 * 加载关注情况
+	 * @param user
+	 * @param model
+	 */
+	private void loadFolow(BBSUser user, Model model) {
+		List<Integer> followList = JSON.parseArray(user.getFollow(), Integer.class);
+		model.addAttribute("followList",followList);
+	}
+
+	/**
 	 * 2017年5月22日 下午4:35:59
+	 * 加载问题相关数据
 	 * @param user
 	 * @param model
 	 */
@@ -92,6 +117,7 @@ public class UserController {
 	
 	/**
 	 * 2017年5月22日 下午4:35:55
+	 * 加载动态
 	 * @param user
 	 * @param model
 	 */

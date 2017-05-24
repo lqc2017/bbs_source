@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>个人信息</title>
 <link href="/css/user-home.css" rel="stylesheet">
 <%@ include file="source.jsp"%>
@@ -41,7 +43,7 @@
 							src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
 							height="20" width="20"><b class="caret"></b> </a>
 						<ul class="dropdown-menu">
-							<li><p class="p-cur-user">当前用户：${user.nickname}</p></li>
+							<li><p class="p-cur-user">当前用户：${currentUser.nickname}</p></li>
 							<li class="divider"></li>
 							<li><a href="#">个人信息</a></li>
 							<li><a href="#">消息</a></li>
@@ -70,10 +72,26 @@
 			<img src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
 				height="230" class="img-rounded img-responsive">
 			<div>
-				<div class="left-block">关注<p>123<p></div>
-				<div class="right-block">粉丝<p>123<p></div>
+				<div class="left-block">关注<p>${followList.get(0)}<p></div>
+				<div class="right-block">粉丝<p>${followList.get(1)}<p></div>
 			</div>
-			<a class="btn btn-default btn-block btn-op">编辑</a>
+			<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
+				<c:choose>
+				<c:when test="${user.id==currentUser.id }">
+					<a class="btn btn-default btn-block btn-op">编辑</a>
+				</c:when>
+				<c:otherwise>
+				<c:if test="${followed}">
+					<a name="unfo-btn" class="btn btn-default btn-block btn-op">取消关注</a>
+				</c:if>
+				<c:if test="${!followed}">
+					<a name="follow-btn" class="btn btn-default btn-block btn-op">关注</a>
+				</c:if></c:otherwise></c:choose>
+			</c:if>
+			
+			<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication==null }">
+				<a name="follow-btn" class="btn btn-default btn-block btn-op">关注</a>
+			</c:if>
 		</div>
 		<div class="main-panel">
 			<ul id="myTab" class="nav nav-tabs">
@@ -267,6 +285,62 @@
          window.myBar = new Chart(ctx, participateConfig);
          
     }
+    
+    $(".btn-op").bind("click",function(){
+		if ($("a.sign").text() != "") {
+				toastr.info("请登录");
+				$(".sign").trigger("click");
+			}
+	})
+	
+	$("[name='follow-btn']").bind("click",function(){
+		<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
+		var data = {"userId":${user.id},"followerId":${currentUser.id}};
+		var handle = $(this);
+		$.ajax({	
+			async : false,
+			type : "POST",
+			url : "/follow",
+			data : $.param(data),
+			datatype : 'json',
+			success : function(result) {
+				if (result != "fail") {
+					toastr.success("关注成功！");
+					setTimeout(function(){location.reload();},1200);
+				}else{
+					toastr.error("关注失败");
+				}
+			},
+			error : function(jqXHR,textStatus,errorThrown) {
+						alert(textStatus);
+			}
+		});</c:if>
+	})
+	
+	$("[name='unfo-btn']").bind("click",function(){
+		<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
+		var data = {"userId":${user.id},"followerId":${currentUser.id}};
+		var handle = $(this);
+		$.ajax({	
+			async : false,
+			type : "POST",
+			url : "/unfo",
+			data : $.param(data),
+			datatype : 'json',
+			success : function(result) {
+				if (result != "fail") {
+					toastr.success("取关成功！");
+					setTimeout(function(){location.reload();},1200);
+				}else{
+					toastr.error("取关失败");
+				}
+			},
+			error : function(jqXHR,textStatus,errorThrown) {
+						alert(textStatus);
+			}
+		});</c:if>
+	})
+	
 	</script>
 </body>
 

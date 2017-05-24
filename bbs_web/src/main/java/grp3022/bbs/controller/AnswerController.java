@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,10 +81,13 @@ public class AnswerController {
 	 * @return
 	 */
 	@RequestMapping(value = "answer_help")
-	public @ResponseBody String answerHelp(@RequestParam(value = "a")Long answerId,@RequestParam(value = "value")Short value) {
+	public @ResponseBody String answerHelp(@RequestParam(value = "a")Long answerId
+			,@RequestParam(value = "value")Short value,HttpSession session) {
 		try {
-			long userId = 3;
-			
+			if(session.getAttribute("userId")==null){
+				return "fail";
+			}
+			long userId = Long.parseLong(session.getAttribute("userId").toString());
 			/*添加帮助记录*/
 			AnswerHelp answerHelp = new AnswerHelp();
 			answerHelp.setAnswerId(answerId);
@@ -166,13 +170,4 @@ public class AnswerController {
 		/*提交*/
 		userService.updateById(user);
 	}
-	
-	/*
-	 * private String getPrincipal(){ String userName = null; Object principal =
-	 * SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	 * 
-	 * if (principal instanceof UserDetails) { userName =
-	 * ((UserDetails)principal).getUsername(); } else { userName =
-	 * principal.toString(); } return userName; }
-	 */
 }
