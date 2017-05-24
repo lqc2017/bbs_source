@@ -17,19 +17,13 @@ public class BBSUser {
 
     private String qParticipate;
 
-    private String address;
-
     private Integer aqCnt;
 
     private String follow;
 
-    private String college;
+    private String iContact;
 
-    private String company;
-
-    private String email;
-
-    private String qq;
+    private String iAddress;
 
     public Long getId() {
         return id;
@@ -87,14 +81,6 @@ public class BBSUser {
         this.qParticipate = qParticipate == null ? null : qParticipate.trim();
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
-
     public Integer getAqCnt() {
         return aqCnt;
     }
@@ -111,35 +97,19 @@ public class BBSUser {
         this.follow = follow == null ? null : follow.trim();
     }
 
-    public String getCollege() {
-        return college;
+    public String getiContact() {
+        return iContact;
     }
 
-    public void setCollege(String college) {
-        this.college = college == null ? null : college.trim();
+    public void setiContact(String iContact) {
+        this.iContact = iContact == null ? null : iContact.trim();
     }
 
-    public String getCompany() {
-        return company;
+    public String getiAddress() {
+        return iAddress;
     }
 
-    public void setCompany(String company) {
-        this.company = company == null ? null : company.trim();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    public String getQq() {
-        return qq;
-    }
-
-    public void setQq(String qq) {
-        this.qq = qq == null ? null : qq.trim();
+    public void setiAddress(String iAddress) {
+        this.iAddress = iAddress == null ? null : iAddress.trim();
     }
 }
