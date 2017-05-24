@@ -63,39 +63,54 @@
 			String s = sessEnum.nextElement();
 			out.print(s);
 			out.println("==" + request.getSession().getAttribute(s));
-	--%> <!-- <br /> -->
+	--%>
+	<!-- <br /> -->
 	<%--
 		}
 	--%>
 	<div class="container">
 		<div class="left-panel">
-			<img src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
+			<img
+				src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
 				height="230" class="img-rounded img-responsive">
 			<div>
-				<div class="left-block">关注<p>${followList.get(0)}<p></div>
-				<div class="right-block">粉丝<p>${followList.get(1)}<p></div>
+				<div class="left-block">
+					关注
+					<p>${followList.get(0)}
+					<p>
+				</div>
+				<div class="right-block">
+					粉丝
+					<p>${followList.get(1)}
+					<p>
+				</div>
 			</div>
-			<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
+			<c:if
+				test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
 				<c:choose>
-				<c:when test="${user.id==currentUser.id }">
-					<a class="btn btn-default btn-block btn-op">编辑</a>
-				</c:when>
-				<c:otherwise>
-				<c:if test="${followed}">
-					<a name="unfo-btn" class="btn btn-default btn-block btn-op">取消关注</a>
-				</c:if>
-				<c:if test="${!followed}">
-					<a name="follow-btn" class="btn btn-default btn-block btn-op">关注</a>
-				</c:if></c:otherwise></c:choose>
+					<c:when test="${user.id==currentUser.id }">
+						<a class="btn btn-default btn-block btn-op">编辑</a>
+					</c:when>
+					<c:otherwise>
+						<c:if test="${followed}">
+							<a name="unfo-btn" class="btn btn-default btn-block btn-op">取消关注</a>
+						</c:if>
+						<c:if test="${!followed}">
+							<a name="follow-btn" class="btn btn-default btn-block btn-op">关注</a>
+						</c:if>
+					</c:otherwise>
+				</c:choose>
 			</c:if>
-			
-			<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication==null }">
+
+			<c:if
+				test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication==null }">
 				<a name="follow-btn" class="btn btn-default btn-block btn-op">关注</a>
 			</c:if>
 		</div>
 		<div class="main-panel">
 			<ul id="myTab" class="nav nav-tabs">
-				<li class="active"><a class="spacing" href="#information" data-toggle="tab">个人信息</a></li>
+				<li class="active"><a class="spacing" href="#information"
+					data-toggle="tab">个人信息</a></li>
 				<li><a class="spacing" href="#BBS" data-toggle="tab">论坛</a></li>
 				<li><a class="spacing" href="#AQ" data-toggle="tab">问答</a></li>
 				<li><a class="spacing" href="#message" data-toggle="tab">消息</a></li>
@@ -105,14 +120,101 @@
 					<div class="content">用户已设为私密</div>
 				</div>
 				<div class="tab-pane fade" id="BBS">
-					<div class="content">ceshi</div>
+					<div style="display: inline">
+						<div class="content" id="test" style="float: left; width: 450px">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									论坛热帖
+									<div align="right">
+										<button type="button" class="btn btn-info btn-sm">更多</button>
+									</div>
+								</div>
+								<div class="panel-body">
+									<table class="table">
+										<thead>
+											<tr>
+												<td>帖子名称</td>
+												<td>发布者</td>
+												<td>发布时间</td>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><a href="#">python自动运维实战</a></td>
+												<td><a href="#">刘言石</a></td>
+												<td>2016-5-24</td>
+											</tr>
+											<tr>
+												<td><a href="#">python自动运维实战</a></td>
+												<td><a href="#">张绍俊</a></td>
+												<td>2016-5-24</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">论坛达人</div>
+								<div class="panel-body">
+									<table style="border: 0;">
+										<tbody>
+											<tr>
+												<td style="width: 60px"><img
+													src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
+													height="50" width="50" class="img-rounded img-responsive">
+												</td>
+												<td style="width: 50px">
+													<table style="border: 0;">
+														<tbody>
+															<tr>
+																<td align="center"><a href="#">刘言石</a></td>
+															</tr>
+															<tr>
+																<td align="center"><button type="button"
+																		class="btn btn-info btn-xs">关注</button></td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="panel-footer">
+									<div align="right">
+										<button type="button" class="btn btn-info btn-sm">换一批</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="content" id="test" style="float: left; width: 270px">
+							<div class="panel panel-default">
+								<div class="panel-heading">公告栏</div>
+								<div class="panel-body">
+									<table class="table">
+										<thead>
+											<tr>
+												<td><a href="#">python编程比赛报名</a></td>
+											</tr>
+											<tr>
+												<td><a href="#">ACM算法比赛报名</a></td>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+							<div align="right">
+								<button type="button" class="btn btn-success btn-block">我要发帖</button>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="tab-pane fade" id="AQ">
 					<div class="content" id="test">
 						<div class="panel panel-default">
 							<div class="panel-heading">数据</div>
 							<div class="panel-body">
-							
+
 								<div class="data-chart">
 									<canvas id="major" width="400" height="200"></canvas>
 									<div class="text">擅长领域</div>
@@ -128,14 +230,27 @@
 							<div class="panel-body">
 								<c:forEach items="${activities}" var="activity">
 									<p class="p-control">
-										<fmt:formatDate value="${activity.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
-										&nbsp<c:choose>
-											<c:when test="${activity.type==10}"><a href="/u">${user.nickname}</a>提出了问题 <a title="${activity.question.title}" href="/question?q=${activity.question.id}">${activity.question.title}</a>
+										<fmt:formatDate value="${activity.createTime}"
+											pattern="yyyy-MM-dd HH:mm:ss" />
+										&nbsp
+										<c:choose>
+											<c:when test="${activity.type==10}">
+												<a href="/u">${user.nickname}</a>提出了问题 <a
+													title="${activity.question.title}"
+													href="/question?q=${activity.question.id}">${activity.question.title}</a>
 											</c:when>
-											<c:when test="${activity.type==20}"><a href="/u">${user.nickname}</a>回答了<a href="/u">${activity.user.nickname}</a>提出的<a title="${activity.question.title}" href="/question?q=${activity.question.id}">${activity.question.title}</a>
+											<c:when test="${activity.type==20}">
+												<a href="/u">${user.nickname}</a>回答了<a href="/u">${activity.user.nickname}</a>提出的<a
+													title="${activity.question.title}"
+													href="/question?q=${activity.question.id}">${activity.question.title}</a>
 											</c:when>
-											<c:when test="${activity.type==30}"><a href="/u">${user.nickname}</a><c:if test="${activity.isHelpful==1}">赞成</c:if><c:if test="${activity.isHelpful==0}">反对</c:if>
-												<a href="/u">${activity.user.nickname}</a>在<a title="${activity.question.title}" href="/question?q=${activity.question.id}">${activity.question.title}</a>
+											<c:when test="${activity.type==30}">
+												<a href="/u">${user.nickname}</a>
+												<c:if test="${activity.isHelpful==1}">赞成</c:if>
+												<c:if test="${activity.isHelpful==0}">反对</c:if>
+												<a href="/u">${activity.user.nickname}</a>在<a
+													title="${activity.question.title}"
+													href="/question?q=${activity.question.id}">${activity.question.title}</a>
 									上的回答</c:when>
 										</c:choose>
 									</p>
@@ -144,7 +259,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="tab-pane fade" id="message">
 					<div class="content">ceshi</div>
 				</div>
@@ -181,11 +296,12 @@
 											type="password" class="form-control" id="password"
 											name="password" placeholder="密码" required>
 									</div>
-									<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+									<input type="hidden" name="${_csrf.parameterName}"
+										value="${_csrf.token}" />
 
 									<div class="form-actions" style="width: 95%; margin: 0 auto;">
-										<input type="submit"
-											class="btn btn-block btn-primary" value="登陆">
+										<input type="submit" class="btn btn-block btn-primary"
+											value="登陆">
 									</div>
 								</form>
 							</div>
@@ -193,24 +309,25 @@
 						<div class="tab-pane fade" id="BBS1">
 							<div style="margin: 10px 30px 20px 30px">
 								<form action="/signUp" method="post" class="form-horizontal">
-										<label class="label-control" for="username">用户名</label> <input type="text"
-											class="form-control" name="username"
-											placeholder="用户名" required>
-										<label class="label-control" for="password">密码</label> <input
-											type="password" class="form-control"
-											name="password" placeholder="密码" required>
-											<input type="submit"
-											class="btn btn-block btn-success form-control" style="margin:15px 0 0 0;" value="注册">
-											</form>
-									</div>
-									<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+									<label class="label-control" for="username">用户名</label> <input
+										type="text" class="form-control" name="username"
+										placeholder="用户名" required> <label
+										class="label-control" for="password">密码</label> <input
+										type="password" class="form-control" name="password"
+										placeholder="密码" required> <input type="submit"
+										class="btn btn-block btn-success form-control"
+										style="margin: 15px 0 0 0;" value="注册">
+								</form>
 							</div>
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
 						</div>
 					</div>
 				</div>
-
 			</div>
+
 		</div>
+	</div>
 	</div>
 	<script type="text/javascript">
 	var majorConfig = {
