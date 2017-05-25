@@ -28,7 +28,7 @@
 		<div class="collapse navbar-collapse" id="example-navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li class=""><a href="#">论坛</a></li>
-				<li><a href="#">问答</a></li>
+				<li><a href="/q">问答</a></li>
 			</ul>
 			<ul class="nav navbar-nav float-right">
 				<c:if
@@ -73,7 +73,7 @@
 			<div class="questoin-message">
 				<label class="create-time">创建于：<fmt:formatDate
 						value="${question.createTime}" pattern="yyyy-MM-dd" /></label><a
-					class="test" href="">${question.name}</a>
+					class="test" href="/u/${question.createBy}">${question.name}</a>
 			</div>
 		</div>
 	</div>
@@ -100,7 +100,7 @@
 			<div>
 				<div class="panel-body div-control content">${answer.content}</div>
 				<div class="answer-message">
-					<a href="">${answer.name}</a> <label class="create-time"><fmt:formatDate
+					<a href="/u/${answer.createBy}">${answer.name}</a> <label class="create-time"><fmt:formatDate
 							value="${answer.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></label>
 					<label class="helpful-block">
 						<span class="glyphicon  glyphicon-chevron-left default <c:if test="${helpEnable.get(vs.count-1)}">helpless</c:if>"
@@ -229,7 +229,7 @@
 			$.ajax({	
 				async : false,
 				type : "POST",
-				url : "/answer/answer_help",
+				url : "/answer_help",
 				data : $.param(data),
 				datatype : 'json',
 				success : function(result) {
@@ -261,7 +261,7 @@
 			$.ajax({	
 				async : false,
 				type : "POST",
-				url : "/answer",
+				url : "/a",
 				data : $("#add_form").serialize(),
 				datatype : 'json',
 				success : function(result) {

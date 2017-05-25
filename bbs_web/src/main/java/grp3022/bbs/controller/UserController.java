@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
 
+import grp3022.bbs.aop.UpdateMessage;
 import grp3022.bbs.jo.Percentage;
 import grp3022.bbs.po.Answer;
 import grp3022.bbs.po.AnswerHelp;
@@ -60,6 +61,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/u/{userId}")
+	@UpdateMessage(description = "更新消息")
 	public String home(Model model,HttpSession session,@PathVariable Long userId) {
 		if(session.getAttribute("userId")!=null){
 			//处理当前登陆情况判断

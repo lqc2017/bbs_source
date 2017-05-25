@@ -33,7 +33,6 @@ import grp3022.bbs.util.TagUtil;
  *
  */
 @Controller
-@RequestMapping("/answer")
 public class AnswerController {
 
 	@Resource
@@ -51,7 +50,7 @@ public class AnswerController {
 	 * @param answer
 	 * @return
 	 */
-	@RequestMapping(value = "")
+	@RequestMapping(value = "/a")
 	public @ResponseBody String add(Answer answer) {
 		try {
 			System.out.println(answer.getCreateBy());
@@ -67,7 +66,7 @@ public class AnswerController {
 			
 			/*如果是第一次回答问题，统计并更新user*/
 			if(answerService.countBySo(new AnswerSo(user.getId(),answer.getQuestionId()))==1)
-				this.statistic(user);
+				this.participationStatistic(user);
 			
 		} catch (Exception e) {
 			return "fail";
@@ -80,7 +79,7 @@ public class AnswerController {
 	 * @param answer
 	 * @return
 	 */
-	@RequestMapping(value = "answer_help")
+	@RequestMapping(value = "/answer_help")
 	public @ResponseBody String answerHelp(@RequestParam(value = "a")Long answerId
 			,@RequestParam(value = "value")Short value,HttpSession session) {
 		try {
@@ -97,7 +96,7 @@ public class AnswerController {
 			/*更新答案信息*/
 			Answer answer = answerService.getById(answerId);
 			if(value==1)
-				answer.setHelpful(answer.getHelpful()+5);
+				answer.setHelpful(answer.getHelpful()+1);
 			else
 				answer.setHelpful(answer.getHelpful()-1);
 			answerService.updateById(answer);
@@ -149,7 +148,7 @@ public class AnswerController {
 		提交
 		userService.updateById(user);
 	}*/
-	private void statistic(BBSUser user){
+	private void participationStatistic(BBSUser user){
 		/*（查询）获得回答的过的问题id集合*/
 		List<Long> qIds = answerService.getQIdsByCreateBy(user.getId());
 		user.setAqCnt(qIds.size());

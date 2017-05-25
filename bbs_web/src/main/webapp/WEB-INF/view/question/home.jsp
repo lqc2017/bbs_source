@@ -93,7 +93,7 @@
 					</div>
 				</div>
 				<div class="info">
-				<div class="title"><a href="/question?q=${question.id}">${question.title}</a></div>
+				<div class="title"><a href="/q/${question.id}">${question.title}</a></div>
 				<div class="status"><c:if test="${question.status==20}"><span class="label label-default">已解决</span></c:if></div>
 					<div class="tag">
 					<c:set var="key" value="${question.id.toString()}"/>
@@ -103,7 +103,7 @@
 					</div>
 					<div class="message">
 					<div class="username">
-						<a href="">${question.name}</a>
+						<a href="/u/${question.createBy}">${question.name}</a>
 					</div>
 					<div>|</div>
 					<div class="createtime">${format.getTime(question.createTime)}</div>
@@ -114,7 +114,7 @@
 		<div id="paginator" style="width: 30%; margin: 10px auto;"></div>
 	</div>
 
-	<form id="search_form" class="form-inline" method="get" action="/question/home">
+	<form id="search_form" class="form-inline" method="get" action="/q">
 		<input name="keywords" type="hidden" value="${questionSo.keywords}" />
 		<input name="tagIndex" type="hidden" value="${questionSo.tagIndex}" />
 		<input name="timeFrame" type="hidden" value="${questionSo.timeFrame}" />

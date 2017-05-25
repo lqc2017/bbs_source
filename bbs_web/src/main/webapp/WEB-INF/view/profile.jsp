@@ -28,7 +28,7 @@
 		<div class="collapse navbar-collapse" id="example-navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li class=""><a href="#">论坛</a></li>
-				<li><a href="#">问答</a></li>
+				<li><a href="/q">问答</a></li>
 			</ul>
 			<ul class="nav navbar-nav float-right">
 				<c:if
@@ -46,7 +46,7 @@
 							<li><p class="p-cur-user">当前用户：${currentUser.nickname}</p></li>
 							<li class="divider"></li>
 							<li><a href="#">个人信息</a></li>
-							<li><a href="#">消息</a></li>
+							<li><a href="#">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
 							<li class="divider"></li>
 							<li><a href="/logout">登出</a></li>
 							<li class="divider"></li>
@@ -114,6 +114,7 @@
 				<li><a class="spacing" href="#BBS" data-toggle="tab">论坛</a></li>
 				<li><a class="spacing" href="#AQ" data-toggle="tab">问答</a></li>
 				<li><a class="spacing" href="#message" data-toggle="tab">消息</a></li>
+				<li><a class="spacing" href="#setting" data-toggle="tab">设置</a></li>
 			</ul>
 			<div id="myTabContent" class="tab-content">
 				<div class="tab-pane fade  in active" id="information">
@@ -261,6 +262,12 @@
 				</div>
 
 				<div class="tab-pane fade" id="message">
+					<div class="content">
+						
+					</div>
+				</div>
+				
+				<div class="tab-pane fade" id="setting">
 					<div class="content">ceshi</div>
 				</div>
 			</div>

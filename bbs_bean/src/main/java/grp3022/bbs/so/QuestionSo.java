@@ -28,6 +28,11 @@ public class QuestionSo {
 		this.setCreateBy(createBy);
 	}
 
+	public QuestionSo(Long createBy, Short status) {
+		this.setCreateBy(createBy);
+		this.setStatus(status);
+	}
+
 	public Short getStatus() {
         return status;
     }

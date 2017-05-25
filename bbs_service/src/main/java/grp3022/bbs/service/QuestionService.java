@@ -19,5 +19,5 @@ public interface QuestionService {
 	
 	PageInfo<Question> getPageBySo(QuestionSo so,Integer pageNo,Integer size);
 
-	List<Long> getIdsBySo(QuestionSo questionSo);
+	List<Question> getAllBySo(QuestionSo questionSo);
 }

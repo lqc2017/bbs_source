@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,7 +40,6 @@ import grp3022.bbs.util.TagUtil;
  *
  */
 @Controller
-@RequestMapping("/question")
 public class QuestionController {
 
 	@Resource
@@ -52,12 +52,14 @@ public class QuestionController {
 	private BBSUserService userService;
 	private final String pathPrefix = "question";
 
+	
 	/**
-	 * 2017年5月13日 下午5:22:21
-	 * 
+	 * 2017年5月25日 下午3:13:16
+	 * @param questionSo
+	 * @param pn
 	 * @return
 	 */
-	@RequestMapping(value = "/home")
+	@RequestMapping(value = "/q")
 	public ModelAndView home(QuestionSo questionSo, Integer pn) {
 		if ((questionSo.getKeywords() == null || questionSo.getKeywords().equals(""))
 				&& questionSo.getTimeFrame() == null)
@@ -94,23 +96,29 @@ public class QuestionController {
 	/**
 	 * 2017年5月19日 上午9:09:39
 	 * 
-	 * @param q问题id
+	 * @param qId问题id
 	 * @param answerSo
 	 * @return
 	 */
-	@RequestMapping(value = "")
-	public String question(Long q, AnswerSo answerSo,HttpSession session,Model model) {
+	@RequestMapping(value = "/q/{qId}")
+	public String question(@PathVariable Long qId, AnswerSo answerSo,HttpSession session,Model model) {
+		/*初始化问题*/
+		Question question = questionService.getById(qId);
 		/* 初始化问题答案 */
 		if (answerSo == null)
 			answerSo = new AnswerSo();
-		answerSo.setQuestionId(q);
+		answerSo.setQuestionId(qId);
 		List<Answer> answers = answerService.getAllBySo(answerSo);
 		
 		if(session.getAttribute("userId")!=null){
 			long userId = Long.parseLong(session.getAttribute("userId").toString());
 			BBSUser user = userService.getById(userId);
 			
-			/* 初始化评价 */
+			if(userId==question.getCreateBy()){
+				question.setReminder(question.getAnswers());
+			}
+			
+			/* 初始化是否评价 */
 			List<Boolean> helpEnable = new ArrayList<Boolean>();
 			for (Answer answer : answers) {
 				AnswerHelpKey key = new AnswerHelpKey();
@@ -127,7 +135,6 @@ public class QuestionController {
 		}
 		
 		/* 更新问题信息 */
-		Question question = questionService.getById(q);
 		question.setViews(question.getViews() + 1);
 		questionService.updateById(question);
 		
@@ -150,24 +157,9 @@ public class QuestionController {
 	}
 
 	/**
-	 * 2017年5月13日 下午6:30:10
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/list")
-	public ModelAndView list(QuestionSo questionSo, Integer pn) {
-		PageInfo<Question> pageInfo = questionService.getPageBySo(questionSo, pn, null);
-		ModelAndView mav = new ModelAndView(pathPrefix + "/list");
-		mav.addObject("pageInfo", pageInfo);
-		mav.addObject("so", questionSo);
-		mav.addObject("username", "username");
-		mav.addObject("format", new Format());
-		return mav;
-	}
-
-	/**
-	 * 2017年5月13日 下午5:22:38
-	 * 
+	 * 2017年5月25日 下午3:13:40
+	 * @param model
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/edit")

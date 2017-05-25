@@ -1,6 +1,5 @@
 package grp3022.bbs.service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +13,6 @@ import com.github.pagehelper.PageInfo;
 import grp3022.bbs.dao.QuestionMapper;
 import grp3022.bbs.po.Question;
 import grp3022.bbs.po.QuestionExample;
-import grp3022.bbs.po.QuestionExample.Criteria;
 import grp3022.bbs.so.QuestionSo;
 
 @Service
@@ -87,7 +85,7 @@ public class QuestionServiceImpl implements QuestionService {
 		return page;
 	}
 
-	@Override
+	/*@Override
 	public List<Long> getIdsBySo(QuestionSo questionSo) {
 		QuestionExample example = new QuestionExample();
 		Criteria c = example.or();
@@ -98,5 +96,11 @@ public class QuestionServiceImpl implements QuestionService {
 			ids.add(record.getId());
 		}
 		return ids;
+	}*/
+
+	@Override
+	public List<Question> getAllBySo(QuestionSo so) {
+		List<Question> records = questionDao.selectBySo(so);
+		return records;
 	}
 }
