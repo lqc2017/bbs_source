@@ -121,41 +121,67 @@
 					<div class="content">用户已设为私密</div>
 				</div>
 				<div class="tab-pane fade" id="BBS">
-					<div style="display: inline">
-						<div class="content" id="test" style="float: left; width: 450px">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									论坛热帖
-									<div align="right">
-										<button type="button" class="btn btn-info btn-sm">更多</button>
-									</div>
-								</div>
-								<div class="panel-body">
-									<table class="table">
-										<thead>
-											<tr>
-												<td>帖子名称</td>
-												<td>发布者</td>
-												<td>发布时间</td>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td><a href="#">python自动运维实战</a></td>
-												<td><a href="#">刘言石</a></td>
-												<td>2016-5-24</td>
-											</tr>
-											<tr>
-												<td><a href="#">python自动运维实战</a></td>
-												<td><a href="#">张绍俊</a></td>
-												<td>2016-5-24</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+					<div class="content" id="test">
+						<div class="panel panel-default">
+							<div class="panel-heading">我的帖子（最新动态十条）</div>
+							<div class="panel-body">
+								<table class="table">
+									<thead>
+										<tr>
+											<td>帖子名称</td>
+											<td>发布者</td>
+											<td>发布时间</td>
+											<td>最后回复时间</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><a href="#">python自动运维实战</a></td>
+											<td><a href="#">刘言石</a></td>
+											<td>2017-5-23</td>
+											<td>2017-5-25</td>
+										</tr>
+										<tr>
+											<td><a href="#">python自动运维实战</a></td>
+											<td><a href="#">张绍俊</a></td>
+											<td>2017-5-23</td>
+											<td>2017-5-24</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">论坛达人</div>
+					</div>
+					<div class="panel panel-default">
+							<div class="panel-heading">最近浏览（最近五条）</div>
+							<div class="panel-body">
+								<table class="table">
+									<thead>
+										<tr>
+											<td>帖子名称</td>
+											<td>发布者</td>
+											<td>发布时间</td>
+											<td>最后浏览时间</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><a href="#">python自动运维实战</a></td>
+											<td><a href="#">刘言石</a></td>
+											<td>2017-5-23</td>
+											<td>2017-5-25</td>
+										</tr>
+										<tr>
+											<td><a href="#">python自动运维实战</a></td>
+											<td><a href="#">张绍俊</a></td>
+											<td>2017-5-23</td>
+											<td>2017-5-24</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+					</div>
+					<div class="panel panel-default" style="width: 450px">
+								<div class="panel-heading">推荐达人</div>
 								<div class="panel-body">
 									<table style="border: 0;">
 										<tbody>
@@ -187,28 +213,10 @@
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="content" id="test" style="float: left; width: 270px">
-							<div class="panel panel-default">
-								<div class="panel-heading">公告栏</div>
-								<div class="panel-body">
-									<table class="table">
-										<thead>
-											<tr>
-												<td><a href="#">python编程比赛报名</a></td>
-											</tr>
-											<tr>
-												<td><a href="#">ACM算法比赛报名</a></td>
-											</tr>
-										</thead>
-									</table>
-								</div>
-							</div>
-							<div align="right">
-								<button type="button" class="btn btn-success btn-block">我要发帖</button>
+							<div align="center">
+								<button type="button" class="btn btn-success btn-lg">我要发帖</button>
 							</div>
 						</div>
-					</div>
 				</div>
 				<div class="tab-pane fade" id="AQ">
 					<div class="content" id="test">
