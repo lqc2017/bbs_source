@@ -834,6 +834,76 @@ public class BBSUserExample {
             addCriterion("I_ADDRESS not between", value1, value2, "iAddress");
             return (Criteria) this;
         }
+
+        public Criteria andProtraitUrlIsNull() {
+            addCriterion("PROTRAIT_URL is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlIsNotNull() {
+            addCriterion("PROTRAIT_URL is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlEqualTo(String value) {
+            addCriterion("PROTRAIT_URL =", value, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlNotEqualTo(String value) {
+            addCriterion("PROTRAIT_URL <>", value, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlGreaterThan(String value) {
+            addCriterion("PROTRAIT_URL >", value, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("PROTRAIT_URL >=", value, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlLessThan(String value) {
+            addCriterion("PROTRAIT_URL <", value, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlLessThanOrEqualTo(String value) {
+            addCriterion("PROTRAIT_URL <=", value, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlLike(String value) {
+            addCriterion("PROTRAIT_URL like", value, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlNotLike(String value) {
+            addCriterion("PROTRAIT_URL not like", value, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlIn(List<String> values) {
+            addCriterion("PROTRAIT_URL in", values, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlNotIn(List<String> values) {
+            addCriterion("PROTRAIT_URL not in", values, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlBetween(String value1, String value2) {
+            addCriterion("PROTRAIT_URL between", value1, value2, "protraitUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtraitUrlNotBetween(String value1, String value2) {
+            addCriterion("PROTRAIT_URL not between", value1, value2, "protraitUrl");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

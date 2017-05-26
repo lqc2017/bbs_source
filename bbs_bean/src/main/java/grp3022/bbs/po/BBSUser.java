@@ -25,6 +25,8 @@ public class BBSUser {
 
     private String iAddress;
 
+    private String protraitUrl;
+
     public Long getId() {
         return id;
     }
@@ -111,5 +113,13 @@ public class BBSUser {
 
     public void setiAddress(String iAddress) {
         this.iAddress = iAddress == null ? null : iAddress.trim();
+    }
+
+    public String getProtraitUrl() {
+        return protraitUrl;
+    }
+
+    public void setProtraitUrl(String protraitUrl) {
+        this.protraitUrl = protraitUrl == null ? null : protraitUrl.trim();
     }
 }
