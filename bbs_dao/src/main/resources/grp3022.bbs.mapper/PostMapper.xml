@@ -13,6 +13,8 @@
     <result column="FLOOR" property="floor" jdbcType="DECIMAL" />
     <result column="POST_USER" property="postUser" jdbcType="DECIMAL" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="REWARDS" property="rewards" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CONTENT, TITLE, POST_TIME, TAGS, VIEWS, REPLYS, STATUS, FLOOR, POST_USER, UPDATE_TIME
+    ID, CONTENT, TITLE, POST_TIME, TAGS, VIEWS, REPLYS, STATUS, FLOOR, POST_USER, UPDATE_TIME, 
+    REWARDS, NAME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.PostExample" >
     select
@@ -109,11 +112,13 @@
     insert into POST (ID, CONTENT, TITLE, 
       POST_TIME, TAGS, VIEWS, 
       REPLYS, STATUS, FLOOR, 
-      POST_USER, UPDATE_TIME)
+      POST_USER, UPDATE_TIME, REWARDS, 
+      NAME)
     values (#{id,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
       #{postTime,jdbcType=TIMESTAMP}, #{tags,jdbcType=VARCHAR}, #{views,jdbcType=DECIMAL}, 
       #{replys,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{floor,jdbcType=DECIMAL}, 
-      #{postUser,jdbcType=DECIMAL}, #{updateTime,jdbcType=TIMESTAMP})
+      #{postUser,jdbcType=DECIMAL}, #{updateTime,jdbcType=TIMESTAMP}, #{rewards,jdbcType=DECIMAL}, 
+      #{name,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.Post" >
     insert into POST
@@ -151,6 +156,12 @@
       <if test="updateTime != null" >
         UPDATE_TIME,
       </if>
+      <if test="rewards != null" >
+        REWARDS,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -185,6 +196,12 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rewards != null" >
+        #{rewards,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -230,6 +247,12 @@
       <if test="record.updateTime != null" >
         UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.rewards != null" >
+        REWARDS = #{record.rewards,jdbcType=DECIMAL},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -247,7 +270,9 @@
       STATUS = #{record.status,jdbcType=DECIMAL},
       FLOOR = #{record.floor,jdbcType=DECIMAL},
       POST_USER = #{record.postUser,jdbcType=DECIMAL},
-      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      REWARDS = #{record.rewards,jdbcType=DECIMAL},
+      NAME = #{record.name,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -285,6 +310,12 @@
       <if test="updateTime != null" >
         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="rewards != null" >
+        REWARDS = #{rewards,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
@@ -299,7 +330,9 @@
       STATUS = #{status,jdbcType=DECIMAL},
       FLOOR = #{floor,jdbcType=DECIMAL},
       POST_USER = #{postUser,jdbcType=DECIMAL},
-      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      REWARDS = #{rewards,jdbcType=DECIMAL},
+      NAME = #{name,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
 </mapper>

@@ -56,6 +56,7 @@
 		<form id="add_form" class="form-horizontal" action="/bulletin/add" method="post">
 			<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
 			<input type="hidden" name="postUser" value="${user.id}"/>
+			<input type="hidden" name="name" value="${user.nickname}"/>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">标题</label><div class="col-sm-6"><input class="form-control" name="title" data-toggle="collapse" data-parent="#accordion"/></div>
 			</div>

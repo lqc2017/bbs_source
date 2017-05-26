@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 
 import grp3022.bbs.po.Post;
-import grp3022.bbs.so.PostSo;
+import grp3022.bbs.po.PostExample;
 
 public interface PostService {
 	
@@ -14,5 +14,6 @@ public interface PostService {
 	Long add(Post record);
 	
 	void updateById(Post record);
-
+	
+	List<Post> getAllByPo(PostExample record);
 }

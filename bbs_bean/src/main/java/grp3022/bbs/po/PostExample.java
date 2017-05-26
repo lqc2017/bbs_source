@@ -794,6 +794,136 @@ public class PostExample {
             addCriterion("UPDATE_TIME not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
+
+        public Criteria andRewardsIsNull() {
+            addCriterion("REWARDS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsIsNotNull() {
+            addCriterion("REWARDS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsEqualTo(Short value) {
+            addCriterion("REWARDS =", value, "rewards");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsNotEqualTo(Short value) {
+            addCriterion("REWARDS <>", value, "rewards");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsGreaterThan(Short value) {
+            addCriterion("REWARDS >", value, "rewards");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsGreaterThanOrEqualTo(Short value) {
+            addCriterion("REWARDS >=", value, "rewards");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsLessThan(Short value) {
+            addCriterion("REWARDS <", value, "rewards");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsLessThanOrEqualTo(Short value) {
+            addCriterion("REWARDS <=", value, "rewards");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsIn(List<Short> values) {
+            addCriterion("REWARDS in", values, "rewards");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsNotIn(List<Short> values) {
+            addCriterion("REWARDS not in", values, "rewards");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsBetween(Short value1, Short value2) {
+            addCriterion("REWARDS between", value1, value2, "rewards");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardsNotBetween(Short value1, Short value2) {
+            addCriterion("REWARDS not between", value1, value2, "rewards");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNull() {
+            addCriterion("NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNotNull() {
+            addCriterion("NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("NAME =", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("NAME <>", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("NAME >", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("NAME >=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThan(String value) {
+            addCriterion("NAME <", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("NAME <=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLike(String value) {
+            addCriterion("NAME like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotLike(String value) {
+            addCriterion("NAME not like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("NAME in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("NAME not in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("NAME between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("NAME not between", value1, value2, "name");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

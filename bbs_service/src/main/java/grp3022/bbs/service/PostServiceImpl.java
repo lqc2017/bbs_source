@@ -13,11 +13,7 @@ import com.github.pagehelper.PageInfo;
 
 import grp3022.bbs.dao.PostMapper;
 import grp3022.bbs.po.Post;
-import grp3022.bbs.po.Question;
-import grp3022.bbs.po.QuestionExample;
-import grp3022.bbs.po.QuestionExample.Criteria;
-import grp3022.bbs.so.PostSo;
-import grp3022.bbs.so.QuestionSo;
+import grp3022.bbs.po.PostExample;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -43,6 +39,12 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public void updateById(Post record) {
 		postDao.updateByPrimaryKeySelective(record);
+	}
+	
+	@Override
+	public List<Post> getAllByPo(PostExample record){
+		List<Post> post = postDao.selectByExample(record);
+		return post;
 	}
 	
 }
