@@ -13,6 +13,7 @@
     <result column="FOLLOW" property="follow" jdbcType="VARCHAR" />
     <result column="I_CONTACT" property="iContact" jdbcType="VARCHAR" />
     <result column="I_ADDRESS" property="iAddress" jdbcType="VARCHAR" />
+    <result column="PROTRAIT_URL" property="protraitUrl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, NICKNAME, SEX, TELEPHONE, BIRTHDAY, Q_MAJOR, Q_PARTICIPATE, AQ_CNT, FOLLOW, I_CONTACT, 
-    I_ADDRESS
+    I_ADDRESS, PROTRAIT_URL
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.BBSUserExample" >
     select
@@ -110,11 +111,13 @@
     insert into BBS_USER (ID, NICKNAME, SEX, 
       TELEPHONE, BIRTHDAY, Q_MAJOR, 
       Q_PARTICIPATE, AQ_CNT, FOLLOW, 
-      I_CONTACT, I_ADDRESS)
+      I_CONTACT, I_ADDRESS, PROTRAIT_URL
+      )
     values (#{id,jdbcType=DECIMAL}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=DECIMAL}, 
       #{telephone,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{qMajor,jdbcType=VARCHAR}, 
       #{qParticipate,jdbcType=VARCHAR}, #{aqCnt,jdbcType=DECIMAL}, #{follow,jdbcType=VARCHAR}, 
-      #{iContact,jdbcType=VARCHAR}, #{iAddress,jdbcType=VARCHAR})
+      #{iContact,jdbcType=VARCHAR}, #{iAddress,jdbcType=VARCHAR}, #{protraitUrl,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.BBSUser" >
     insert into BBS_USER
@@ -152,6 +155,9 @@
       <if test="iAddress != null" >
         I_ADDRESS,
       </if>
+      <if test="protraitUrl != null" >
+        PROTRAIT_URL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -186,6 +192,9 @@
       </if>
       <if test="iAddress != null" >
         #{iAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="protraitUrl != null" >
+        #{protraitUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,6 +240,9 @@
       <if test="record.iAddress != null" >
         I_ADDRESS = #{record.iAddress,jdbcType=VARCHAR},
       </if>
+      <if test="record.protraitUrl != null" >
+        PROTRAIT_URL = #{record.protraitUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +260,8 @@
       AQ_CNT = #{record.aqCnt,jdbcType=DECIMAL},
       FOLLOW = #{record.follow,jdbcType=VARCHAR},
       I_CONTACT = #{record.iContact,jdbcType=VARCHAR},
-      I_ADDRESS = #{record.iAddress,jdbcType=VARCHAR}
+      I_ADDRESS = #{record.iAddress,jdbcType=VARCHAR},
+      PROTRAIT_URL = #{record.protraitUrl,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +299,9 @@
       <if test="iAddress != null" >
         I_ADDRESS = #{iAddress,jdbcType=VARCHAR},
       </if>
+      <if test="protraitUrl != null" >
+        PROTRAIT_URL = #{protraitUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
@@ -300,7 +316,8 @@
       AQ_CNT = #{aqCnt,jdbcType=DECIMAL},
       FOLLOW = #{follow,jdbcType=VARCHAR},
       I_CONTACT = #{iContact,jdbcType=VARCHAR},
-      I_ADDRESS = #{iAddress,jdbcType=VARCHAR}
+      I_ADDRESS = #{iAddress,jdbcType=VARCHAR},
+      PROTRAIT_URL = #{protraitUrl,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
 </mapper>
