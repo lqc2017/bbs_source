@@ -23,7 +23,7 @@
 			login-page="/login" password-parameter="password" username-parameter="ssoId" 
 			/> -->
 
-		<csrf></csrf>
+		<csrf request-matcher-ref="csrfSecurityRequestMatcher"></csrf>
 	</http>
 
 
@@ -37,5 +37,13 @@
 
 	<beans:bean class="grp3022.bbs.security.LoginSuccessHandler"
 		id="loginSuccessHandler">
+	</beans:bean>
+	
+	 <beans:bean id="csrfSecurityRequestMatcher" class="grp3022.bbs.security.CsrfSecurityRequestMatcher">
+		<beans:property name="execludeUrls">
+			<beans:list>
+				<beans:value>/ckeditorUpload</beans:value>
+			</beans:list>
+		</beans:property>
 	</beans:bean>
 </beans:beans>
