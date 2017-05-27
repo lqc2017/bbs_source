@@ -84,4 +84,14 @@ a.sign{
 	font-size:15px;
 }
 
+div.info-nav{
+	font-size:20px;
+}
 
+input.round,select.round{
+	border-radius: 4px; border: 1px solid #ccc;
+}
+
+img {
+  max-width: 100%; /* This rule is very important, please do not ignore this! */
+}

@@ -53,7 +53,7 @@
 	</div>
 	</nav>
 	<div style="width: 800px; margin: 20px 200px 0 200px;">
-		<form id="add_form" class="form-horizontal" action="/question/add" method="post">
+		<form id="add_form" class="form-horizontal" action="/q/add" method="post">
 			<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
 			<input type="hidden" name="name" value="${user.nickname}"/>
 			<input type="hidden" name="createBy" value="${user.id}"/>

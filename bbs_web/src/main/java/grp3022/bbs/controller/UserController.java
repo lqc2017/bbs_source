@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSON;
 
 import grp3022.bbs.aop.UpdateMessage;
+import grp3022.bbs.jo.AddressInfo;
+import grp3022.bbs.jo.ContactInfo;
 import grp3022.bbs.jo.Percentage;
 import grp3022.bbs.po.Answer;
 import grp3022.bbs.po.AnswerHelp;
@@ -78,12 +80,34 @@ public class UserController {
 			}
 		}
 		BBSUser user = userService.getById(userId);
+		this.loadInfomation(user,model);
 		this.loadFolow(user,model);
 		this.loadData(user,model);
 		this.loadActivity(user,model);
 		model.addAttribute("user",user);
 		
 		return "profile";
+	}
+
+	@RequestMapping(value = "/u/update")
+	public String update(BBSUser user, ContactInfo contactInfo, AddressInfo addressInfo, HttpSession session) {
+		try {
+			long currentUserId = Long.parseLong(session.getAttribute("userId").toString());
+			user.setId(currentUserId);
+			if(contactInfo.getEmail()!=null&&contactInfo.getMobilephone()!=null&&contactInfo.getQq()!=null){
+				System.out.println(JSON.toJSONString(contactInfo));
+				user.setiContact(JSON.toJSONString(contactInfo));
+			}
+			if(addressInfo.getSchool()!=null&&addressInfo.getCompany()!=null&&addressInfo.getHome()!=null){
+				System.out.println(JSON.toJSONString(addressInfo));
+				user.setiAddress(JSON.toJSONString(addressInfo));
+			}
+			userService.updateById(user);
+			return "redirect:/u/" + user.getId();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "/question/ask_fail";
+		}
 	}
 	
 	/**
@@ -171,5 +195,15 @@ public class UserController {
 			activities = activities.subList(0, itemSize-1);
 		
 		model.addAttribute("activities", activities);
+	}
+	
+	private void loadInfomation(BBSUser user, Model model) {
+		String contactStr = user.getiContact();
+		ContactInfo contactInfo = JSON.parseObject(contactStr, ContactInfo.class);
+		model.addAttribute("contactInfo", contactInfo);
+		
+		String addressStr = user.getiAddress();
+		AddressInfo addressInfo = JSON.parseObject(addressStr, AddressInfo.class);
+		model.addAttribute("addressInfo", addressInfo);
 	}
 }

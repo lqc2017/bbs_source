@@ -118,7 +118,7 @@
 	</div>
 	<c:if test="${question.status==10&&user.id!=question.createBy}">
 	<div class="input" id="input">
-		<form id="add_form" method="post" action="/answer">
+		<form id="add_form" method="post">
 			<input type="hidden" name="name" value="${user.nickname}"/>
 			<input type="hidden" name="createBy" value="${user.id}"/>
 			<textarea id="ckeditor" name="content" cols="20" rows="5"

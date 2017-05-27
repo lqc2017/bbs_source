@@ -162,7 +162,7 @@ public class QuestionController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/edit")
+	@RequestMapping(value = "/q/edit")
 	public String edit(Model model,HttpSession session) {
 		if(session.getAttribute("userId")!=null){
 			long userId = Long.parseLong(session.getAttribute("userId").toString());
@@ -178,7 +178,7 @@ public class QuestionController {
 	 * @param question
 	 * @return
 	 */
-	@RequestMapping(value = "/add")
+	@RequestMapping(value = "/q/add")
 	public String add(Question question) {
 		try {
 			questionService.add(question);
@@ -196,7 +196,7 @@ public class QuestionController {
 	 * @param u解决发起者id
 	 * @return
 	 */
-	@RequestMapping(value = "/solved")
+	@RequestMapping(value = "/q/solved")
 	public @ResponseBody String solved(Long q, Long u) {
 		try {
 			/* 更新问题状态 */

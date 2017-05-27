@@ -28,5 +28,5 @@ CKEDITOR.editorConfig = function(config) {
 
 	config.removeButtons = 'Source,Save,NewPage,Preview,Print,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Templates,Subscript,Superscript,RemoveFormat,CopyFormatting,NumberedList,BulletedList,Indent,Outdent,Blockquote,CreateDiv,JustifyCenter,JustifyLeft,JustifyRight,JustifyBlock,Language,BidiRtl,BidiLtr,Anchor,Cut,Flash,Table,Smiley,SpecialChar,PageBreak,Iframe,Styles,TextColor,BGColor,ShowBlocks,Maximize,About,Format,Font,FontSize';
 
-	config.filebrowserUploadUrl="/question/ckeditorUpload";
+	config.filebrowserUploadUrl="/ckeditorUpload";
 };
