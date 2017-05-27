@@ -58,7 +58,17 @@
 	<div align="center">
 		<div class="content" id="test" style="width: 800px">
 			<div class="panel panel-default">
-				<div class="panel-heading" align="left">${post.title}</div>
+				<div class="panel-heading" align="left">${post.title}
+					<c:if test="${post.status==1}"><span class="label label-default">已结帖</span></c:if>
+					<br><br>
+					<c:if test="${tags.size()!=0}">
+					<div class="questoin-tags">
+						<c:forEach items="${tags}" var="tag" varStatus="vs">
+							<a class="tag" href="#">${tag.name}</a>
+						</c:forEach>
+					</div>
+					</c:if>
+				</div>
 				<div class="panel-body">
 					<table class="table table-bordered">
 						<tbody>
@@ -83,7 +93,7 @@
 														class="btn btn-info">关注</button></td>
 											</tr>
 											<tr>
-												<td align="center"><a href="#">刘言石</a></td>
+												<td align="center"><a href="#">${post.name}</a></td>
 											</tr>
 										</tbody>
 									</table>
@@ -96,19 +106,80 @@
 									<div style="display: inline">
 										回复数：${post.replys}
 										<div class="btn-group" style="float: right;">
-											<button type="button" class="btn btn-default">赞一下</button>
-											<button type="button" class="btn btn-default">踩一下</button>
-											<button type="button" class="btn btn-default">引用</button>
+											<button type="button" class="btn btn-default">收藏本帖</button>
 										</div>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
+					<c:set var="floor" scope="session" value="${0}"/>
+					<c:forEach items="${replys}" var="replys" varStatus="vs">
+					<c:set var="floor" scope="session" value="${floor+1}"/>
+					<table class="table table-bordered">
+						<tbody>
+							<tr>
+								<td></td>
+								<td><div style="display: inline">
+										回复时间：${replys.replyTime}
+										<div style="float: right;">${floor}楼</div>
+									</div></td>
+							</tr>
+							<tr>
+								<td align="center" style="width: 150px">
+									<table style="border: 0;">
+										<tbody>
+											<tr>
+												<td align="center"><img
+													src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
+													height="100" width="100" class="img-rounded img-responsive"></td>
+											</tr>
+											<tr>
+												<td  height="60px" align="center"><button type="button"
+														class="btn btn-info">关注</button></td>
+											</tr>
+											<tr>
+												<td align="center"><a href="#">${replys.name}</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+								<td>${replys.content}</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<div style="display: inline">
+										<c:if test="${helpEnable.get(vs.count-1)==0}">
+										<div class="btn-group" style="float: right;">
+											<button r="${replys.id}" value="1" name="helpful-btn" type="button" class="btn btn-default">赞一下</button>
+											<button r="${replys.id}" value="2" name="helpless-btn" type="button" class="btn btn-default">踩一下</button>
+											<button type="button" class="btn btn-default">引用</button>
+										</div>
+										</c:if>
+										<c:if test="${helpEnable.get(vs.count-1)==1}">
+										<div class="btn-group" style="float: right;">
+											<button disabled="disabled" type="button" class="btn btn-default">已赞</button>
+											<button type="button" class="btn btn-default">引用</button>
+										</div>
+										</c:if>
+										<c:if test="${helpEnable.get(vs.count-1)==2}">
+										<div class="btn-group" style="float: right;">
+											<button disabled="disabled" type="button" class="btn btn-default">已踩</button>
+											<button type="button" class="btn btn-default">引用</button>
+										</div>
+										</c:if>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
 	</div>
+	<c:if test="${post.status==0}">
 	<div align="center">
 		<div style="width: 800px;">
 			<form id="add_form" class="form-horizontal" action="/bulletin/reply" method="post">
@@ -129,6 +200,7 @@
 			<button name="add-btn" style="float:right" class="btn btn-success">回复</button>
 		</div>
 	</div>
+	</c:if>
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog" style="width: 400px;">
@@ -214,6 +286,31 @@
 				}
 			});
 		})
+		
+		$("button[name='helpless-btn'],button[name='helpful-btn']").bind("click",function(){
+			var value = $(this).attr("value");
+			var r = $(this).attr("r");
+			var data = {"value":value,"r":r};
+			
+			$.ajax({	
+				async : false,
+				type : "POST",
+				url : "/bulletin/reply_help",
+				data : $.param(data),
+				datatype : 'json',
+				success : function(result) {
+					if (result != "fail") {
+						toastr.success("评价成功！");
+						setTimeout(function(){location.reload();},1500);
+					}else{
+						toastr.error("评价失败");
+					}
+				},
+				error : function(jqXHR,textStatus,errorThrown) {
+							alert(textStatus);
+				}
+			});
+		});
 	</script>
 </body>
 </html>

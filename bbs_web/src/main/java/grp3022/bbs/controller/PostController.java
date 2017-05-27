@@ -23,8 +23,12 @@ import grp3022.bbs.po.BBSUser;
 import grp3022.bbs.po.Post;
 import grp3022.bbs.po.PostExample;
 import grp3022.bbs.po.Question;
+import grp3022.bbs.po.Reply;
+import grp3022.bbs.po.ReplyHelpKey;
 import grp3022.bbs.service.BBSUserService;
 import grp3022.bbs.service.PostService;
+import grp3022.bbs.service.ReplyHelpService;
+import grp3022.bbs.service.ReplyService;
 import grp3022.bbs.so.AnswerSo;
 import grp3022.bbs.so.QuestionSo;
 import grp3022.bbs.type.Tag;
@@ -40,6 +44,10 @@ public class PostController {
 	private BBSUserService userService;
 	@Resource
 	private PostService postService;
+	@Resource
+	private ReplyService replyService;
+	@Resource
+	private ReplyHelpService replyHelpService;
 	private final String pathPrefix = "bulletin";
 	
 	
@@ -80,12 +88,14 @@ public class PostController {
 		System.out.print(""+pId);
 		/*初始化帖子*/
 		Post post = postService.getById(pId);
-		
+		long userId = Long.parseLong(session.getAttribute("userId").toString());
 		if(session.getAttribute("userId")!=null){
-			long userId = Long.parseLong(session.getAttribute("userId").toString());
 			BBSUser user = userService.getById(userId);
 			model.addAttribute("user", user);
 		}
+		
+		/*初始化回复*/
+		List<Reply> replys = replyService.getAllByPostId(pId);
 		
 		/* 更新问题信息 */
 		post.setViews(post.getViews() + 1);
@@ -101,9 +111,29 @@ public class PostController {
 				}
 			}
 		}
+		
+		/*初始化是否点赞*/ 
+		List<Integer> helpEnable = new ArrayList<Integer>();
+		int i=0;
+		for (Reply reply : replys) {
+			ReplyHelpKey key = new ReplyHelpKey();
+			key.setUserId(userId);
+			key.setReplyId(reply.getId());
+			if (replyHelpService.getByKey(key) != null){
+				if(replyHelpService.getByKey(key).getIsGood()==1){
+					helpEnable.add(1);
+				}
+				else
+					helpEnable.add(2);
+			}
+			else
+				helpEnable.add(0);
+		}
+		model.addAttribute("helpEnable", helpEnable);
 
 		model.addAttribute("post", post);
 		model.addAttribute("tags", tags);
+		model.addAttribute("replys", replys);
 		return "/bulletin/poster";
 	}
 	

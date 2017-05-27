@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="grp3022.bbs.dao.ReplyHelpMapper" >
+  <resultMap id="BaseResultMap" type="grp3022.bbs.po.ReplyHelp" >
+    <id column="REPLY_ID" property="replyId" jdbcType="DECIMAL" />
+    <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="IS_GOOD" property="isGood" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    REPLY_ID, USER_ID, CREATE_TIME, IS_GOOD
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.ReplyHelpExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from REPLY_HELP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.ReplyHelpKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from REPLY_HELP
+    where REPLY_ID = #{replyId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="grp3022.bbs.po.ReplyHelpKey" >
+    delete from REPLY_HELP
+    where REPLY_ID = #{replyId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="grp3022.bbs.po.ReplyHelpExample" >
+    delete from REPLY_HELP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="grp3022.bbs.po.ReplyHelp" >
+    insert into REPLY_HELP (REPLY_ID, USER_ID, CREATE_TIME, 
+      IS_GOOD)
+    values (#{replyId,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{isGood,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="grp3022.bbs.po.ReplyHelp" >
+    insert into REPLY_HELP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="replyId != null" >
+        REPLY_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="isGood != null" >
+        IS_GOOD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="replyId != null" >
+        #{replyId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isGood != null" >
+        #{isGood,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="grp3022.bbs.po.ReplyHelpExample" resultType="java.lang.Integer" >
+    select count(*) from REPLY_HELP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update REPLY_HELP
+    <set >
+      <if test="record.replyId != null" >
+        REPLY_ID = #{record.replyId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isGood != null" >
+        IS_GOOD = #{record.isGood,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update REPLY_HELP
+    set REPLY_ID = #{record.replyId,jdbcType=DECIMAL},
+      USER_ID = #{record.userId,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      IS_GOOD = #{record.isGood,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="grp3022.bbs.po.ReplyHelp" >
+    update REPLY_HELP
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isGood != null" >
+        IS_GOOD = #{isGood,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where REPLY_ID = #{replyId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="grp3022.bbs.po.ReplyHelp" >
+    update REPLY_HELP
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      IS_GOOD = #{isGood,jdbcType=DECIMAL}
+    where REPLY_ID = #{replyId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+</mapper>

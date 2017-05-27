@@ -544,6 +544,66 @@ public class ReplyExample {
             addCriterion("NAME not between", value1, value2, "name");
             return (Criteria) this;
         }
+
+        public Criteria andScoreIsNull() {
+            addCriterion("SCORE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreIsNotNull() {
+            addCriterion("SCORE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreEqualTo(Long value) {
+            addCriterion("SCORE =", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreNotEqualTo(Long value) {
+            addCriterion("SCORE <>", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreGreaterThan(Long value) {
+            addCriterion("SCORE >", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreGreaterThanOrEqualTo(Long value) {
+            addCriterion("SCORE >=", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreLessThan(Long value) {
+            addCriterion("SCORE <", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreLessThanOrEqualTo(Long value) {
+            addCriterion("SCORE <=", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreIn(List<Long> values) {
+            addCriterion("SCORE in", values, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreNotIn(List<Long> values) {
+            addCriterion("SCORE not in", values, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreBetween(Long value1, Long value2) {
+            addCriterion("SCORE between", value1, value2, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreNotBetween(Long value1, Long value2) {
+            addCriterion("SCORE not between", value1, value2, "score");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

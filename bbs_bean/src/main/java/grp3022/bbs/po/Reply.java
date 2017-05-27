@@ -17,6 +17,8 @@ public class Reply {
 
     private String name;
 
+    private Long score;
+
     public Long getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class Reply {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Long getScore() {
+        return score;
+    }
+
+    public void setScore(Long score) {
+        this.score = score;
     }
 }

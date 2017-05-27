@@ -9,6 +9,7 @@
     <result column="REPLY_TIME" property="replyTime" jdbcType="TIMESTAMP" />
     <result column="REPLY_USER" property="replyUser" jdbcType="DECIMAL" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SCORE" property="score" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, POST_ID, CITE_ID, CONTENT, REPLY_TIME, REPLY_USER, NAME
+    ID, POST_ID, CITE_ID, CONTENT, REPLY_TIME, REPLY_USER, NAME, SCORE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.ReplyExample" >
     select
@@ -104,10 +105,10 @@
   <insert id="insert" parameterType="grp3022.bbs.po.Reply" >
     insert into REPLY (ID, POST_ID, CITE_ID, 
       CONTENT, REPLY_TIME, REPLY_USER, 
-      NAME)
+      NAME, SCORE)
     values (#{id,jdbcType=DECIMAL}, #{postId,jdbcType=DECIMAL}, #{citeId,jdbcType=DECIMAL}, 
       #{content,jdbcType=VARCHAR}, #{replyTime,jdbcType=TIMESTAMP}, #{replyUser,jdbcType=DECIMAL}, 
-      #{name,jdbcType=VARCHAR})
+      #{name,jdbcType=VARCHAR}, #{score,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.Reply" >
     insert into REPLY
@@ -133,6 +134,9 @@
       <if test="name != null" >
         NAME,
       </if>
+      <if test="score != null" >
+        SCORE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -155,6 +159,9 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -188,6 +195,9 @@
       <if test="record.name != null" >
         NAME = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.score != null" >
+        SCORE = #{record.score,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +211,8 @@
       CONTENT = #{record.content,jdbcType=VARCHAR},
       REPLY_TIME = #{record.replyTime,jdbcType=TIMESTAMP},
       REPLY_USER = #{record.replyUser,jdbcType=DECIMAL},
-      NAME = #{record.name,jdbcType=VARCHAR}
+      NAME = #{record.name,jdbcType=VARCHAR},
+      SCORE = #{record.score,jdbcType=DECIMAL}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +238,9 @@
       <if test="name != null" >
         NAME = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="score != null" >
+        SCORE = #{score,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
@@ -237,7 +251,8 @@
       CONTENT = #{content,jdbcType=VARCHAR},
       REPLY_TIME = #{replyTime,jdbcType=TIMESTAMP},
       REPLY_USER = #{replyUser,jdbcType=DECIMAL},
-      NAME = #{name,jdbcType=VARCHAR}
+      NAME = #{name,jdbcType=VARCHAR},
+      SCORE = #{score,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
 </mapper>
