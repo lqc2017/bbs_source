@@ -56,6 +56,7 @@
 		<form id="add_form" class="form-horizontal" action="/bulletin/add" method="post">
 			<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
 			<input type="hidden" name="postUser" value="${user.id}"/>
+			<input type="hidden" name="name" value="${user.nickname}"/>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">标题</label><div class="col-sm-6"><input class="form-control" name="title" data-toggle="collapse" data-parent="#accordion"/></div>
 			</div>
@@ -146,19 +147,36 @@
 					</div>
 				</div>
 			</div>
-
+			<div class="form-group">
+				<label class="col-sm-2 control-label">悬赏分</label><div class="col-sm-2"><input class="form-control" name="rewards" data-toggle="collapse" data-parent="#accordion"/></div>
+				<label class="col-sm-0 control-label">给分范围（0-100），当前可用分：200</label>
+			</div>
+			<div  class="form-group">
+				<label class="col-sm-2 control-label">邀请回复</label>
+				<div class="col-sm-4">
+					<div class="panel panel-default" style="width: 600px">
+						<div class="panel-heading">推荐达人
+							<button type="button" class="btn btn-link">刘言石</button>
+							<button type="button" class="btn btn-link">刘言石</button>
+						 	<button type="button" class="btn btn-default btn-sm">换一批</button>
+						 </div>
+						<div class="panel-body">
+							<div><label>被邀请人（最多邀请5人，多出邀请者将无效）</label></div>
+							<label>显示已经被邀请的人，并且可以在这里取消邀请</label>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div style="width: 680px; margin: 0 0 0 75px;">
-				<textarea id="p_ckeditor" name="content" cols="20" rows="2"
+				<textarea id="ckeditor" name="content" cols="20" rows="2"
 					class="ckeditor"></textarea>
 			</div>
-		</form>
-		
-		
+		</form>	
 	</div>
 
 	<div style="width: 800px;hight：auto; margin: 10px 200px;">
 		<div style="width: 680px;hight：auto; margin: 0 0 0 75px;">
-			<button name="add-btn" style="float:right" class="btn btn-sm btn-success">提交</button>
+			<button name="add-btn" style="float:right" class="btn btn-sm btn-success">发表帖子</button>
 		</div>
 	</div>
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -247,6 +265,19 @@
 	                        }
 	                    }
 	                }
+	            },
+		        'rewards': {
+	                validators: {
+	                    notEmpty: { message: '悬赏分不能为空'},
+	                    callback: {
+	                        message: '输入不合法，请输入0-100之间的整数数字',
+	                        callback: function(value, validator) {
+	                        	if(/^\d+$/.test(value)&&parseInt(value,10)>=0&&parseInt(value,10)<=100)
+	                        		return true
+	                        	return false;
+	                        }
+	                    }
+	                }
 	            }
 	        }
 	    })
@@ -261,7 +292,7 @@
 		
 		$("button[name='add-btn']").bind("click",function(){
 			var validator = $('#add_form').data('bootstrapValidator');
-			var describe = editor.getData().toString();
+			var content = editor.getData().toString();
 			/* alert("标题长度:"+getLen($("input[name='title']").val()));
 			alert("描述长度:"+getLen(describe)); */
 			
@@ -269,7 +300,7 @@
 			if (!validator.isValid()) {
 				return;
 			}
-			if(getLen(describe)>2000){
+			if(getLen(content)>2000){
 				toastr.warning("描述超过最大长度限制");
 				return;
 			}
@@ -321,6 +352,13 @@
 		}
 		
 		$("input[name='title']").bind("focus",function(){
+			if ($("a.sign").text() != "") {
+					toastr.info("请登录");
+					$(".sign").trigger("click");
+				}
+		})
+		
+		$("input[name='rewards']").bind("focus",function(){
 			if ($("a.sign").text() != "") {
 					toastr.info("请登录");
 					$(".sign").trigger("click");
