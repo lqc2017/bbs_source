@@ -904,6 +904,136 @@ public class BBSUserExample {
             addCriterion("PROTRAIT_URL not between", value1, value2, "protraitUrl");
             return (Criteria) this;
         }
+
+        public Criteria andSettingIsNull() {
+            addCriterion("SETTING is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingIsNotNull() {
+            addCriterion("SETTING is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingEqualTo(String value) {
+            addCriterion("SETTING =", value, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingNotEqualTo(String value) {
+            addCriterion("SETTING <>", value, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingGreaterThan(String value) {
+            addCriterion("SETTING >", value, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingGreaterThanOrEqualTo(String value) {
+            addCriterion("SETTING >=", value, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingLessThan(String value) {
+            addCriterion("SETTING <", value, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingLessThanOrEqualTo(String value) {
+            addCriterion("SETTING <=", value, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingLike(String value) {
+            addCriterion("SETTING like", value, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingNotLike(String value) {
+            addCriterion("SETTING not like", value, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingIn(List<String> values) {
+            addCriterion("SETTING in", values, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingNotIn(List<String> values) {
+            addCriterion("SETTING not in", values, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingBetween(String value1, String value2) {
+            addCriterion("SETTING between", value1, value2, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andSettingNotBetween(String value1, String value2) {
+            addCriterion("SETTING not between", value1, value2, "setting");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreIsNull() {
+            addCriterion("SCORE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreIsNotNull() {
+            addCriterion("SCORE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreEqualTo(Integer value) {
+            addCriterion("SCORE =", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreNotEqualTo(Integer value) {
+            addCriterion("SCORE <>", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreGreaterThan(Integer value) {
+            addCriterion("SCORE >", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreGreaterThanOrEqualTo(Integer value) {
+            addCriterion("SCORE >=", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreLessThan(Integer value) {
+            addCriterion("SCORE <", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreLessThanOrEqualTo(Integer value) {
+            addCriterion("SCORE <=", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreIn(List<Integer> values) {
+            addCriterion("SCORE in", values, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreNotIn(List<Integer> values) {
+            addCriterion("SCORE not in", values, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreBetween(Integer value1, Integer value2) {
+            addCriterion("SCORE between", value1, value2, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreNotBetween(Integer value1, Integer value2) {
+            addCriterion("SCORE not between", value1, value2, "score");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

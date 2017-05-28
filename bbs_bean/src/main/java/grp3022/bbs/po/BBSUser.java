@@ -27,6 +27,10 @@ public class BBSUser {
 
     private String protraitUrl;
 
+    private String setting;
+
+    private Integer score;
+
     public Long getId() {
         return id;
     }
@@ -121,5 +125,21 @@ public class BBSUser {
 
     public void setProtraitUrl(String protraitUrl) {
         this.protraitUrl = protraitUrl == null ? null : protraitUrl.trim();
+    }
+
+    public String getSetting() {
+        return setting;
+    }
+
+    public void setSetting(String setting) {
+        this.setting = setting == null ? null : setting.trim();
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }
