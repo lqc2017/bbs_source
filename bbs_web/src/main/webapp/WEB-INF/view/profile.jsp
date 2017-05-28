@@ -6,8 +6,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="_csrf" content="${_csrf.token}" />
-<meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>个人信息</title>
 <link href="/css/user-home.css" rel="stylesheet">
 <%@ include file="source.jsp"%>
@@ -45,8 +43,8 @@
 						<ul class="dropdown-menu">
 							<li><p class="p-cur-user">当前用户：${currentUser.nickname}</p></li>
 							<li class="divider"></li>
-							<li><a href="#">个人信息</a></li>
-							<li><a href="#">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
+							<li><a href="/u/${currentUser.id}?active=10">个人信息</a></li>
+							<li><a href="/u/${currentUser.id}?active=20">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
 							<li class="divider"></li>
 							<li><a href="/logout">登出</a></li>
 							<li class="divider"></li>
@@ -107,16 +105,21 @@
 		</div>
 		<div class="main-panel">
 			<ul id="myTab" class="nav nav-tabs">
-				<li class="active"><a class="spacing" href="#information"
+				<li <c:if test="${active==10||active==null}">class="active"</c:if>><a class="spacing" href="#information"
 					data-toggle="tab">个人信息</a></li>
 				<li><a class="spacing" href="#BBS" data-toggle="tab">论坛</a></li>
 				<li><a class="spacing" href="#AQ" data-toggle="tab">问答</a></li>
-				<li><a class="spacing" href="#message" data-toggle="tab">消息</a></li>
+				<c:if test="${user.id==currentUser.id }">
+				<li <c:if test="${active==20}">class="active"</c:if>><a class="spacing" href="#message" data-toggle="tab">消息</a></li>
 				<li><a class="spacing" href="#setting" data-toggle="tab">设置</a></li>
+				</c:if>
 			</ul>
 			<div id="myTabContent" class="tab-content">
-				<div class="tab-pane fade  in active" id="information">
-					<div class="content"><!-- 用户已设为私密 -->
+				<div class="tab-pane fade <c:if test="${active==10||active==null}">in active</c:if>" id="information">
+					<div class="content">
+					<c:if test="${user.id!=currentUser.id&&userSetting.showInfo==0}">
+					用户已设为私密</c:if>
+					<c:if test="${(user.id!=currentUser.id&&userSetting.showInfo==1)||user.id==currentUser.id}">
 					<div>
 					<div style="width:50%;display:inline-block;">
 						<div class="panel panel-default">
@@ -178,7 +181,7 @@
 									<p>住址：<span ref="home"><c:if test="${addressInfo.home==null||addressInfo.home==''}">未填写</c:if>${addressInfo.home}</span></p>
 								</form>
 							</div>
-						</div>
+						</div></c:if>
 					</div>
 				</div>
 				<div class="tab-pane fade" id="BBS">
@@ -298,47 +301,109 @@
 						<div class="panel panel-default" style="width: 70%;">
 							<div class="panel-heading">动态(最近十条)</div>
 							<div class="panel-body">
+							<c:if test="${user.id!=currentUser.id&&userSetting.showActivity==0}">
+							用户已隐藏</c:if>
+							<c:if test="${(user.id!=currentUser.id&&userSetting.showActivity==1)||user.id==currentUser.id}">
 								<c:forEach items="${activities}" var="activity">
 									<p class="p-control">
 										<fmt:formatDate value="${activity.createTime}"
-											pattern="yyyy-MM-dd HH:mm:ss" />
+											pattern="yyyy-MM-dd HH:mm" />
 										&nbsp
 										<c:choose>
 											<c:when test="${activity.type==10}">
-												<a href="/u">${user.nickname}</a>提出了问题 <a
+												<a href="/u/${user.id}">${user.nickname}</a>提出了问题 <a
 													title="${activity.question.title}"
-													href="/question?q=${activity.question.id}">${activity.question.title}</a>
+													href="/q/${activity.question.id}">${activity.question.title}</a>
 											</c:when>
 											<c:when test="${activity.type==20}">
-												<a href="/u">${user.nickname}</a>回答了<a href="/u">${activity.user.nickname}</a>提出的<a
+												<a href="/u/${user.id}">${user.nickname}</a>回答了<a href="/u/${activity.user.id}">${activity.user.nickname}</a>提出的<a
 													title="${activity.question.title}"
-													href="/question?q=${activity.question.id}">${activity.question.title}</a>
+													href="/q/${activity.question.id}">${activity.question.title}</a>
 											</c:when>
 											<c:when test="${activity.type==30}">
-												<a href="/u">${user.nickname}</a>
+												<a href="/u/${user.id}">${user.nickname}</a>
 												<c:if test="${activity.isHelpful==1}">赞成</c:if>
 												<c:if test="${activity.isHelpful==0}">反对</c:if>
-												<a href="/u">${activity.user.nickname}</a>在<a
+												<a href="/u/${user.id}">${activity.user.nickname}</a>在<a
 													title="${activity.question.title}"
-													href="/question?q=${activity.question.id}">${activity.question.title}</a>
+													href="/q/${activity.question.id}">${activity.question.title}</a>
 									上的回答</c:when>
 										</c:choose>
 									</p>
-								</c:forEach>
+								</c:forEach></c:if>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<div class="tab-pane fade" id="message">
+				<c:if test="${user.id==currentUser.id }">
+					<div class="tab-pane fade <c:if test="${active==20}">in active</c:if>" id="message">
+						<div class="content">
+							<table class="table table-hover table-condensed" style="table-layout: fixed;">
+								<caption>问题动态：${unreadMessages.size()}</caption>
+								<tbody>
+									<c:if test="${unreadMessages.size()==0}">暂时没有新的消息</c:if>
+									<c:forEach items="${unreadMessages}" var="message" begin="0" end="4">
+										<c:choose>
+											<c:when test="${message.type==10}">
+												<tr>
+													<td style="width: 10%">${format.getTime(message.createTime)}</td>
+													<td style="width: 90%"><p class="p-control"
+															style="font-size: 14px;">
+															<a href="/u/${message.user.id}">${message.user.nickname}</a>回答了你提出的<a
+																title="${message.question.title}"
+																href="/q/${message.question.id}">${message.question.title}</a>
+														</p></td>
+												</tr>
+											</c:when>
+										</c:choose>
+									</c:forEach>
+									<c:if test="${unreadMessages.size()>5}">
+									<tr>
+										<td colspan="2"><button class="btn btn-default btn-block">more...</button></td>
+									</tr></c:if>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="setting">
 					<div class="content">
-						
+						<h1>
+							<small>个人信息</small>
+						</h1>
+
+						<form action="/u/update" role="form">
+							<div>
+								<label class="checkbox-inline" style="padding-left:0;"> 
+								<input type="radio" name="showInfo"  value="0" <c:if test="${userSetting.showInfo==0}">checked</c:if>>隐藏
+								</label> <label class="checkbox-inline"> 
+								<input type="radio" name="showInfo"  value="1" <c:if test="${userSetting.showInfo==1}">checked</c:if>>显示
+								</label></div>
+						<hr/>
+						<h1>
+							<small>动态</small></h1>
+							<div>
+								<label class="checkbox-inline" style="padding-left:0;"> 
+								<input type="radio" name="showActivity"  value="0" <c:if test="${userSetting.showActivity==0}">checked</c:if>>隐藏
+								</label> <label class="checkbox-inline"> 
+								<input type="radio" name="showActivity"  value="1" <c:if test="${userSetting.showActivity==1}">checked</c:if>>显示
+								</label></div>
+						<hr/>
+						<h1>
+							<small>新消息提醒</small></h1>
+							<div>
+								<label class="checkbox-inline" style="padding-left:0;"> 
+								<input type="radio" name="messageRemind"  value="1" <c:if test="${userSetting.messageRemind==1}">checked</c:if>>开启
+								</label> <label class="checkbox-inline"> 
+								<input type="radio" name="messageRemind"  value="0" <c:if test="${userSetting.messageRemind==0}">checked</c:if>>关闭
+								</label></div>
+							<hr/>
+							<input type="submit" value="保存" class="btn btn-success btn-sm" style="float:right">
+						</form>
 					</div>
 				</div>
-				
-				<div class="tab-pane fade" id="setting">
-					<div class="content">ceshi</div>
-				</div>
+				</c:if>
 			</div>
 		</div>
 	</div>

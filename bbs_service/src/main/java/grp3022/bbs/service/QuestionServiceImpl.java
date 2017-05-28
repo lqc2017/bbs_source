@@ -103,4 +103,11 @@ public class QuestionServiceImpl implements QuestionService {
 		List<Question> records = questionDao.selectBySo(so);
 		return records;
 	}
+
+	@Override
+	public List<Question> getUpdateByCreateBy(Long createBy) {
+		if(createBy==null)
+			return null;
+		return questionDao.selectNewByCreateBy(createBy);
+	}
 }

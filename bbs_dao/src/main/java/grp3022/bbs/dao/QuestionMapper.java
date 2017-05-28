@@ -31,4 +31,7 @@ public interface QuestionMapper {
     int updateByPrimaryKey(Question record);
     
     List<Question> selectBySo(QuestionSo so);
+
+    /*获得创建人未读的已更新的问题*/
+	List<Question> selectNewByCreateBy(Long createBy);
 }

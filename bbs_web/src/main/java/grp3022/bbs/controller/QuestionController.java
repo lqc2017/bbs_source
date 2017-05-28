@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
+import grp3022.bbs.aop.UpdateMessage;
 import grp3022.bbs.jo.Percentage;
 import grp3022.bbs.po.Answer;
 import grp3022.bbs.po.AnswerHelpKey;
@@ -100,6 +101,7 @@ public class QuestionController {
 	 * @param answerSo
 	 * @return
 	 */
+	@UpdateMessage(description = "更新消息")
 	@RequestMapping(value = "/q/{qId}")
 	public String question(@PathVariable Long qId, AnswerSo answerSo,HttpSession session,Model model) {
 		/*初始化问题*/
@@ -114,6 +116,7 @@ public class QuestionController {
 			long userId = Long.parseLong(session.getAttribute("userId").toString());
 			BBSUser user = userService.getById(userId);
 			
+			/*如果浏览用户为创建者，将reminder字段与答案数量字段同步*/
 			if(userId==question.getCreateBy()){
 				question.setReminder(question.getAnswers());
 			}

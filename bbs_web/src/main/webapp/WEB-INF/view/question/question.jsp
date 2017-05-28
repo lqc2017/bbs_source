@@ -40,11 +40,13 @@
 					test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"><img
-							src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
+							src="${currentUser.protraitUrl}"
 							height="20" width="20"><b class="caret"></b> </a>
 						<ul class="dropdown-menu">
-							<li><a href="#">个人信息</a></li>
-							<li><a href="#">EJB</a></li>
+							<li><p class="p-cur-user">当前用户：${currentUser.nickname}</p></li>
+							<li class="divider"></li>
+							<li><a href="/u/${currentUser.id}?active=10">个人信息</a></li>
+							<li><a href="/u/${currentUser.id}?active=20">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
 							<li class="divider"></li>
 							<li><a href="/logout">登出</a></li>
 							<li class="divider"></li>
