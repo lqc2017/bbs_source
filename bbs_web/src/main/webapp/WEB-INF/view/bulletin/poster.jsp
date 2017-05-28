@@ -311,6 +311,13 @@
 				}
 			});
 		});
+		
+		$("button[name='helpless-btn'],button[name='helpful-btn']").bind("focus",function(){
+			if ($("a.sign").text() != "") {
+					toastr.info("请登录");
+					$(".sign").trigger("click");
+				}
+		})
 	</script>
 </body>
 </html>

@@ -88,33 +88,19 @@ public class PostController {
 		System.out.print(""+pId);
 		/*初始化帖子*/
 		Post post = postService.getById(pId);
-		long userId = Long.parseLong(session.getAttribute("userId").toString());
-		if(session.getAttribute("userId")!=null){
-			BBSUser user = userService.getById(userId);
-			model.addAttribute("user", user);
-		}
 		
 		/*初始化回复*/
 		List<Reply> replys = replyService.getAllByPostId(pId);
 		
-		/* 更新问题信息 */
-		post.setViews(post.getViews() + 1);
-		postService.updateById(post);
-		
-		/* 初始化问题标签 */
-		List<Tag> tags = new ArrayList<Tag>();
-		List<Integer> indexes = JSON.parseArray(post.getTags(), Integer.class);
-		for (int index : indexes) {
-			for (Tag tag : Tag.values()) {
-				if (tag.getIndex() == index) {
-					tags.add(tag);
-				}
-			}
+		long userId = 0;
+		if(session.getAttribute("userId")!=null){
+			userId = Long.parseLong(session.getAttribute("userId").toString());
+			BBSUser user = userService.getById(userId);
+			model.addAttribute("user", user);
 		}
 		
 		/*初始化是否点赞*/ 
 		List<Integer> helpEnable = new ArrayList<Integer>();
-		int i=0;
 		for (Reply reply : replys) {
 			ReplyHelpKey key = new ReplyHelpKey();
 			key.setUserId(userId);
@@ -130,6 +116,21 @@ public class PostController {
 				helpEnable.add(0);
 		}
 		model.addAttribute("helpEnable", helpEnable);
+		
+		/* 更新问题信息 */
+		post.setViews(post.getViews() + 1);
+		postService.updateById(post);
+		
+		/* 初始化问题标签 */
+		List<Tag> tags = new ArrayList<Tag>();
+		List<Integer> indexes = JSON.parseArray(post.getTags(), Integer.class);
+		for (int index : indexes) {
+			for (Tag tag : Tag.values()) {
+				if (tag.getIndex() == index) {
+					tags.add(tag);
+				}
+			}
+		}
 
 		model.addAttribute("post", post);
 		model.addAttribute("tags", tags);
