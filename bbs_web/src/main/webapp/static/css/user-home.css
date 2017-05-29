@@ -58,23 +58,6 @@ div.data-chart{
 	padding:10px 40px;
 }
 
-p.p-control{
-	font-size:12px;
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
-}
-
-p.p-cur-user{
-	font-size:12px;
-	font-weight:700;
-	margin:0;
-	text-align:center;
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
-}
-
 .btn-op {
     background-color: #0000a0;
     margin:10px 0 0 0;

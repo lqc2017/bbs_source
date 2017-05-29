@@ -41,6 +41,17 @@ public class AnswerHelpServiceImpl implements AnswerHelpService {
         return answerHelpDao.selectByExample(example);
 	}
 
+	@Override
+	public int countBySo(AnswerHelpSo so) {
+		AnswerHelpExample example = new AnswerHelpExample();
+		Criteria c = example.or();
+		if(so.getCreateBy()!=null)
+			c.andCreateByEqualTo(so.getCreateBy());
+		if(so.getIsHelpful()!=null)
+			c.andIsHelpfulEqualTo(so.getIsHelpful());
+		return answerHelpDao.countByExample(example);
+	}
+
 	/*@Override
 	public void deleteRecord(Long id) {
 		answerDao.deleteByPrimaryKey(id);

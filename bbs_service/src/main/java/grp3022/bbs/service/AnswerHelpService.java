@@ -15,6 +15,8 @@ public interface AnswerHelpService {
 	void add(AnswerHelp recodrd);
 
 	List<AnswerHelp> getAllBySo(AnswerHelpSo so);
+
+	int countBySo(AnswerHelpSo so);
 	
 	/*void deleteRecord(Long id);
 	void updateRecordById(Answer recodrd);*/

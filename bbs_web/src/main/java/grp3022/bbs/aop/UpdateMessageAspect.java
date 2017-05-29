@@ -49,6 +49,8 @@ public  class UpdateMessageAspect {
 			// 读取session中的用户
 			System.out.println("用户已登陆登录");
 			BBSUser currentUser = userService.getById((Long) session.getAttribute("userId"));
+			
+			request.setAttribute("currentUser",currentUser);
 			// 判断用户是否需要消息提醒
 			String settingStr = currentUser.getSetting();
 			UserSetting userSetting = JSON.parseObject(settingStr,UserSetting.class);
@@ -61,15 +63,13 @@ public  class UpdateMessageAspect {
 			if(questions.size()>0)
 				request.setAttribute("messageCnt", questions.size());
 			
-			request.setAttribute("currentUser",currentUser);
-			
 			try {
 				// *========控制台输出=========*//
-				System.out.println("=====前置通知开始=====");
-				System.out.println("请求方法:" + (joinPoint.getTarget().getClass().getName() + "."
-						+ joinPoint.getSignature().getName() + "()"));
+				//System.out.println("=====前置通知开始=====");
+				//System.out.println("请求方法:" + (joinPoint.getTarget().getClass().getName() + "."
+				//		+ joinPoint.getSignature().getName() + "()"));
 				System.out.println("方法描述:" + getControllerMethodDescription(joinPoint));
-				System.out.println("请求人:" + currentUser.getNickname());
+				System.out.println("请求人:" + currentUser.getNickname()+"\n");
 
 			} catch (Exception e) {
 				System.out.printf("异常信息:{1}", e.getMessage());

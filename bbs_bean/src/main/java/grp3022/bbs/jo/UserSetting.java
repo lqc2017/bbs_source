@@ -4,6 +4,12 @@ public class UserSetting {
 	private Short showInfo;
 	private Short showActivity;
 	private Short messageRemind;
+	public UserSetting(){}
+	public UserSetting(Short showInfo, Short showActivity, Short messageRemind){
+		this.setShowInfo(showInfo);
+		this.setShowActivity(showActivity);
+		this.setMessageRemind(messageRemind);
+	}
 	public Short getShowInfo() {
 		return showInfo;
 	}

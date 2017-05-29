@@ -284,7 +284,7 @@
 			$.ajax({	
 				async : false,
 				type : "get",
-				url : "/question/solved?q=${question.id}&u=${user.id}",
+				url : "/q/solved?q=${question.id}&u=${user.id}",
 				datatype : 'json',
 				success : function(result) {
 					if (result == "success") {

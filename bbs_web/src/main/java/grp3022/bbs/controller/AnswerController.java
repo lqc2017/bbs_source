@@ -27,11 +27,6 @@ import grp3022.bbs.service.QuestionService;
 import grp3022.bbs.so.AnswerSo;
 import grp3022.bbs.util.TagUtil;
 
-/**
- * @author 全琛
- * @create_time 上午11:07:01
- *
- */
 @Controller
 public class AnswerController {
 
@@ -84,7 +79,7 @@ public class AnswerController {
 			,@RequestParam(value = "value")Short value,HttpSession session) {
 		try {
 			if(session.getAttribute("userId")==null){
-				return "fail";
+				return "请先登陆";
 			}
 			long userId = Long.parseLong(session.getAttribute("userId").toString());
 			/*添加帮助记录*/
@@ -92,6 +87,7 @@ public class AnswerController {
 			answerHelp.setAnswerId(answerId);
 			answerHelp.setUserId(userId);
 			answerHelp.setIsHelpful(value);
+			answerHelp.setCreateBy(answerService.getById(answerId).getCreateBy());
 			answerHelpService.add(answerHelp);
 			/*更新答案信息*/
 			Answer answer = answerService.getById(answerId);

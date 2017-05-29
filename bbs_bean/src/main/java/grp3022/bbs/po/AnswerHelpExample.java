@@ -344,6 +344,66 @@ public class AnswerHelpExample {
             addCriterion("IS_HELPFUL not between", value1, value2, "isHelpful");
             return (Criteria) this;
         }
+
+        public Criteria andCreateByIsNull() {
+            addCriterion("CREATE_BY is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByIsNotNull() {
+            addCriterion("CREATE_BY is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByEqualTo(Long value) {
+            addCriterion("CREATE_BY =", value, "createBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByNotEqualTo(Long value) {
+            addCriterion("CREATE_BY <>", value, "createBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByGreaterThan(Long value) {
+            addCriterion("CREATE_BY >", value, "createBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByGreaterThanOrEqualTo(Long value) {
+            addCriterion("CREATE_BY >=", value, "createBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByLessThan(Long value) {
+            addCriterion("CREATE_BY <", value, "createBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByLessThanOrEqualTo(Long value) {
+            addCriterion("CREATE_BY <=", value, "createBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByIn(List<Long> values) {
+            addCriterion("CREATE_BY in", values, "createBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByNotIn(List<Long> values) {
+            addCriterion("CREATE_BY not in", values, "createBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByBetween(Long value1, Long value2) {
+            addCriterion("CREATE_BY between", value1, value2, "createBy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateByNotBetween(Long value1, Long value2) {
+            addCriterion("CREATE_BY not between", value1, value2, "createBy");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -13,6 +13,8 @@ public class Account {
 
     private Date latestLogin;
 
+    private Date createTime;
+
     public String getUsername() {
         return username;
     }
@@ -51,5 +53,13 @@ public class Account {
 
     public void setLatestLogin(Date latestLogin) {
         this.latestLogin = latestLogin;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

@@ -40,11 +40,6 @@ import grp3022.bbs.util.TagUtil;
 import grp3022.bbs.wo.Activity;
 import grp3022.bbs.wo.UnreadMessage;
 
-/**
- * @author 全琛
- * @create_time 上午11:07:01
- *
- */
 @Controller
 public class UserController {
 
@@ -65,7 +60,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/u/{userId}")
-	@UpdateMessage(description = "更新消息")
+	@UpdateMessage(description = "用户主页")
 	public String home(Model model, HttpSession session, @PathVariable Long userId,Short active) {
 		if (session.getAttribute("userId") != null) {
 			// 处理当前登陆情况判断
@@ -82,6 +77,8 @@ public class UserController {
 
 			// 加载未读消息
 			this.loadUnreadMessage(currentUser, model);
+		}else{
+			active = 10;
 		}
 		BBSUser user = userService.getById(userId);
 		this.loadInfomation(user, model);
@@ -94,6 +91,17 @@ public class UserController {
 		model.addAttribute("format", new Format());
 
 		return "profile";
+	}
+	
+	@RequestMapping(value = "/u/message")
+	@UpdateMessage(description = "消息页面")
+	public String message(Model model, HttpSession session) {
+		long currentUserId = Long.parseLong(session.getAttribute("userId").toString());
+		BBSUser currentUser = userService.getById(currentUserId);
+		this.loadUnreadMessage(currentUser, model);
+		
+		model.addAttribute("format", new Format());
+		return "message";
 	}
 
 	/**
@@ -132,6 +140,7 @@ public class UserController {
 			return "/question/ask_fail";
 		}
 	}
+	
 
 	/**
 	 * 2017年5月24日 下午9:28:25 加载关注情况
@@ -158,6 +167,19 @@ public class UserController {
 		List<Percentage> participates = JSON.parseArray(participateStr, Percentage.class);
 
 		Map<Integer, Tag> tagMap = TagUtil.getTagMap();
+		
+		//答复总数
+		int answerCnt = answerService.countBySo(new AnswerSo(user.getId()));
+		model.addAttribute("answerCnt", answerCnt);
+		//获得好评的答案个数
+		int goodAnswerCnt = answerService.countBySo(new AnswerSo(user.getId(),(short)1));
+		model.addAttribute("goodAnswerCnt", goodAnswerCnt);
+		//提过的问题总数
+		int questionCnt = questionService.countBySo(new QuestionSo(user.getId()));
+		model.addAttribute("questionCnt", questionCnt);
+		//被点过赞的次数
+		int helpfulCnt = answerHelpService.countBySo(new AnswerHelpSo(user.getId(),(short)1));
+		model.addAttribute("helpfulCnt", helpfulCnt);
 
 		model.addAttribute("majars", majars);
 		model.addAttribute("participates", participates);
@@ -203,7 +225,7 @@ public class UserController {
 			for (AnswerHelp ah : answerHelps) {
 				Long qId = answerService.getById(ah.getAnswerId()).getQuestionId();
 				Question q = questionService.getById(qId);
-				BBSUser u = userService.getById(ah.getUserId());
+				BBSUser u = userService.getById(ah.getCreateBy());
 				activities.add(new Activity(ah.getCreateTime(), (short) 30, q, u, ah.getIsHelpful()));
 			}
 		}

@@ -7,7 +7,9 @@ public interface AccountService{
 
 	Account getById(String id);
 	
-	//void add(Account record);
+	int countByUsername(String username);
+	
+	void add(Account record);
 	
 	//void deleteRecord(Long id);
 	void updateById(Account record);

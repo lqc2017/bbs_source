@@ -26,3 +26,20 @@ body {
 ul.float-right{
 	float:right;
 }
+
+p.p-cur-user{
+	font-size:12px;
+	font-weight:700;
+	margin:0;
+	text-align:center;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+p.p-control{
+	font-size:12px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
