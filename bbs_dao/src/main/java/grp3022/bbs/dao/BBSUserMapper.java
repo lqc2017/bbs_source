@@ -14,7 +14,7 @@ public interface BBSUserMapper {
 
     int insert(BBSUser record);
 
-    int insertSelective(BBSUser record);
+    Long insertSelective(BBSUser record);
 
     List<BBSUser> selectByExample(BBSUserExample example);
 

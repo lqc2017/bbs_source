@@ -122,6 +122,9 @@
       #{setting,jdbcType=VARCHAR}, #{score,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.BBSUser" >
+  		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE">  
+	        SELECT SEQUENCE_USER.nextval FROM DUAL
+	    </selectKey>
     insert into BBS_USER
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

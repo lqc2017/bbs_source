@@ -15,11 +15,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.alibaba.fastjson.JSON;
+
+import grp3022.bbs.jo.UserSetting;
 import grp3022.bbs.po.BBSUser;
 import grp3022.bbs.po.Question;
 import grp3022.bbs.service.BBSUserService;
 import grp3022.bbs.service.QuestionService;
-import grp3022.bbs.so.QuestionSo; 
 
 @Aspect
 @Component  
@@ -46,24 +48,28 @@ public  class UpdateMessageAspect {
 		else {
 			// 读取session中的用户
 			System.out.println("用户已登陆登录");
-			BBSUser user = userService.getById((Long) session.getAttribute("userId"));
-			List<Question> questions = questionService.getAllBySo(new QuestionSo(user.getId(),(short)10));
-			int messageCnt = 0;
-			for(Question q : questions){
-				if(q.getReminder()<q.getAnswers())
-					messageCnt += q.getAnswers() - q.getReminder();
+			BBSUser currentUser = userService.getById((Long) session.getAttribute("userId"));
+			
+			request.setAttribute("currentUser",currentUser);
+			// 判断用户是否需要消息提醒
+			String settingStr = currentUser.getSetting();
+			UserSetting userSetting = JSON.parseObject(settingStr,UserSetting.class);
+			if(userSetting.getMessageRemind()==0){
+				return;
 			}
-			System.out.println("未读消息数量："+messageCnt);
-			if(messageCnt>0)
-				request.setAttribute("messageCnt", messageCnt);
-			//
+			
+			List<Question> questions = questionService.getUpdateByCreateBy(currentUser.getId());
+			System.out.println("更新的问题数量："+questions.size());
+			if(questions.size()>0)
+				request.setAttribute("messageCnt", questions.size());
+			
 			try {
 				// *========控制台输出=========*//
-				System.out.println("=====前置通知开始=====");
-				System.out.println("请求方法:" + (joinPoint.getTarget().getClass().getName() + "."
-						+ joinPoint.getSignature().getName() + "()"));
+				//System.out.println("=====前置通知开始=====");
+				//System.out.println("请求方法:" + (joinPoint.getTarget().getClass().getName() + "."
+				//		+ joinPoint.getSignature().getName() + "()"));
 				System.out.println("方法描述:" + getControllerMethodDescription(joinPoint));
-				System.out.println("请求人:" + user.getNickname());
+				System.out.println("请求人:" + currentUser.getNickname()+"\n");
 
 			} catch (Exception e) {
 				System.out.printf("异常信息:{1}", e.getMessage());

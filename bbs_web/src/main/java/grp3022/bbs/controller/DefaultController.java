@@ -13,11 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
-/**
- * @author 全琛
- * @create_time 上午11:07:01
- *
- */
 @Controller
 public class DefaultController {
 

@@ -11,7 +11,7 @@ public interface BBSUserService{
 
 	BBSUser getById(Long id);
 	
-	//void add(BBSUser recodrd);
+	Long add(BBSUser recodrd);
 	
 	//void deleteRecord(Long id);
 	void updateById(BBSUser recodrd);

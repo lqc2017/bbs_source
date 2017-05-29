@@ -7,6 +7,8 @@ public class AnswerHelp extends AnswerHelpKey {
 
     private Short isHelpful;
 
+    private Long createBy;
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -21,5 +23,13 @@ public class AnswerHelp extends AnswerHelpKey {
 
     public void setIsHelpful(Short isHelpful) {
         this.isHelpful = isHelpful;
+    }
+
+    public Long getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(Long createBy) {
+        this.createBy = createBy;
     }
 }

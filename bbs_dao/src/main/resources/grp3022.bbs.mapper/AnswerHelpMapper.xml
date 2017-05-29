@@ -6,6 +6,7 @@
     <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="IS_HELPFUL" property="isHelpful" jdbcType="DECIMAL" />
+    <result column="CREATE_BY" property="createBy" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ANSWER_ID, USER_ID, CREATE_TIME, IS_HELPFUL
+    ANSWER_ID, USER_ID, CREATE_TIME, IS_HELPFUL, CREATE_BY
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.AnswerHelpExample" >
     select
@@ -102,9 +103,9 @@
   </delete>
   <insert id="insert" parameterType="grp3022.bbs.po.AnswerHelp" >
     insert into ANSWER_HELP (ANSWER_ID, USER_ID, CREATE_TIME, 
-      IS_HELPFUL)
+      IS_HELPFUL, CREATE_BY)
     values (#{answerId,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{isHelpful,jdbcType=DECIMAL})
+      #{isHelpful,jdbcType=DECIMAL}, #{createBy,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.AnswerHelp" >
     insert into ANSWER_HELP
@@ -121,6 +122,9 @@
       <if test="isHelpful != null" >
         IS_HELPFUL,
       </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="answerId != null" >
@@ -134,6 +138,9 @@
       </if>
       <if test="isHelpful != null" >
         #{isHelpful,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -158,6 +165,9 @@
       <if test="record.isHelpful != null" >
         IS_HELPFUL = #{record.isHelpful,jdbcType=DECIMAL},
       </if>
+      <if test="record.createBy != null" >
+        CREATE_BY = #{record.createBy,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -168,7 +178,8 @@
     set ANSWER_ID = #{record.answerId,jdbcType=DECIMAL},
       USER_ID = #{record.userId,jdbcType=DECIMAL},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
-      IS_HELPFUL = #{record.isHelpful,jdbcType=DECIMAL}
+      IS_HELPFUL = #{record.isHelpful,jdbcType=DECIMAL},
+      CREATE_BY = #{record.createBy,jdbcType=DECIMAL}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -182,6 +193,9 @@
       <if test="isHelpful != null" >
         IS_HELPFUL = #{isHelpful,jdbcType=DECIMAL},
       </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=DECIMAL},
+      </if>
     </set>
     where ANSWER_ID = #{answerId,jdbcType=DECIMAL}
       and USER_ID = #{userId,jdbcType=DECIMAL}
@@ -189,7 +203,8 @@
   <update id="updateByPrimaryKey" parameterType="grp3022.bbs.po.AnswerHelp" >
     update ANSWER_HELP
     set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      IS_HELPFUL = #{isHelpful,jdbcType=DECIMAL}
+      IS_HELPFUL = #{isHelpful,jdbcType=DECIMAL},
+      CREATE_BY = #{createBy,jdbcType=DECIMAL}
     where ANSWER_ID = #{answerId,jdbcType=DECIMAL}
       and USER_ID = #{userId,jdbcType=DECIMAL}
   </update>

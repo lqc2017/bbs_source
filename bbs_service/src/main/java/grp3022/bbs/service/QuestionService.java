@@ -20,4 +20,6 @@ public interface QuestionService {
 	PageInfo<Question> getPageBySo(QuestionSo so,Integer pageNo,Integer size);
 
 	List<Question> getAllBySo(QuestionSo questionSo);
+
+	List<Question> getUpdateByCreateBy(Long createBy);
 }

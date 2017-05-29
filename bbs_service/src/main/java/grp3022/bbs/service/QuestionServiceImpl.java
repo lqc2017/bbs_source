@@ -13,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 import grp3022.bbs.dao.QuestionMapper;
 import grp3022.bbs.po.Question;
 import grp3022.bbs.po.QuestionExample;
+import grp3022.bbs.po.QuestionExample.Criteria;
 import grp3022.bbs.so.QuestionSo;
 
 @Service
@@ -39,7 +40,10 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public int countBySo(QuestionSo so) {
 		QuestionExample example = new QuestionExample();
-		example.or().andIdIn(so.getIds()).andTagsLike("%"+so.getTagIndex()+"%");
+		//example.or().andIdIn(so.getIds()).andTagsLike("%"+so.getTagIndex()+"%");
+		Criteria c = example.or();
+		if(so.getCreateBy()!=null)
+			c.andCreateByEqualTo(so.getCreateBy());
 		return questionDao.countByExample(example);
 	}
 
@@ -102,5 +106,12 @@ public class QuestionServiceImpl implements QuestionService {
 	public List<Question> getAllBySo(QuestionSo so) {
 		List<Question> records = questionDao.selectBySo(so);
 		return records;
+	}
+
+	@Override
+	public List<Question> getUpdateByCreateBy(Long createBy) {
+		if(createBy==null)
+			return null;
+		return questionDao.selectNewByCreateBy(createBy);
 	}
 }

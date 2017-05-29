@@ -21,11 +21,11 @@ public class BBSUserServiceImpl implements BBSUserService {
         return record;
 	}
 
-	/*@Override
-	public void add(BBSUser record) {
-		record.setCreateTime(new Date());
+	@Override
+	public Long add(BBSUser record) {
 		bbsUserDao.insertSelective(record);
-	}*/
+		return record.getId();
+	}
 
 	/*@Override
 	public void deleteRecord(Long id) {

@@ -1,10 +1,13 @@
 package grp3022.bbs.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import grp3022.bbs.dao.AccountMapper;
 import grp3022.bbs.po.Account;
+import grp3022.bbs.po.AccountExample;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -18,11 +21,11 @@ public class AccountServiceImpl implements AccountService {
         return record;
 	}
 
-	/*@Override
+	@Override
 	public void add(Account record) {
 		record.setCreateTime(new Date());
 		accountDao.insertSelective(record);
-	}*/
+	}
 
 	/*@Override
 	public void deleteRecord(Long id) {
@@ -33,6 +36,13 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public void updateById(Account answer) {
 		accountDao.updateByPrimaryKeySelective(answer);
+	}
+
+	@Override
+	public int countByUsername(String username) {
+		AccountExample example = new AccountExample();
+		example.or().andUsernameEqualTo(username);
+		return accountDao.countByExample(example);
 	}
 
 	/*@Override

@@ -6,8 +6,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="_csrf" content="${_csrf.token}" />
-<meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>个人信息</title>
 <link href="/css/user-home.css" rel="stylesheet">
 <%@ include file="source.jsp"%>
@@ -45,12 +43,15 @@
 						<ul class="dropdown-menu">
 							<li><p class="p-cur-user">当前用户：${currentUser.nickname}</p></li>
 							<li class="divider"></li>
-							<li><a href="#">个人信息</a></li>
-							<li><a href="#">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
+							<li><a href="/u/${currentUser.id}?active=10">个人信息</a></li>
+							<li><a href="/u/post">我的帖子</a></li>
+							<li><a href="/u/q">我的问题</a></li>
+							<li class="divider"></li>
+							<li><a href="/u/${currentUser.id}?active=20">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
 							<li class="divider"></li>
 							<li><a href="/logout">登出</a></li>
 							<li class="divider"></li>
-							<li><a href="#">设置</a></li>
+							<li><a href="/u/${currentUser.id}?active=30">设置</a></li>
 						</ul></li>
 				</c:if>
 			</ul>
@@ -107,16 +108,26 @@
 		</div>
 		<div class="main-panel">
 			<ul id="myTab" class="nav nav-tabs">
-				<li class="active"><a class="spacing" href="#information"
+				<li <c:if test="${active==10||active==null}">class="active"</c:if>><a class="spacing" href="#information"
 					data-toggle="tab">个人信息</a></li>
 				<li><a class="spacing" href="#BBS" data-toggle="tab">论坛</a></li>
 				<li><a class="spacing" href="#AQ" data-toggle="tab">问答</a></li>
-				<li><a class="spacing" href="#message" data-toggle="tab">消息</a></li>
-				<li><a class="spacing" href="#setting" data-toggle="tab">设置</a></li>
+				<c:if test="${user.id==currentUser.id }">
+					<li <c:if test="${active==20}">class="active"</c:if>><a
+						class="spacing" href="#message" data-toggle="tab">消息
+						<c:if test="${messageCnt!=null}">
+								<span class="badge">新</span>
+							</c:if></a></li>
+					<li <c:if test="${active==30}">class="active"</c:if>><a
+						class="spacing" href="#setting" data-toggle="tab">设置</a></li>
+				</c:if>
 			</ul>
 			<div id="myTabContent" class="tab-content">
-				<div class="tab-pane fade  in active" id="information">
-					<div class="content"><!-- 用户已设为私密 -->
+				<div class="tab-pane fade <c:if test="${active==10||active==null}">in active</c:if>" id="information">
+					<div class="content">
+					<c:if test="${user.id!=currentUser.id&&userSetting.showInfo==0}">
+					用户已设为私密</c:if>
+					<c:if test="${(user.id!=currentUser.id&&userSetting.showInfo==1)||user.id==currentUser.id}">
 					<div>
 					<div style="width:50%;display:inline-block;">
 						<div class="panel panel-default">
@@ -178,7 +189,7 @@
 									<p>住址：<span ref="home"><c:if test="${addressInfo.home==null||addressInfo.home==''}">未填写</c:if>${addressInfo.home}</span></p>
 								</form>
 							</div>
-						</div>
+						</div></c:if>
 					</div>
 				</div>
 				<div class="tab-pane fade" id="BBS">
@@ -282,9 +293,8 @@
 				<div class="tab-pane fade" id="AQ">
 					<div class="content" id="test">
 						<div class="panel panel-default">
-							<div class="panel-heading">数据</div>
+							<div class="panel-heading">擅长与参与度</div>
 							<div class="panel-body">
-
 								<div class="data-chart">
 									<canvas id="major" width="400" height="200"></canvas>
 									<div class="text">擅长领域</div>
@@ -294,51 +304,130 @@
 								</div>
 							</div>
 						</div>
-
-						<div class="panel panel-default" style="width: 70%;">
+						<div>
+						<div class="panel panel-default" style="display:inline-block;width: 30%;">
+							<div class="panel-heading">数据
+									<c:if test="${user.id==currentUser.id }">
+										<div id="address-btn-grp" class="btn-group"
+											style="float: right;">
+											<button name="edit" class="btn btn-default btn-xs" onclick="javascript:location.href='/q'">去答题</button>
+										</div>
+									</c:if>
+								</div>
+							<div class="panel-body">
+								<p>回答次数：${answerCnt}</p>
+								<p>被选为好评的回答个数：${goodAnswerCnt}</p>
+								<p>提问次数：${questionCnt}</p>
+								<p>答案帮助次数：${helpfulCnt}</p>
+							</div>
+						</div>
+						
+						<div class="panel panel-default" style="display:inline-block;width: 68%;float:right;">
 							<div class="panel-heading">动态(最近十条)</div>
 							<div class="panel-body">
+							<c:if test="${user.id!=currentUser.id&&userSetting.showActivity==0}">
+							用户已隐藏</c:if>
+							<c:if test="${(user.id!=currentUser.id&&userSetting.showActivity==1)||user.id==currentUser.id}">
 								<c:forEach items="${activities}" var="activity">
 									<p class="p-control">
 										<fmt:formatDate value="${activity.createTime}"
-											pattern="yyyy-MM-dd HH:mm:ss" />
+											pattern="yyyy-MM-dd HH:mm" />
 										&nbsp
 										<c:choose>
 											<c:when test="${activity.type==10}">
-												<a href="/u">${user.nickname}</a>提出了问题 <a
+												<a href="/u/${user.id}">${user.nickname}</a>提出了问题 <a
 													title="${activity.question.title}"
-													href="/question?q=${activity.question.id}">${activity.question.title}</a>
+													href="/q/${activity.question.id}">${activity.question.title}</a>
 											</c:when>
 											<c:when test="${activity.type==20}">
-												<a href="/u">${user.nickname}</a>回答了<a href="/u">${activity.user.nickname}</a>提出的<a
+												<a href="/u/${user.id}">${user.nickname}</a>回答了<a href="/u/${activity.user.id}">${activity.user.nickname}</a>提出的<a
 													title="${activity.question.title}"
-													href="/question?q=${activity.question.id}">${activity.question.title}</a>
+													href="/q/${activity.question.id}">${activity.question.title}</a>
 											</c:when>
 											<c:when test="${activity.type==30}">
-												<a href="/u">${user.nickname}</a>
+												<a href="/u/${user.id}">${user.nickname}</a>
 												<c:if test="${activity.isHelpful==1}">赞成</c:if>
 												<c:if test="${activity.isHelpful==0}">反对</c:if>
-												<a href="/u">${activity.user.nickname}</a>在<a
+												<a href="/u/${activity.user.id}">${activity.user.nickname}</a>在<a
 													title="${activity.question.title}"
-													href="/question?q=${activity.question.id}">${activity.question.title}</a>
+													href="/q/${activity.question.id}">${activity.question.title}</a>
 									上的回答</c:when>
 										</c:choose>
 									</p>
-								</c:forEach>
+								</c:forEach></c:if>
 							</div>
-						</div>
+						</div></div>
 					</div>
 				</div>
 
-				<div class="tab-pane fade" id="message">
+				<c:if test="${user.id==currentUser.id }">
+					<div class="tab-pane fade <c:if test="${active==20}">in active</c:if>" id="message">
+						<div class="content">
+							<table class="table table-hover table-condensed" style="table-layout: fixed;">
+								<caption>问题动态：${unreadMessages.size()}</caption>
+								<tbody>
+									<c:if test="${unreadMessages.size()==0}">暂时没有新的消息</c:if>
+									<c:forEach items="${unreadMessages}" var="message" begin="0" end="4">
+										<c:choose>
+											<c:when test="${message.type==10}">
+												<tr>
+													<td style="width: 10%">${format.getTime(message.createTime)}</td>
+													<td style="width: 90%"><p class="p-control"
+															style="font-size: 14px;">
+															<a href="/u/${message.user.id}">${message.user.nickname}</a>回答了你提出的<a
+																title="${message.question.title}"
+																href="/q/${message.question.id}">${message.question.title}</a>
+														</p></td>
+												</tr>
+											</c:when>
+										</c:choose>
+									</c:forEach>
+									<c:if test="${unreadMessages.size()>5}">
+									<tr>
+										<td colspan="2"><button class="btn btn-default btn-block" onclick="javascript:location.href='/u/message'">more...</button></td>
+									</tr></c:if>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="tab-pane fade <c:if test="${active==30}">in active</c:if>" id="setting">
 					<div class="content">
-						
+						<h1>
+							<small>个人信息</small>
+						</h1>
+
+						<form action="/u/update" role="form">
+							<div>
+								<label class="checkbox-inline" style="padding-left:0;"> 
+								<input type="radio" name="showInfo"  value="0" <c:if test="${userSetting.showInfo==0}">checked</c:if>>隐藏
+								</label> <label class="checkbox-inline"> 
+								<input type="radio" name="showInfo"  value="1" <c:if test="${userSetting.showInfo==1}">checked</c:if>>显示
+								</label></div>
+						<hr/>
+						<h1>
+							<small>动态</small></h1>
+							<div>
+								<label class="checkbox-inline" style="padding-left:0;"> 
+								<input type="radio" name="showActivity"  value="0" <c:if test="${userSetting.showActivity==0}">checked</c:if>>隐藏
+								</label> <label class="checkbox-inline"> 
+								<input type="radio" name="showActivity"  value="1" <c:if test="${userSetting.showActivity==1}">checked</c:if>>显示
+								</label></div>
+						<hr/>
+						<h1>
+							<small>新消息提醒</small></h1>
+							<div>
+								<label class="checkbox-inline" style="padding-left:0;"> 
+								<input type="radio" name="messageRemind"  value="1" <c:if test="${userSetting.messageRemind==1}">checked</c:if>>开启
+								</label> <label class="checkbox-inline"> 
+								<input type="radio" name="messageRemind"  value="0" <c:if test="${userSetting.messageRemind==0}">checked</c:if>>关闭
+								</label></div>
+							<hr/>
+							<input type="submit" value="保存" class="btn btn-success btn-sm" style="float:right">
+						</form>
 					</div>
 				</div>
-				
-				<div class="tab-pane fade" id="setting">
-					<div class="content">ceshi</div>
-				</div>
+				</c:if>
 			</div>
 		</div>
 	</div>
@@ -383,19 +472,25 @@
 						</div>
 						<div class="tab-pane fade" id="BBS1">
 							<div style="margin: 10px 30px 20px 30px">
-								<form action="/signUp" method="post" class="form-horizontal">
-									<label class="label-control" for="username">用户名</label> <input
-										type="text" class="form-control" name="username"
-										placeholder="用户名" required> <label
-										class="label-control" for="password">密码</label> <input
-										type="password" class="form-control" name="password"
-										placeholder="密码" required> <input type="submit"
-										class="btn btn-block btn-success form-control"
-										style="margin: 15px 0 0 0;" value="注册">
+								<form name="register_form" action="/signUp" method="post" class="form-horizontal">
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+									<div class='form-group'><label class="label-control">用户名</label> 
+									<input type="text" class="form-control" name="username" ></div>
+									<div class='form-group'><label class="label-control">密码</label> 
+									<input type="password" class="form-control" name="password"> </div>
+									<div class='form-group'><label class="label-control">确认密码</label> 
+									<input type="password" class="form-control" name="confirm" placeholder="请再次输入密码"> </div>
+									<div class='form-group'><label class="label-control">昵称</label> 
+									<input type="text" class="form-control" name="nickname"></div>
+									<div class='form-group'><label class="label-control">性别</label> 
+									<label class="checkbox-inline"> 
+									<input type="radio" name="sex"  value="0" checked>男
+									</label> <label class="checkbox-inline"> 
+									<input type="radio" name="sex"  value="1" >女
+									</label> </div>
+									<div class='form-group'><input type="submit" class="btn btn-block btn-success form-control" value="注册"></div>
 								</form>
 							</div>
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
 						</div>
 					</div>
 				</div>
@@ -538,29 +633,40 @@
 			type: 'horizontalBar',
 			data : {
 				labels: [
+					<c:if test="${participates.size()==0}">'暂无'</c:if>
 					<c:forEach items="${participates}" var="participate">"${tagMap[participate.index].name}"<c:if test="${!vs.last}">,</c:if></c:forEach>
 				],
 				datasets: [
 					{
 						label:"参与比例",
-						backgroundColor: [
-							<c:forEach items="${participates}" var="participate">"${tagMap[participate.index].color}"<c:if test="${!vs.last}">,</c:if></c:forEach>
-			            ],
+						backgroundColor: '#85AD99',
+						borderColor: '#85AD99',
 						data: [
+							<c:if test="${participates.size()==0}">0</c:if>
 							<c:forEach items="${participates}" var="participate">${participate.percent}<c:if test="${!vs.last}">,</c:if></c:forEach>
 						]
 					}
 				]
 			},
+			/* data : {
+	            labels: [<c:forEach items="${participates}" var="participate">"${tagMap[participate.index].name}"<c:if test="${!vs.last}">,</c:if></c:forEach>],
+	            datasets: [<c:forEach items="${participates}" var="participate" varStatus="vs">{
+	                label: '${tagMap[participate.index].name}',
+	                backgroundColor: "${tagMap[participate.index].color}",
+	                borderColor: "${tagMap[participate.index].color}",
+	                data: [
+	                	<c:forEach items="${participates}" var="p" varStatus="vsi"><c:if test="${vs.index!=vsi.index}">0</c:if><c:if test="${vs.index==vsi.index}">${participate.percent}</c:if><c:if test="${!vsi.last}">,</c:if></c:forEach>
+	                ]
+	            }<c:if test="${!vs.last}">,</c:if></c:forEach>]
+
+	        }, */
 			options : {
-				scales: {
-					xAxes: [{
-						stacked: true
-					}],
-					yAxes: [{
-						stacked: true
-					}]
-				}
+				elements: {
+                    rectangle: {
+                        borderWidth: 6,
+                    }
+                },
+				scales: { "xAxes": [{ "ticks": { "beginAtZero": true } }] }
 			}
 	    };
 	window.onload = function() {
@@ -961,6 +1067,107 @@
       	  });
       	});
     })
+    
+   /*  注册表单验证 */
+    $("form[name='register_form']").bootstrapValidator({
+ 	           message: 'This value is not valid',
+ 	           feedbackIcons: {
+ 	               valid: 'glyphicon glyphicon-ok',
+ 	               invalid: 'glyphicon glyphicon-remove',
+ 	               validating: 'glyphicon glyphicon-refresh'
+ 	           },
+ 	           fields: {
+ 	           	 'username': {
+ 	           		   trigger: 'change',
+ 	                   validators: {
+ 	                	  notEmpty: { message: '用户名不能为空'},
+ 	                	  regexp: {
+                             regexp: /^[a-zA-Z0-9_\.]+$/,
+                             message: '只能是数字和字母_.'
+                          },
+                          stringLength: {
+                              min: 6,
+                              max: 20,
+                              message: '用户名长度必须在6到30之间'
+                          },
+ 	                      callback: {
+ 	                           message: '用户名已存在',
+ 	                           callback: function(value, validator) {
+ 	                        	var flag = false;
+ 	                        	if(value.toString().trim()=='')
+ 	                        		return false;
+ 	                        	$.ajax({
+ 	                        		async : false,
+ 	                        		type : "get",
+ 	                        		url : "/validate_username/"+value,
+ 	                        		datatype : 'json',
+ 	                        		success : function(result){
+ 	                        			if(result=="success"){
+ 	                        				flag = true;
+ 	                        			}else{
+ 	                        				flag = false;
+ 	                        			}
+ 	                        		},
+ 	                        		error : function(jqXHR,textStatus,errorThrown) {
+ 	                        			flag = false;
+ 	       								alert(textStatus);
+ 	       							}
+ 	                        	})
+ 	                           	if(flag)
+ 	                           		return true;
+ 	                           	return false;
+ 	                           }
+ 	                       }
+ 	                   }
+ 	               },
+ 	              'password': {
+ 	            	 validators: {
+ 	                    notEmpty: {
+ 	                        message: '密码不能为空'
+ 	                    },
+ 	                    identical: {
+ 	                        field: 'confirm',
+ 	                        message: '密码不一致'
+ 	                    },
+ 	                   stringLength: {
+                           min: 6,
+                           max: 20,
+                           message: '用户名长度必须在6到30之间'
+                       },
+ 	                }
+	             },
+	             'confirm': {
+ 	            	 validators: {
+ 	                    notEmpty: {
+ 	                        message: '确认密码不能为空'
+ 	                    },
+ 	                    identical: {
+ 	                        field: 'password',
+ 	                        message: '密码不一致'
+ 	                    },
+ 	                   stringLength: {
+                           min: 6,
+                           max: 20,
+                           message: '用户名长度必须在6到30之间'
+                       },
+ 	                }
+	             },
+	             'nickname': {
+	            	 trigger: 'change',
+                     validators: {
+                         notEmpty: { message: '昵称不能为空'},
+                         callback: {
+                             message: '超过输入限制,请控制在12个字符以内',
+                             callback: function(value, validator) {
+                             	if(getLen(value)<=12)
+                             		return true
+                             	return false;
+                             }
+                         }
+                     }
+                 } 
+ 	           }
+ 	       })
 	</script>
 </body>
 

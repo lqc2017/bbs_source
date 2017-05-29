@@ -424,6 +424,66 @@ public class AccountExample {
             addCriterion("LATEST_LOGIN not between", value1, value2, "latestLogin");
             return (Criteria) this;
         }
+
+        public Criteria andCreateTimeIsNull() {
+            addCriterion("CREATE_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNotNull() {
+            addCriterion("CREATE_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeEqualTo(Date value) {
+            addCriterion("CREATE_TIME =", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotEqualTo(Date value) {
+            addCriterion("CREATE_TIME <>", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThan(Date value) {
+            addCriterion("CREATE_TIME >", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("CREATE_TIME >=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThan(Date value) {
+            addCriterion("CREATE_TIME <", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("CREATE_TIME <=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIn(List<Date> values) {
+            addCriterion("CREATE_TIME in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotIn(List<Date> values) {
+            addCriterion("CREATE_TIME not in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeBetween(Date value1, Date value2) {
+            addCriterion("CREATE_TIME between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("CREATE_TIME not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

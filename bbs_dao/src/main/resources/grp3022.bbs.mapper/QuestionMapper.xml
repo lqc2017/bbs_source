@@ -370,4 +370,14 @@
 			VIEWS DESC,ANSWERS DESC
 		</if>
 	</select>
+	
+	<select id="selectNewByCreateBy" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT
+		<include refid="Base_Column_List" />
+		<![CDATA[
+		from QUESTION
+		where CREATE_BY = #{createBy,jdbcType=DECIMAL} AND STATUS = 10 AND REMINDER < ANSWERS
+		ORDER BY CREATE_TIME DESC
+		]]>
+	</select>
 </mapper>

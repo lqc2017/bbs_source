@@ -13,6 +13,48 @@
 </head>
 
 <body>
+	<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#example-navbar-collapse">
+				<span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">codeground</a>
+		</div>
+		<div class="collapse navbar-collapse" id="example-navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li class=""><a href="#">论坛</a></li>
+				<li><a href="/q">问答</a></li>
+			</ul>
+			<ul class="nav navbar-nav float-right">
+				<c:if
+					test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication==null }">
+					<li><a class="sign" href="javascript:;" data-toggle="modal"
+						data-target="#myModal">登陆/注册</a></li>
+				</c:if>
+				<c:if
+					test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><img
+							src="${currentUser.protraitUrl}"
+							height="20" width="20"><b class="caret"></b> </a>
+						<ul class="dropdown-menu">
+							<li><p class="p-cur-user">当前用户：${currentUser.nickname}</p></li>
+							<li class="divider"></li>
+							<li><a href="/u/${currentUser.id}?active=10">个人信息</a></li>
+							<li><a href="/u/${currentUser.id}?active=20">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
+							<li class="divider"></li>
+							<li><a href="/logout">登出</a></li>
+							<li class="divider"></li>
+							<li><a href="/u/${currentUser.id}?active=30">设置</a></li>
+						</ul></li>
+				</c:if>
+			</ul>
+		</div>
+	</div>
+	</nav>
 	<input id="totalPages" type="hidden" value="${pageInfo.getPages()}" />
 	<input id="currentPn" type="hidden" value="${pageInfo.getPageNum()}" />
 	<div class="search-panel">

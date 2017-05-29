@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
+import grp3022.bbs.aop.UpdateMessage;
 import grp3022.bbs.jo.Percentage;
 import grp3022.bbs.po.Answer;
 import grp3022.bbs.po.AnswerHelpKey;
@@ -34,11 +35,6 @@ import grp3022.bbs.type.Tag;
 import grp3022.bbs.util.Format;
 import grp3022.bbs.util.TagUtil;
 
-/**
- * @author 全琛
- * @create_time 上午11:07:01
- *
- */
 @Controller
 public class QuestionController {
 
@@ -60,6 +56,7 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/q")
+	@UpdateMessage(description = "问题首页")
 	public ModelAndView home(QuestionSo questionSo, Integer pn) {
 		if ((questionSo.getKeywords() == null || questionSo.getKeywords().equals(""))
 				&& questionSo.getTimeFrame() == null)
@@ -101,6 +98,7 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/q/{qId}")
+	@UpdateMessage(description = "问题界面")
 	public String question(@PathVariable Long qId, AnswerSo answerSo,HttpSession session,Model model) {
 		/*初始化问题*/
 		Question question = questionService.getById(qId);
@@ -114,6 +112,7 @@ public class QuestionController {
 			long userId = Long.parseLong(session.getAttribute("userId").toString());
 			BBSUser user = userService.getById(userId);
 			
+			/*如果浏览用户为创建者，将reminder字段与答案数量字段同步*/
 			if(userId==question.getCreateBy()){
 				question.setReminder(question.getAnswers());
 			}
@@ -163,6 +162,7 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/q/edit")
+	@UpdateMessage(description = "编辑问题")
 	public String edit(Model model,HttpSession session) {
 		if(session.getAttribute("userId")!=null){
 			long userId = Long.parseLong(session.getAttribute("userId").toString());
