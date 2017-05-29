@@ -19,6 +19,10 @@ public class Reply {
 
     private Long score;
 
+    private Long citeFlorr;
+
+    private String citeContent;
+
     public Long getId() {
         return id;
     }
@@ -81,5 +85,21 @@ public class Reply {
 
     public void setScore(Long score) {
         this.score = score;
+    }
+
+    public Long getCiteFlorr() {
+        return citeFlorr;
+    }
+
+    public void setCiteFlorr(Long citeFlorr) {
+        this.citeFlorr = citeFlorr;
+    }
+
+    public String getCiteContent() {
+        return citeContent;
+    }
+
+    public void setCiteContent(String citeContent) {
+        this.citeContent = citeContent == null ? null : citeContent.trim();
     }
 }

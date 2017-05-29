@@ -604,6 +604,136 @@ public class ReplyExample {
             addCriterion("SCORE not between", value1, value2, "score");
             return (Criteria) this;
         }
+
+        public Criteria andCiteFlorrIsNull() {
+            addCriterion("CITE_FLORR is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrIsNotNull() {
+            addCriterion("CITE_FLORR is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrEqualTo(Long value) {
+            addCriterion("CITE_FLORR =", value, "citeFlorr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrNotEqualTo(Long value) {
+            addCriterion("CITE_FLORR <>", value, "citeFlorr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrGreaterThan(Long value) {
+            addCriterion("CITE_FLORR >", value, "citeFlorr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrGreaterThanOrEqualTo(Long value) {
+            addCriterion("CITE_FLORR >=", value, "citeFlorr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrLessThan(Long value) {
+            addCriterion("CITE_FLORR <", value, "citeFlorr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrLessThanOrEqualTo(Long value) {
+            addCriterion("CITE_FLORR <=", value, "citeFlorr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrIn(List<Long> values) {
+            addCriterion("CITE_FLORR in", values, "citeFlorr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrNotIn(List<Long> values) {
+            addCriterion("CITE_FLORR not in", values, "citeFlorr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrBetween(Long value1, Long value2) {
+            addCriterion("CITE_FLORR between", value1, value2, "citeFlorr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteFlorrNotBetween(Long value1, Long value2) {
+            addCriterion("CITE_FLORR not between", value1, value2, "citeFlorr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentIsNull() {
+            addCriterion("CITE_CONTENT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentIsNotNull() {
+            addCriterion("CITE_CONTENT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentEqualTo(String value) {
+            addCriterion("CITE_CONTENT =", value, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentNotEqualTo(String value) {
+            addCriterion("CITE_CONTENT <>", value, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentGreaterThan(String value) {
+            addCriterion("CITE_CONTENT >", value, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentGreaterThanOrEqualTo(String value) {
+            addCriterion("CITE_CONTENT >=", value, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentLessThan(String value) {
+            addCriterion("CITE_CONTENT <", value, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentLessThanOrEqualTo(String value) {
+            addCriterion("CITE_CONTENT <=", value, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentLike(String value) {
+            addCriterion("CITE_CONTENT like", value, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentNotLike(String value) {
+            addCriterion("CITE_CONTENT not like", value, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentIn(List<String> values) {
+            addCriterion("CITE_CONTENT in", values, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentNotIn(List<String> values) {
+            addCriterion("CITE_CONTENT not in", values, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentBetween(String value1, String value2) {
+            addCriterion("CITE_CONTENT between", value1, value2, "citeContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiteContentNotBetween(String value1, String value2) {
+            addCriterion("CITE_CONTENT not between", value1, value2, "citeContent");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

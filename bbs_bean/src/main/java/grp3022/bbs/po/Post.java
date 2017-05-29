@@ -29,6 +29,8 @@ public class Post {
 
     private String name;
 
+    private Long acceptId;
+
     public Long getId() {
         return id;
     }
@@ -131,5 +133,13 @@ public class Post {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Long getAcceptId() {
+        return acceptId;
+    }
+
+    public void setAcceptId(Long acceptId) {
+        this.acceptId = acceptId;
     }
 }

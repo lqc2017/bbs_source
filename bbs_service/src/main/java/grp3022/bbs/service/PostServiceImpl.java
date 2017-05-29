@@ -43,6 +43,7 @@ public class PostServiceImpl implements PostService{
 	
 	@Override
 	public List<Post> getAllByPo(PostExample record){
+		record.setOrderByClause("POST_TIME DESC");
 		List<Post> post = postDao.selectByExample(record);
 		return post;
 	}

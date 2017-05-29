@@ -148,7 +148,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">悬赏分</label><div class="col-sm-2"><input class="form-control" name="rewards" data-toggle="collapse" data-parent="#accordion"/></div>
+				<label class="col-sm-2 control-label">悬赏分</label><div class="col-sm-2"><input disabled="disabled" class="form-control" value="50" name="rewards" data-toggle="collapse" data-parent="#accordion"/></div>
 				<label class="col-sm-0 control-label">给分范围（0-100），当前可用分：200</label>
 			</div>
 			<div  class="form-group">

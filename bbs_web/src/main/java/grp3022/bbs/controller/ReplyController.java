@@ -1,6 +1,7 @@
 package grp3022.bbs.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -40,13 +41,27 @@ public class ReplyController {
 		try {
 			
 			//BBSUser user = userService.getById(reply.getReplyUser());
+			/*找到对应楼层的回复id*/
+			if(reply.getCiteId()!=null){
+				reply.setCiteFlorr(reply.getCiteId());
+				List<Reply> finding = replyService.getAllByPostId(reply.getPostId());
+				Reply findout = finding.get((int) (reply.getCiteId()-1));
+				reply.setCiteId(findout.getId());
+				reply.setCiteContent(findout.getContent());
+			}
 			replyService.add(reply);
+			
+			/*更新用户分数*/
+			long replyUser = reply.getReplyUser();
+			BBSUser user = userService.getById(replyUser);
+			user.setScore(user.getScore()+2);
+			userService.updateById(user);
 			
 			/*更新post*/
 			Post post = postService.getById(reply.getPostId());
 			post.setReplys(post.getReplys()+1);
 			post.setUpdateTime(new Date());
-			post.setReplys(post.getFloor()+1);
+			post.setFloor(post.getFloor()+1);
 			postService.updateById(post);
 			
 			
@@ -80,7 +95,50 @@ public class ReplyController {
 				reply.setScore(reply.getScore()-1);
 			replyService.updateById(reply);
 			
+			/*更新用户分数*/
+			long replyUser = reply.getReplyUser();
+			BBSUser user = userService.getById(replyUser);
+			if(value==1)
+				user.setScore(user.getScore()+1);
+			else if(value==2&&user.getScore()>0)
+				user.setScore(user.getScore()-1);
+			userService.updateById(user);
 			
+
+		} catch (Exception e) {
+			return "fail";
+		}
+		return "success";
+	}
+	
+	@RequestMapping(value = "/accept")
+	public @ResponseBody String accept(@RequestParam(value = "r")Long replyId,@RequestParam(value = "p")Long postId,HttpSession session) {
+		try {
+			//BBSUser user = userService.getById(reply.getReplyUser());
+			if(session.getAttribute("userId")==null){
+				return "fail";
+			}
+			long userId = Long.parseLong(session.getAttribute("userId").toString());
+			
+			/*更新帖子表*/
+			Post post = postService.getById(postId);
+			post.setAcceptId(replyId);
+			postService.updateById(post);
+			
+			
+			
+			/*更新reply*/
+			Reply reply = replyService.getById(replyId);
+			reply.setScore(reply.getScore()+post.getRewards());
+			replyService.updateById(reply);
+			
+			/*更新用户分数*/
+			long replyUser = reply.getReplyUser();
+			BBSUser user = userService.getById(replyUser);
+			user.setScore(user.getScore()+post.getRewards());
+			userService.updateById(user);
+			
+
 		} catch (Exception e) {
 			return "fail";
 		}

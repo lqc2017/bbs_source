@@ -2,9 +2,6 @@ package grp3022.bbs.dao;
 
 import grp3022.bbs.po.Post;
 import grp3022.bbs.po.PostExample;
-import grp3022.bbs.po.Question;
-import grp3022.bbs.so.QuestionSo;
-
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,5 +27,4 @@ public interface PostMapper {
     int updateByPrimaryKeySelective(Post record);
 
     int updateByPrimaryKey(Post record);
-
 }
