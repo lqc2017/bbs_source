@@ -207,18 +207,16 @@
 										</tr>
 									</thead>
 									<tbody>
+										<c:forEach var="myPost" items="${myPost}" varStatus="vs" >
+										<c:if test="${vs.count<=10}">
 										<tr>
-											<td><a href="#">python自动运维实战</a></td>
-											<td><a href="#">刘言石</a></td>
-											<td>2017-5-23</td>
-											<td>2017-5-25</td>
+											<td><a href="/bulletin/home/${myPost.id}">${myPost.title}</a></td>
+											<td><a href="#">${myPost.name}</a></td>
+											<td>${myPost.postTime}</td>
+											<td>${myPost.updateTime}</td>
 										</tr>
-										<tr>
-											<td><a href="#">python自动运维实战</a></td>
-											<td><a href="#">张绍俊</a></td>
-											<td>2017-5-23</td>
-											<td>2017-5-24</td>
-										</tr>
+										</c:if>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -236,18 +234,16 @@
 										</tr>
 									</thead>
 									<tbody>
+										<c:forEach var="myBrowsePost" items="${myBrowsePost}" varStatus="vs" >
+										<c:if test="${vs.count<=5}">
 										<tr>
-											<td><a href="#">python自动运维实战</a></td>
-											<td><a href="#">刘言石</a></td>
-											<td>2017-5-23</td>
-											<td>2017-5-25</td>
+											<td><a href="/bulletin/home/${myBrowsePost.id}">${myBrowsePost.title}</a></td>
+											<td><a href="#">${myBrowsePost.name}</a></td>
+											<td>${myBrowsePost.postTime}</td>
+											<td>${myBrowsePost.updateTime}</td>
 										</tr>
-										<tr>
-											<td><a href="#">python自动运维实战</a></td>
-											<td><a href="#">张绍俊</a></td>
-											<td>2017-5-23</td>
-											<td>2017-5-24</td>
-										</tr>
+										</c:if>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -286,7 +282,7 @@
 								</div>
 							</div>
 							<div align="center">
-								<button type="button" class="btn btn-success btn-lg">我要发帖</button>
+								<a href="/bulletin/post" type="button" class="btn btn-success btn-lg">我要发帖</a>
 							</div>
 						</div>
 				</div>

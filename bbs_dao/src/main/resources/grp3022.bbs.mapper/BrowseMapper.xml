@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="grp3022.bbs.dao.BrowseMapper" >
+  <resultMap id="BaseResultMap" type="grp3022.bbs.po.Browse" >
+    <id column="BROWSE_ID" property="browseId" jdbcType="DECIMAL" />
+    <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="BROWSE_TIME" property="browseTime" jdbcType="TIMESTAMP" />
+    <result column="BROWSE_COUNT" property="browseCount" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BROWSE_ID, USER_ID, BROWSE_TIME, BROWSE_COUNT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.BrowseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BROWSE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.BrowseKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from BROWSE
+    where BROWSE_ID = #{browseId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="grp3022.bbs.po.BrowseKey" >
+    delete from BROWSE
+    where BROWSE_ID = #{browseId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="grp3022.bbs.po.BrowseExample" >
+    delete from BROWSE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="grp3022.bbs.po.Browse" >
+    insert into BROWSE (BROWSE_ID, USER_ID, BROWSE_TIME, 
+      BROWSE_COUNT)
+    values (#{browseId,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, #{browseTime,jdbcType=TIMESTAMP}, 
+      #{browseCount,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="grp3022.bbs.po.Browse" >
+    insert into BROWSE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="browseId != null" >
+        BROWSE_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="browseTime != null" >
+        BROWSE_TIME,
+      </if>
+      <if test="browseCount != null" >
+        BROWSE_COUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="browseId != null" >
+        #{browseId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="browseTime != null" >
+        #{browseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="browseCount != null" >
+        #{browseCount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="grp3022.bbs.po.BrowseExample" resultType="java.lang.Integer" >
+    select count(*) from BROWSE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update BROWSE
+    <set >
+      <if test="record.browseId != null" >
+        BROWSE_ID = #{record.browseId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.browseTime != null" >
+        BROWSE_TIME = #{record.browseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.browseCount != null" >
+        BROWSE_COUNT = #{record.browseCount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update BROWSE
+    set BROWSE_ID = #{record.browseId,jdbcType=DECIMAL},
+      USER_ID = #{record.userId,jdbcType=DECIMAL},
+      BROWSE_TIME = #{record.browseTime,jdbcType=TIMESTAMP},
+      BROWSE_COUNT = #{record.browseCount,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="grp3022.bbs.po.Browse" >
+    update BROWSE
+    <set >
+      <if test="browseTime != null" >
+        BROWSE_TIME = #{browseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="browseCount != null" >
+        BROWSE_COUNT = #{browseCount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where BROWSE_ID = #{browseId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="grp3022.bbs.po.Browse" >
+    update BROWSE
+    set BROWSE_TIME = #{browseTime,jdbcType=TIMESTAMP},
+      BROWSE_COUNT = #{browseCount,jdbcType=DECIMAL}
+    where BROWSE_ID = #{browseId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,6 +1,7 @@
 package grp3022.bbs.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +24,15 @@ import grp3022.bbs.po.Answer;
 import grp3022.bbs.po.AnswerHelpKey;
 import grp3022.bbs.po.BBSUser;
 import grp3022.bbs.po.BBSUserExample;
+import grp3022.bbs.po.Browse;
+import grp3022.bbs.po.BrowseKey;
 import grp3022.bbs.po.Post;
 import grp3022.bbs.po.PostExample;
 import grp3022.bbs.po.Question;
 import grp3022.bbs.po.Reply;
 import grp3022.bbs.po.ReplyHelpKey;
 import grp3022.bbs.service.BBSUserService;
+import grp3022.bbs.service.BrowseService;
 import grp3022.bbs.service.PostService;
 import grp3022.bbs.service.ReplyHelpService;
 import grp3022.bbs.service.ReplyService;
@@ -47,6 +51,8 @@ public class PostController {
 	private BBSUserService userService;
 	@Resource
 	private PostService postService;
+	@Resource
+	private BrowseService browseService;
 	@Resource
 	private ReplyService replyService;
 	@Resource
@@ -113,6 +119,23 @@ public class PostController {
 			userId = Long.parseLong(session.getAttribute("userId").toString());
 			BBSUser user = userService.getById(userId);
 			model.addAttribute("user", user);
+			
+			/*更新浏览记录*/
+			BrowseKey key = new BrowseKey();
+			key.setUserId(userId);
+			key.setBrowseId(pId);
+			if(browseService.getByKey(key)!=null){
+				Browse record = browseService.getByKey(key);
+				record.setBrowseCount(record.getBrowseCount()+1);
+				record.setBrowseTime(new Date());
+				browseService.updateByKey(record);
+			}
+			else{
+				Browse record = new Browse();
+				record.setBrowseId(pId);
+				record.setUserId(userId);
+				browseService.add(record);
+			}
 		}
 		
 		/*初始化是否点赞*/ 
@@ -138,6 +161,7 @@ public class PostController {
 			}
 		}
 		model.addAttribute("helpEnable", helpEnable);
+		
 		
 		/* 更新问题信息并更新用户分数 */
 		post.setViews(post.getViews() + 1);
