@@ -286,7 +286,7 @@ public class UserController {
 			AnswerSo answerSo = new AnswerSo();
 			answerSo.setQuestionId(q.getId());
 			// 获得未读的已更新的用户问题下未读的答案
-			List<Answer> unReadAnswers = answerService.getAllBySo(answerSo).subList(0, cnt);
+			List<Answer> unReadAnswers = answerService.getAllBySo(answerSo).subList(0, cnt-1);
 
 			// 包装答案
 			for (Answer a : unReadAnswers) {
