@@ -14,6 +14,7 @@ import com.github.pagehelper.PageInfo;
 import grp3022.bbs.dao.PostMapper;
 import grp3022.bbs.po.Post;
 import grp3022.bbs.po.PostExample;
+import grp3022.bbs.po.PostExample.Criteria;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -43,8 +44,17 @@ public class PostServiceImpl implements PostService{
 	
 	@Override
 	public List<Post> getAllByPo(PostExample record){
+		record.setOrderByClause("POST_TIME DESC");
 		List<Post> post = postDao.selectByExample(record);
 		return post;
 	}
-	
+	@Override
+	public List<Post> getPostByUserId(long userId){
+		PostExample example = new PostExample();
+		example.setOrderByClause("UPDATE_TIME DESC");
+		Criteria c = example.or();
+		c.andPostUserEqualTo(userId);
+		List<Post> post = postDao.selectByExample(example);
+		return post;
+	}
 }

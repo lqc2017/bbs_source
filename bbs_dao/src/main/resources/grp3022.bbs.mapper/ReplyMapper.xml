@@ -10,6 +10,8 @@
     <result column="REPLY_USER" property="replyUser" jdbcType="DECIMAL" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="SCORE" property="score" jdbcType="DECIMAL" />
+    <result column="CITE_FLORR" property="citeFlorr" jdbcType="DECIMAL" />
+    <result column="CITE_CONTENT" property="citeContent" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, POST_ID, CITE_ID, CONTENT, REPLY_TIME, REPLY_USER, NAME, SCORE
+    ID, POST_ID, CITE_ID, CONTENT, REPLY_TIME, REPLY_USER, NAME, SCORE, CITE_FLORR, CITE_CONTENT
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.ReplyExample" >
     select
@@ -105,10 +107,12 @@
   <insert id="insert" parameterType="grp3022.bbs.po.Reply" >
     insert into REPLY (ID, POST_ID, CITE_ID, 
       CONTENT, REPLY_TIME, REPLY_USER, 
-      NAME, SCORE)
+      NAME, SCORE, CITE_FLORR, 
+      CITE_CONTENT)
     values (#{id,jdbcType=DECIMAL}, #{postId,jdbcType=DECIMAL}, #{citeId,jdbcType=DECIMAL}, 
       #{content,jdbcType=VARCHAR}, #{replyTime,jdbcType=TIMESTAMP}, #{replyUser,jdbcType=DECIMAL}, 
-      #{name,jdbcType=VARCHAR}, #{score,jdbcType=DECIMAL})
+      #{name,jdbcType=VARCHAR}, #{score,jdbcType=DECIMAL}, #{citeFlorr,jdbcType=DECIMAL}, 
+      #{citeContent,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="grp3022.bbs.po.Reply" >
     insert into REPLY
@@ -137,6 +141,12 @@
       <if test="score != null" >
         SCORE,
       </if>
+      <if test="citeFlorr != null" >
+        CITE_FLORR,
+      </if>
+      <if test="citeContent != null" >
+        CITE_CONTENT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -162,6 +172,12 @@
       </if>
       <if test="score != null" >
         #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="citeFlorr != null" >
+        #{citeFlorr,jdbcType=DECIMAL},
+      </if>
+      <if test="citeContent != null" >
+        #{citeContent,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,6 +214,12 @@
       <if test="record.score != null" >
         SCORE = #{record.score,jdbcType=DECIMAL},
       </if>
+      <if test="record.citeFlorr != null" >
+        CITE_FLORR = #{record.citeFlorr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.citeContent != null" >
+        CITE_CONTENT = #{record.citeContent,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +234,9 @@
       REPLY_TIME = #{record.replyTime,jdbcType=TIMESTAMP},
       REPLY_USER = #{record.replyUser,jdbcType=DECIMAL},
       NAME = #{record.name,jdbcType=VARCHAR},
-      SCORE = #{record.score,jdbcType=DECIMAL}
+      SCORE = #{record.score,jdbcType=DECIMAL},
+      CITE_FLORR = #{record.citeFlorr,jdbcType=DECIMAL},
+      CITE_CONTENT = #{record.citeContent,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +265,12 @@
       <if test="score != null" >
         SCORE = #{score,jdbcType=DECIMAL},
       </if>
+      <if test="citeFlorr != null" >
+        CITE_FLORR = #{citeFlorr,jdbcType=DECIMAL},
+      </if>
+      <if test="citeContent != null" >
+        CITE_CONTENT = #{citeContent,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
@@ -252,7 +282,9 @@
       REPLY_TIME = #{replyTime,jdbcType=TIMESTAMP},
       REPLY_USER = #{replyUser,jdbcType=DECIMAL},
       NAME = #{name,jdbcType=VARCHAR},
-      SCORE = #{score,jdbcType=DECIMAL}
+      SCORE = #{score,jdbcType=DECIMAL},
+      CITE_FLORR = #{citeFlorr,jdbcType=DECIMAL},
+      CITE_CONTENT = #{citeContent,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
 </mapper>

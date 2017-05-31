@@ -1,10 +1,13 @@
 package grp3022.bbs.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import grp3022.bbs.dao.BBSUserMapper;
 import grp3022.bbs.po.BBSUser;
+import grp3022.bbs.po.BBSUserExample;
 
 @Service
 public class BBSUserServiceImpl implements BBSUserService {
@@ -50,4 +53,11 @@ public class BBSUserServiceImpl implements BBSUserService {
         	page.setPageNum(page.getPages());
         return page;
 	}*/
+	
+	@Override
+	public List<BBSUser> getAllByPo(BBSUserExample example){
+		example.setOrderByClause("SCORE DESC");
+		List<BBSUser> records = bbsUserDao.selectByExample(example);
+		return records;
+	}
 }

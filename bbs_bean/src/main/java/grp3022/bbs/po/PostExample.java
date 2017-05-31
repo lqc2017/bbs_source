@@ -924,6 +924,66 @@ public class PostExample {
             addCriterion("NAME not between", value1, value2, "name");
             return (Criteria) this;
         }
+
+        public Criteria andAcceptIdIsNull() {
+            addCriterion("ACCEPT_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdIsNotNull() {
+            addCriterion("ACCEPT_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdEqualTo(Long value) {
+            addCriterion("ACCEPT_ID =", value, "acceptId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdNotEqualTo(Long value) {
+            addCriterion("ACCEPT_ID <>", value, "acceptId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdGreaterThan(Long value) {
+            addCriterion("ACCEPT_ID >", value, "acceptId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("ACCEPT_ID >=", value, "acceptId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdLessThan(Long value) {
+            addCriterion("ACCEPT_ID <", value, "acceptId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdLessThanOrEqualTo(Long value) {
+            addCriterion("ACCEPT_ID <=", value, "acceptId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdIn(List<Long> values) {
+            addCriterion("ACCEPT_ID in", values, "acceptId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdNotIn(List<Long> values) {
+            addCriterion("ACCEPT_ID not in", values, "acceptId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdBetween(Long value1, Long value2) {
+            addCriterion("ACCEPT_ID between", value1, value2, "acceptId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcceptIdNotBetween(Long value1, Long value2) {
+            addCriterion("ACCEPT_ID not between", value1, value2, "acceptId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

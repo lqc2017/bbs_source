@@ -24,7 +24,6 @@ public class ReplyHelpServiceImpl implements ReplyHelpService{
 
 	@Override
 	public void add(ReplyHelp record) {
-		
 		record.setCreateTime(new Date());
 		replyHelpDao.insertSelective(record);
 	}

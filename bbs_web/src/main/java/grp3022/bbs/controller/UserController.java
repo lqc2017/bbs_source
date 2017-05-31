@@ -24,12 +24,16 @@ import grp3022.bbs.jo.UserSetting;
 import grp3022.bbs.po.Answer;
 import grp3022.bbs.po.AnswerHelp;
 import grp3022.bbs.po.BBSUser;
+import grp3022.bbs.po.Browse;
 import grp3022.bbs.po.FollowKey;
+import grp3022.bbs.po.Post;
 import grp3022.bbs.po.Question;
 import grp3022.bbs.service.AnswerHelpService;
 import grp3022.bbs.service.AnswerService;
 import grp3022.bbs.service.BBSUserService;
+import grp3022.bbs.service.BrowseService;
 import grp3022.bbs.service.FollowService;
+import grp3022.bbs.service.PostService;
 import grp3022.bbs.service.QuestionService;
 import grp3022.bbs.so.AnswerHelpSo;
 import grp3022.bbs.so.AnswerSo;
@@ -53,6 +57,10 @@ public class UserController {
 	private AnswerHelpService answerHelpService;
 	@Resource
 	private FollowService followService;
+	@Resource
+	private PostService postService;
+	@Resource
+	private BrowseService browseService;
 
 	/**
 	 * 2017年5月20日 下午2:59:37
@@ -86,6 +94,7 @@ public class UserController {
 		this.loadData(user, model);
 		this.loadActivity(user, model);
 		this.loadSetting(user, model);
+		this.loadPostInformation(user, model);
 		model.addAttribute("user", user);
 		model.addAttribute("active", active);
 		model.addAttribute("format", new Format());
@@ -303,5 +312,20 @@ public class UserController {
 			}
 		});
 		model.addAttribute("unreadMessages", unreadMessages);
+	}
+	
+
+	private void loadPostInformation(BBSUser user, Model model) {
+		List<Post> myPost = postService.getPostByUserId(user.getId());
+		List<Browse> myBrowse = browseService.getBrowseByUserId(user.getId());
+		List<Post> myBrowsePost = new ArrayList<Post>();
+		for(Browse b: myBrowse){
+			Post post = postService.getById(b.getBrowseId());
+			post.setUpdateTime(b.getBrowseTime());//用浏览时间代替post的更新时间输出信息
+			myBrowsePost.add(post);
+		}
+		
+		model.addAttribute("myPost", myPost);
+		model.addAttribute("myBrowsePost", myBrowsePost);
 	}
 }

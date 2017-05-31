@@ -16,4 +16,7 @@ public interface PostService {
 	void updateById(Post record);
 	
 	List<Post> getAllByPo(PostExample record);
+	
+	List<Post> getPostByUserId(long userId);
+	
 }

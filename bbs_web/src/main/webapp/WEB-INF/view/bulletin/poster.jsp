@@ -60,6 +60,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading" align="left">${post.title}
 					<c:if test="${post.status==1}"><span class="label label-default">已结帖</span></c:if>
+					<c:if test="${post.postUser==user.id&&post.status==0}"><button p="${post.id}" name="finish-btn" type="button" class="btn btn-default">结帖</button></c:if>
 					<br><br>
 					<c:if test="${tags.size()!=0}">
 					<div class="questoin-tags">
@@ -104,9 +105,10 @@
 								<td></td>
 								<td>
 									<div style="display: inline">
-										回复数：${post.replys}
+										回复数：${post.replys} 浏览数：${post.views}
 										<div class="btn-group" style="float: right;">
 											<button type="button" class="btn btn-default">收藏本帖</button>
+											<a href="#input" type="button" class="btn btn-default">回复</a>
 										</div>
 									</div>
 								</td>
@@ -122,7 +124,7 @@
 								<td></td>
 								<td><div style="display: inline">
 										回复时间：${replys.replyTime}
-										<div style="float: right;">${floor}楼</div>
+										<div style="float: right;">${floor}楼    <c:if test="${post.acceptId==replys.id}"><span class="label label-success">被采纳</span></c:if></div>
 									</div></td>
 							</tr>
 							<tr>
@@ -144,7 +146,7 @@
 										</tbody>
 									</table>
 								</td>
-								<td>${replys.content}</td>
+								<td><c:if test="${replys.citeId!=null}">引用${replys.citeFlorr}的回复：<br>${replys.citeContent}<br></c:if>${replys.content}</td>
 							</tr>
 							<tr>
 								<td></td>
@@ -152,21 +154,36 @@
 									<div style="display: inline">
 										<c:if test="${helpEnable.get(vs.count-1)==0}">
 										<div class="btn-group" style="float: right;">
+											<c:if test="${post.postUser==user.id&&post.acceptId==0}">
+												<button r="${replys.id}" p="${post.id}" name="accept-btn" type="button" class="btn btn-default">采纳</button>
+											</c:if>
+											<c:if test="${post.postUser==user.id&&post.acceptId==replys.id}">
+												<button disabled="disabled" type="button" class="btn btn-default">已采纳</button>
+											</c:if>
 											<button r="${replys.id}" value="1" name="helpful-btn" type="button" class="btn btn-default">赞一下</button>
 											<button r="${replys.id}" value="2" name="helpless-btn" type="button" class="btn btn-default">踩一下</button>
-											<button type="button" class="btn btn-default">引用</button>
 										</div>
 										</c:if>
 										<c:if test="${helpEnable.get(vs.count-1)==1}">
 										<div class="btn-group" style="float: right;">
+											<c:if test="${post.postUser==user.id&&post.acceptId==0}">
+											<button r="${replys.id}" p="${post.id}" name="accept-btn" type="button" class="btn btn-default">采纳</button>
+											</c:if>
+											<c:if test="${post.postUser==user.id&&post.acceptId==replys.id}">
+												<button disabled="disabled" type="button" class="btn btn-default">已采纳</button>
+											</c:if>
 											<button disabled="disabled" type="button" class="btn btn-default">已赞</button>
-											<button type="button" class="btn btn-default">引用</button>
 										</div>
 										</c:if>
 										<c:if test="${helpEnable.get(vs.count-1)==2}">
 										<div class="btn-group" style="float: right;">
+											<c:if test="${post.postUser==user.id&&post.acceptId==0}">
+												<button r="${replys.id}" p="${post.id}" name="accept-btn" type="button" class="btn btn-default">采纳</button>
+											</c:if>
+											<c:if test="${post.postUser==user.id&&post.acceptId==replys.id}">
+												<button disabled="disabled" type="button" class="btn btn-default">已采纳</button>
+											</c:if>
 											<button disabled="disabled" type="button" class="btn btn-default">已踩</button>
-											<button type="button" class="btn btn-default">引用</button>
 										</div>
 										</c:if>
 									</div>
@@ -181,8 +198,13 @@
 	</div>
 	<c:if test="${post.status==0}">
 	<div align="center">
-		<div style="width: 800px;">
+		<div style="width: 800px;" id="input">
 			<form id="add_form" class="form-horizontal" action="/bulletin/reply" method="post">
+			<div align="left">
+				<div class="form-group">
+					<label style="width: 225px;" class="col-sm-2 control-label">回复楼层（回复楼层范围1-${post.replys}） </label><div class="col-sm-2"><input class="form-control" placeholder="NULL" name="citeId" data-toggle="collapse" data-parent="#accordion"/></div>
+				</div>
+			</div>
 				<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
 				<input type="hidden" name="replyUser" value="${user.id}"/>
 				<input type="hidden" name="name" value="${user.nickname}"/>
@@ -264,7 +286,31 @@
 
 	<script src="/js/commons/editorInit.js"></script>
 	<script defer type="text/javascript">
-
+	    
+		$('#add_form').bootstrapValidator({
+	        message: 'This value is not valid',
+	        feedbackIcons: {
+	            valid: 'glyphicon glyphicon-ok',
+	            invalid: 'glyphicon glyphicon-remove',
+	            validating: 'glyphicon glyphicon-refresh'
+	        },
+	        trigger:'change',
+	        fields: {
+	            'citeId': {
+	                validators: {
+	                    callback: {
+	                        message: '输入不合法，请输入所给范围内的整数数字',
+	                        callback: function(value, validator) {
+	                        	if(value==""||(/^\d+$/.test(value)&&parseInt(value,10)>0&&parseInt(value,10)<=${post.replys}))
+	                        		return true
+	                        	return false;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    })
+    
 		$("button[name='add-btn']").bind("click",function(){
 			$("#ckeditor").val(editor.getData());
 			$.ajax({	
@@ -311,6 +357,63 @@
 				}
 			});
 		});
+		
+		$("button[name='accept-btn']").bind("click",function(){
+			var r = $(this).attr("r");
+			var p = $(this).attr("p");
+			var data = {"r":r,"p":p};
+			
+			$.ajax({	
+				async : false,
+				type : "POST",
+				url : "/bulletin/accept",
+				data : $.param(data),
+				datatype : 'json',
+				success : function(result) {
+					if (result != "fail") {
+						toastr.success("采纳成功！");
+						setTimeout(function(){location.reload();},1500);
+					}else{
+						toastr.error("采纳失败");
+					}
+				},
+				error : function(jqXHR,textStatus,errorThrown) {
+							alert(textStatus);
+				}
+			});
+		});
+		
+		$("button[name='finish-btn']").bind("click",function(){
+			if(confirm("结帖将使得该帖子不再具有回复功能，确认结帖吗？")){
+				var p = $(this).attr("p");
+				var data = {"p":p};
+				$.ajax({	
+					async : false,
+					type : "POST",
+					url : "/bulletin/finish",
+					data : $.param(data),
+					datatype : 'json',
+					success : function(result) {
+						if (result != "fail") {
+							toastr.success("结帖成功！");
+							setTimeout(function(){location.reload();},1500);
+						}else{
+							toastr.error("结帖失败");
+						}
+					},
+					error : function(jqXHR,textStatus,errorThrown) {
+								alert(textStatus);
+					}
+				});
+			}
+		});
+		
+		$("button[name='helpless-btn'],button[name='helpful-btn'],input[name='citeId']").bind("focus",function(){
+			if ($("a.sign").text() != "") {
+					toastr.info("请登录");
+					$(".sign").trigger("click");
+				}
+		})
 	</script>
 </body>
 </html>
