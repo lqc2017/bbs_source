@@ -46,18 +46,21 @@
 							<li><p class="p-cur-user">当前用户：${currentUser.nickname}</p></li>
 							<li class="divider"></li>
 							<li><a href="/u/${currentUser.id}?active=10">个人信息</a></li>
+							<li><a href="/u/post">我的帖子</a></li>
+							<li><a href="/myq">我的问题</a></li>
+							<li class="divider"></li>
 							<li><a href="/u/${currentUser.id}?active=20">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
 							<li class="divider"></li>
 							<li><a href="/logout">登出</a></li>
 							<li class="divider"></li>
-							<li><a href="#">设置</a></li>
+							<li><a href="/u/${currentUser.id}?active=30">设置</a></li>
 						</ul></li>
 				</c:if>
 			</ul>
 		</div>
 	</div>
 	</nav>
-	<div class="panel panel-info question">
+	<div class="panel panel-default question">
 		<div class="panel-heading">
 			<h3> 
 				<c:out value="${question.title}" escapeXml="true"></c:out>
@@ -80,19 +83,20 @@
 		</div>
 	</div>
 	<div class="middle">
+	${order}
 		<label style="float: left">${answers.size()}个回答：</label>
 		<c:if test="${answers.size()!=0}">
 		<div class="btn-group">
-			<a href="/question?q=${question.id}&order=0" class="btn btn-default btn-xs <c:if test="${order==null||order.order==0}">active</c:if>">时间</a>
-			<a href="/question?q=${question.id}&order=10" class="btn btn-default btn-xs <c:if test="${order==10}">active</c:if>">有用</a>
+			<a href="/q/${question.id}?order=0" class="btn btn-default btn-xs <c:if test="${order==null||order==0}">active</c:if>">时间</a>
+			<a href="/q/${question.id}?order=10" class="btn btn-default btn-xs <c:if test="${order==10}">active</c:if>">有用</a>
 		</div>
 		</c:if>
 		<c:if test="${question.status==10}">
-			<c:if test="${user.id==question.createBy}">
+			<c:if test="${currentUser.id==question.createBy}">
 				<a name="solved-btn" href="javascipt:;" style="float: right"
 					class="btn btn-sm btn-success">问题解决</a>
 			</c:if>
-			<c:if test="${user.id==null||user.id!=question.createBy}">
+			<c:if test="${currentUser.id==null||currentUser.id!=question.createBy}">
 				<a href="#input" style="float: right" class="btn btn-sm btn-success">填写答案</a>
 			</c:if>
 		</c:if>
@@ -104,6 +108,7 @@
 				<div class="answer-message">
 					<a href="/u/${answer.createBy}">${answer.name}</a> <label class="create-time"><fmt:formatDate
 							value="${answer.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></label>
+					<c:if test="${helpEnable!=null}">
 					<label class="helpful-block">
 						<span class="glyphicon  glyphicon-chevron-left default <c:if test="${helpEnable.get(vs.count-1)}">helpless</c:if>"
 						a="${answer.id}" value="0" data-toggle="tooltip"
@@ -112,17 +117,26 @@
 						<span class="glyphicon glyphicon-chevron-right default <c:if test="${helpEnable.get(vs.count-1)}">helpful</c:if>"
 						a="${answer.id}" value="1" data-toggle="tooltip"
 						data-placement="right" title="<c:if test="${helpEnable.get(vs.count-1)}">对我有用</c:if><c:if test="${!helpEnable.get(vs.count-1)}">您已评价！</c:if>"></span>
+					</label></c:if>
+					<c:if test="${helpEnable==null}">
+					<label class="helpful-block">
+						<span class="glyphicon  glyphicon-chevron-left default helpless" a="${answer.id}" value="0" data-toggle="tooltip"
+						data-placement="left" title="毫无作用"></span>
+						<span name="helpful">${answer.helpful}</span> 
+						<span class="glyphicon glyphicon-chevron-right default helpful" a="${answer.id}" value="1" data-toggle="tooltip"
+						data-placement="right" title="对我有用"></span>
 					</label>
+					</c:if>
 				</div>
 			</div>
 			<hr <c:if test="${vs.last}">style="border-top:0px;"</c:if>/>
 		</c:forEach>
 	</div>
-	<c:if test="${question.status==10&&user.id!=question.createBy}">
+	<c:if test="${question.status==10&&currentUser.id!=question.createBy}">
 	<div class="input" id="input">
 		<form id="add_form" method="post">
-			<input type="hidden" name="name" value="${user.nickname}"/>
-			<input type="hidden" name="createBy" value="${user.id}"/>
+			<input type="hidden" name="name" value="${currentUser.nickname}"/>
+			<input type="hidden" name="createBy" value="${currentUser.id}"/>
 			<textarea id="ckeditor" name="content" cols="20" rows="5"
 				class="ckeditor"></textarea>
 			<input type="hidden" name="questionId" value="${question.id}">
@@ -132,8 +146,8 @@
 		<button  name='add-btn' style="float: right"
 			class="btn btn-sm btn-success">提交</button>
 	</div>
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
+	</c:if>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog" style="width: 400px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -162,39 +176,44 @@
 											type="password" class="form-control" id="password"
 											name="password" placeholder="密码" required>
 									</div>
-									<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+									<input type="hidden" name="${_csrf.parameterName}"
+										value="${_csrf.token}" />
 
 									<div class="form-actions" style="width: 95%; margin: 0 auto;">
-										<input type="submit"
-											class="btn btn-block btn-primary" value="登陆">
+										<input type="submit" class="btn btn-block btn-primary"
+											value="登陆">
 									</div>
 								</form>
 							</div>
 						</div>
 						<div class="tab-pane fade" id="BBS1">
 							<div style="margin: 10px 30px 20px 30px">
-								<form action="/signUp" method="post" class="form-horizontal">
-										<label class="label-control" for="username">用户名</label> <input type="text"
-											class="form-control" name="username"
-											placeholder="用户名" required>
-										<label class="label-control" for="password">密码</label> <input
-											type="password" class="form-control"
-											name="password" placeholder="密码" required>
-											<input type="submit"
-											class="btn btn-block btn-success form-control" style="margin:15px 0 0 0;" value="注册">
-											</form>
-									</div>
-									<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+								<form name="register_form" action="/signUp" method="post" class="form-horizontal">
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+									<div class='form-group'><label class="label-control">用户名</label> 
+									<input type="text" class="form-control" name="username" ></div>
+									<div class='form-group'><label class="label-control">密码</label> 
+									<input type="password" class="form-control" name="password"> </div>
+									<div class='form-group'><label class="label-control">确认密码</label> 
+									<input type="password" class="form-control" name="confirm" placeholder="请再次输入密码"> </div>
+									<div class='form-group'><label class="label-control">昵称</label> 
+									<input type="text" class="form-control" name="nickname"></div>
+									<div class='form-group'><label class="label-control">性别</label> 
+									<label class="checkbox-inline"> 
+									<input type="radio" name="sex"  value="0" checked>男
+									</label> <label class="checkbox-inline"> 
+									<input type="radio" name="sex"  value="1" >女
+									</label> </div>
+									<div class='form-group'><input type="submit" class="btn btn-block btn-success form-control" value="注册"></div>
+								</form>
 							</div>
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
-	</c:if>
-
-	<c:if test="${question.status==10&&user.id!=question.createBy}">
+	</div>
+	<c:if test="${question.status==10&&currentUser.id!=question.createBy}">
 	<script src="/js/commons/editorInit.js"></script>
 	</c:if>
 	<script defer type="text/javascript">
@@ -219,6 +238,11 @@
 		});
 		
 		$(".helpful,.helpless").bind("click",function(){
+			if ($("a.sign").text() != "") {
+				toastr.info("请登录");
+				$(".sign").trigger("click");
+				return;
+			}
 			var value = $(this).attr("value");
 			var a = $(this).attr("a");
 			var data = {"value":value,"a":a};
@@ -284,7 +308,7 @@
 			$.ajax({	
 				async : false,
 				type : "get",
-				url : "/q/solved?q=${question.id}&u=${user.id}",
+				url : "/q/solved?q=${question.id}&u=${currentUser.id}",
 				datatype : 'json',
 				success : function(result) {
 					if (result == "success") {

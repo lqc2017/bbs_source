@@ -33,9 +33,10 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 			System.out.println("Can't redirect");
 			return;
 		}
-		//System.out.println(authentication.getName());
 		request.getSession().setAttribute("userId",accountService.getById(authentication.getName()).getUserid());
-		redirectStrategy.sendRedirect(request, response, request.getHeader("Referer"));
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().write("<script type='text/javascript'>  parent.$('#myModal',parent.document).modal('hide'); top.window.location.reload() ;</script>");
+			//redirectStrategy.sendRedirect(request, response, request.getHeader("Referer"));
 	}
 
 	/*
@@ -53,13 +54,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 			roles.add(a.getAuthority());
 		}
 
-		if (isCashier(roles)) {
-			url = "/cashier/home";
-		}else if (isDoctor(roles)) {
-			url = "/doctor/home";
-		} else if (isPatient(roles)) {
-			url = "/patient/home";
-		}else if(isAdmin(roles)){
+		if (isUser(roles)) {
 			url = "/admin/home";
 		}else{
 			url = "/login?error";
@@ -68,33 +63,13 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		return url;
 	}
 	
-	private boolean isDoctor(List<String> roles) {
-		if (roles.contains("ROLE_DOCTOR")) {
+	private boolean isUser(List<String> roles) {
+		if (roles.contains("ROLE_USER")) {
 			return true;
 		}
 		return false;
 	}
 	
-	private boolean isAdmin(List<String> roles) {
-		if (roles.contains("ROLE_ADMIN")) {
-			return true;
-		}
-		return false;
-	}
-	
-	private boolean isPatient(List<String> roles) {
-		if (roles.contains("ROLE_PATIENT")) {
-			return true;
-		}
-		return false;
-	}
-	
-	private boolean isCashier(List<String> roles) {
-		if (roles.contains("ROLE_CASHIER")) {
-			return true;
-		}
-		return false;
-	}
 
 	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
 		this.redirectStrategy = redirectStrategy;

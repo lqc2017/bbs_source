@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 
 import grp3022.bbs.aop.UpdateMessage;
 import grp3022.bbs.jo.AddressInfo;
@@ -102,6 +103,12 @@ public class UserController {
 		return "profile";
 	}
 	
+	/**
+	 * 2017年6月2日 下午7:23:30
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "/u/message")
 	@UpdateMessage(description = "消息页面")
 	public String message(Model model, HttpSession session) {
@@ -111,6 +118,34 @@ public class UserController {
 		
 		model.addAttribute("format", new Format());
 		return "message";
+	}
+	
+	/**
+	 * 2017年6月2日 下午7:39:39
+	 * @param model
+	 * @param pn
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/myq")
+	@UpdateMessage(description = "我的问题")
+	public String myQuestion(Model model, Integer pn,QuestionSo questionSo,HttpSession session) {
+		long currentUserId = Long.parseLong(session.getAttribute("userId").toString());
+		if(questionSo.getCreateBy()==null)
+			questionSo.setCreateBy(currentUserId);
+		PageInfo<Question> pageInfo =  questionService.getPageBySo(questionSo, pn, 10);
+		
+		//加载最后回复人
+		List<BBSUser> users = new ArrayList<BBSUser>();
+		for(Question q : pageInfo.getList()){
+			users.add(userService.getById(q.getUpdateBy()));
+		}
+		
+		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("so", questionSo);
+		model.addAttribute("users", users);
+		model.addAttribute("format", new Format());
+		return "my_question";
 	}
 
 	/**

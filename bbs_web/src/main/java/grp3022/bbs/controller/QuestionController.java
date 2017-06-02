@@ -110,7 +110,6 @@ public class QuestionController {
 		
 		if(session.getAttribute("userId")!=null){
 			long userId = Long.parseLong(session.getAttribute("userId").toString());
-			BBSUser user = userService.getById(userId);
 			
 			/*如果浏览用户为创建者，将reminder字段与答案数量字段同步*/
 			if(userId==question.getCreateBy()){
@@ -129,7 +128,6 @@ public class QuestionController {
 					helpEnable.add(true);
 			}
 			
-			model.addAttribute("user", user);
 			model.addAttribute("helpEnable", helpEnable);
 		}
 		

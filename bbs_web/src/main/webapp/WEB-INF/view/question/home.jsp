@@ -44,6 +44,9 @@
 							<li><p class="p-cur-user">当前用户：${currentUser.nickname}</p></li>
 							<li class="divider"></li>
 							<li><a href="/u/${currentUser.id}?active=10">个人信息</a></li>
+							<li><a href="/u/post">我的帖子</a></li>
+							<li><a href="/myq">我的问题</a></li>
+							<li class="divider"></li>
 							<li><a href="/u/${currentUser.id}?active=20">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
 							<li class="divider"></li>
 							<li><a href="/logout">登出</a></li>

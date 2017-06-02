@@ -81,7 +81,7 @@
 										<button type="button" class="btn btn-default btn-xs"
 											onclick="javascript:location.href='/q/${message.question.id}'">查看</button>
 										<button name="solved-btn" type="button"
-											class="btn btn-info btn-xs" qId="${message.question.id}"
+											class="btn btn-danger btn-xs" qId="${message.question.id}"
 											uId="${currentUser.id}">关闭问题</button>
 									</div>
 								</td>

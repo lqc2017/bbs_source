@@ -45,7 +45,7 @@
 							<li class="divider"></li>
 							<li><a href="/u/${currentUser.id}?active=10">个人信息</a></li>
 							<li><a href="/u/post">我的帖子</a></li>
-							<li><a href="/u/q">我的问题</a></li>
+							<li><a href="/myq">我的问题</a></li>
 							<li class="divider"></li>
 							<li><a href="/u/${currentUser.id}?active=20">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
 							<li class="divider"></li>
@@ -442,28 +442,8 @@
 					</ul>
 					<div id="myTabContent1" class="tab-content">
 						<div class="tab-pane fade active in" id="information1">
-							<div style="margin: 10px 30px 20px 30px">
-								<form action="/login" method="post" class="form-horizontal">
-									<div class="input-group input-sm">
-										<label class="input-group-addon" for="username"><span
-											class="glyphicon glyphicon-user"></span></label> <input type="text"
-											class="form-control" id="username" name="ssoId"
-											placeholder="用户名" required>
-									</div>
-									<div class="input-group input-sm">
-										<label class="input-group-addon" for="password"><span
-											class="glyphicon glyphicon-lock"></span></label> <input
-											type="password" class="form-control" id="password"
-											name="password" placeholder="密码" required>
-									</div>
-									<input type="hidden" name="${_csrf.parameterName}"
-										value="${_csrf.token}" />
-
-									<div class="form-actions" style="width: 95%; margin: 0 auto;">
-										<input type="submit" class="btn btn-block btn-primary"
-											value="登陆">
-									</div>
-								</form>
+							<div style="height:235px;padding: 0 30px 30px 30px;">
+								<iframe frameborder="no" style="scrolling: auto; width: 100%; height: 100%;" src="/loginPage"></iframe>
 							</div>
 						</div>
 						<div class="tab-pane fade" id="BBS1">
@@ -510,34 +490,6 @@
 		</div>
 	</div></c:if>
 	
-	<!-- Modal -->
-    <div class="modal fade" id="modal" aria-labelledby="modalLabel" role="dialog" tabindex="-1">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-           <h4 class="modal-title" id="modalLabel">上传头像</h4>
-          </div>
-          <div class="modal-body">
-            <div>
-              <div class="avatar-upload">
-                  <input type="hidden" class="avatar-src" name="avatar_src">
-                  <input type="hidden" class="avatar-data" name="avatar_data">
-                  <label for="avatarInput">Local upload</label>
-                  <input type="file" class="avatar-input" id="avatarInput" name="avatar_file">
-                </div>
-
-                
-                <img id="image" src="${user.protraitUrl}">
-            </div>
-          </div>
-          <div class="modal-footer">
-          <button id="upload" type="button" class="btn btn-default">upload</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
 	<script type="text/javascript">
 	var infoBuffer = new Array()
 	var contactBuffer = new Array()

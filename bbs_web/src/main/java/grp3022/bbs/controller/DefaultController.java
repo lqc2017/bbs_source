@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class DefaultController {
 
-	/**
-	 * 2017年5月23日 下午11:06:30
-	 */
-	@RequestMapping(value = "/login")
-	public void login() {
+	@RequestMapping(value = "/loginPage")
+	public String login() {
+		return "login";
 	}
 	
 	/**

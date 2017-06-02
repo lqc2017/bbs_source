@@ -16,7 +16,7 @@
 
 		<!-- <session-management invalid-session-url="/login?timeout" /> -->
 
-		<form-login authentication-failure-url="/login?error" authentication-success-handler-ref="loginSuccessHandler"
+		<form-login authentication-failure-url="/loginPage?error" authentication-success-handler-ref="loginSuccessHandler"
 			login-processing-url="/login" password-parameter="password" username-parameter="ssoId" />
 
 		<!-- <form-login authentication-failure-url="/login?error" authentication-success-handler-ref="loginSuccessHandler" 
