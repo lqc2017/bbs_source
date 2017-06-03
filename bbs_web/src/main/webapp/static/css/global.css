@@ -19,14 +19,17 @@ div.operation > span.glyphicon-trash {color:#9c9c9c;cursor:pointer;margin:auto 5
     border-radius: 20px;
 }
 
+/* 字体风格设置 */
 body {
 	font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
 
+/* 导航栏用户图标靠右 */
 ul.float-right{
 	float:right;
 }
 
+/* 导航栏用户名字体居中 */
 p.p-cur-user{
 	font-size:12px;
 	font-weight:700;
@@ -37,6 +40,7 @@ p.p-cur-user{
 	text-overflow:ellipsis;
 }
 
+/* 防止溢出的p标签 */
 p.p-control{
 	font-size:12px;
 	white-space:nowrap;

@@ -89,14 +89,65 @@
 						</c:when>
 					</c:choose>
 				</c:forEach>
-				<%-- <c:if test="${unreadMessages.size()>10}">
-					<tr>
-						<td colspan="2"><button class="btn btn-default btn-block">more...</button></td>
-					</tr>
-				</c:if> --%>
 			</tbody>
 		</table>
 	</div>
+	
+	<!-- 注册登录模态框头 -->
+	<div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="modalLabel">登陆/注册</h4>
+				</div>
+				<div class="modal-body">
+					<ul id="myTab1" class="nav nav-tabs">
+						<li class="active"><a href="#signIn" data-toggle="tab">登陆</a></li>
+						<li><a href="#signUp" data-toggle="tab">注册</a></li>
+					</ul>
+					<div id="myTabContent1" class="tab-content">
+						<div class="tab-pane fade active in" id="signIn">
+							<div style="height: 235px; padding: 0 30px 30px 30px;">
+								<iframe frameborder="no" style="scrolling: auto; width: 100%; height: 100%;" src="/loginPage"></iframe>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="signUp">
+							<div style="margin: 10px 30px 20px 30px">
+								<form name="register_form" action="/signUp" method="post"
+									class="form-horizontal">
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+									<div class='form-group'>
+										<label class="label-control">用户名</label> <input type="text" class="form-control" name="username">
+									</div>
+									<div class='form-group'>
+										<label class="label-control">密码</label> <input type="password" class="form-control" name="password">
+									</div>
+									<div class='form-group'>
+										<label class="label-control">确认密码</label> 
+										<input type="password" class="form-control" name="confirm" placeholder="请再次输入密码">
+									</div>
+									<div class='form-group'>
+										<label class="label-control">昵称</label> 
+										<input type="text" class="form-control" name="nickname">
+									</div>
+									<div class='form-group'>
+										<label class="label-control">性别</label> 
+										<label class="checkbox-inline"><input type="radio" name="sex" value="0" checked>男</label> 
+										<label class="checkbox-inline"><input type="radio" name="sex" value="1">女</label>
+									</div>
+									<div class='form-group'>
+										<input type="submit" class="btn btn-block btn-success form-control" value="注册">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 注册登录模态框尾 -->
 	<script defer type="text/javascript">
 	$("button[name='solved-btn']").bind("click",function(){
 		var qId = $(this).attr("qId");

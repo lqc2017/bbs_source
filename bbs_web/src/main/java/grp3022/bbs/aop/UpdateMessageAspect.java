@@ -47,7 +47,7 @@ public  class UpdateMessageAspect {
         }
 		else {
 			// 读取session中的用户
-			System.out.println("用户已登陆登录");
+			//System.out.println("用户已登陆登录");
 			BBSUser currentUser = userService.getById((Long) session.getAttribute("userId"));
 			
 			request.setAttribute("currentUser",currentUser);
@@ -59,7 +59,7 @@ public  class UpdateMessageAspect {
 			}
 			
 			List<Question> questions = questionService.getUpdateByCreateBy(currentUser.getId());
-			System.out.println("更新的问题数量："+questions.size());
+			//System.out.println("更新的问题数量："+questions.size());
 			if(questions.size()>0)
 				request.setAttribute("messageCnt", questions.size());
 			
@@ -68,7 +68,7 @@ public  class UpdateMessageAspect {
 				//System.out.println("=====前置通知开始=====");
 				//System.out.println("请求方法:" + (joinPoint.getTarget().getClass().getName() + "."
 				//		+ joinPoint.getSignature().getName() + "()"));
-				System.out.println("方法描述:" + getControllerMethodDescription(joinPoint));
+				System.out.println("请求的页面名称:" + getControllerMethodDescription(joinPoint));
 				System.out.println("请求人:" + currentUser.getNickname()+"\n");
 
 			} catch (Exception e) {

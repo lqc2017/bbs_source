@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)  
 @Documented  
 public  @interface UpdateMessage {  
-    String description()  default "";  
+    String description()  default "";
 }  

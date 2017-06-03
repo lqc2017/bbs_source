@@ -46,7 +46,6 @@ public class QuestionController {
 	private AnswerHelpService answerHelpService;
 	@Resource
 	private BBSUserService userService;
-	private final String pathPrefix = "question";
 
 	
 	/**
@@ -81,7 +80,7 @@ public class QuestionController {
 			}
 		}
 
-		ModelAndView mav = new ModelAndView(pathPrefix + "/home");
+		ModelAndView mav = new ModelAndView("/question/home");
 		mav.addObject("pageInfo", pageInfo);
 		mav.addObject("tagsMap", tagsMap);
 		mav.addObject("s_tag", s_tag);
@@ -98,7 +97,7 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/q/{qId}")
-	@UpdateMessage(description = "问题界面")
+	@UpdateMessage(description = "问题")
 	public String question(@PathVariable Long qId, AnswerSo answerSo,HttpSession session,Model model) {
 		/*初始化问题*/
 		Question question = questionService.getById(qId);
@@ -160,7 +159,7 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/q/edit")
-	@UpdateMessage(description = "编辑问题")
+	@UpdateMessage(description = "问题编辑")
 	public String edit(Model model,HttpSession session) {
 		if(session.getAttribute("userId")!=null){
 			long userId = Long.parseLong(session.getAttribute("userId").toString());
@@ -169,6 +168,8 @@ public class QuestionController {
 		}
 		return "/question/edit";
 	}
+	
+	/*---------------------------以上返回视图---------------------------*/
 
 	/**
 	 * 2017年5月13日 下午5:45:40
@@ -177,14 +178,16 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/q/add")
-	public String add(Question question) {
+	public @ResponseBody String add(Question question,HttpSession session) {
 		try {
 			questionService.add(question);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "/question/ask_fail";
+			if(session.getAttribute("userId")==null)
+				return "您未登录";
+			return "fail";
 		}
-		return "/question/ask_success";
+		return "success";
 	}
 
 	/**
@@ -215,6 +218,8 @@ public class QuestionController {
 		}
 		return "success";
 	}
+	
+	/*---------------------------以上返回JSON---------------------------*/
 
 	/**
 	 * 2017年5月24日 下午4:38:35

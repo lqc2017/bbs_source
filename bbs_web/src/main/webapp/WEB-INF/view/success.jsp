@@ -9,7 +9,12 @@
 </head>
 
 <body>
-	<div><h2>注册成功</h2></div>
+	<div><h2>注册成功</h2>
+	两秒后跳转回前一页面
+	</div>
+	<script defer type="text/javascript">
+	setTimeout(function(){history.go(-1);},2000);
+	</script>
 </body>
 
 </html>

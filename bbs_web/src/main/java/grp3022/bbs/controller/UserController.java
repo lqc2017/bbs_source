@@ -64,8 +64,11 @@ public class UserController {
 	private BrowseService browseService;
 
 	/**
-	 * 2017年5月20日 下午2:59:37
-	 * 
+	 * 2017年6月3日 下午9:01:09
+	 * @param model
+	 * @param session
+	 * @param userId
+	 * @param active
 	 * @return
 	 */
 	@RequestMapping(value = "/u/{userId}")
@@ -148,6 +151,8 @@ public class UserController {
 		return "my_question";
 	}
 
+	/*---------------------------以上返回视图---------------------------*/
+	
 	/**
 	 * 2017年5月28日 下午4:14:45
 	 * 
@@ -181,10 +186,11 @@ public class UserController {
 			return "redirect:/u/" + user.getId();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "/question/ask_fail";
+			return "redirect:/u/" + user.getId();
 		}
 	}
 	
+	/*---------------------------以上重定向---------------------------*/
 
 	/**
 	 * 2017年5月24日 下午9:28:25 加载关注情况
@@ -287,7 +293,7 @@ public class UserController {
 	}
 
 	/**
-	 * 2017年5月28日 下午4:18:20
+	 * 2017年5月28日 下午4:18:20 加载个人信息
 	 * 
 	 * @param user
 	 * @param model
@@ -303,7 +309,7 @@ public class UserController {
 	}
 
 	/**
-	 * 2017年5月28日 下午7:44:35
+	 * 2017年5月28日 下午7:44:35 加载个人设置
 	 * 
 	 * @param user
 	 * @param model
