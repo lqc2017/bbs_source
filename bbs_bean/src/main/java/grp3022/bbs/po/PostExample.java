@@ -984,6 +984,66 @@ public class PostExample {
             addCriterion("ACCEPT_ID not between", value1, value2, "acceptId");
             return (Criteria) this;
         }
+
+        public Criteria andReminderIsNull() {
+            addCriterion("REMINDER is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderIsNotNull() {
+            addCriterion("REMINDER is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderEqualTo(Long value) {
+            addCriterion("REMINDER =", value, "reminder");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderNotEqualTo(Long value) {
+            addCriterion("REMINDER <>", value, "reminder");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderGreaterThan(Long value) {
+            addCriterion("REMINDER >", value, "reminder");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderGreaterThanOrEqualTo(Long value) {
+            addCriterion("REMINDER >=", value, "reminder");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderLessThan(Long value) {
+            addCriterion("REMINDER <", value, "reminder");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderLessThanOrEqualTo(Long value) {
+            addCriterion("REMINDER <=", value, "reminder");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderIn(List<Long> values) {
+            addCriterion("REMINDER in", values, "reminder");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderNotIn(List<Long> values) {
+            addCriterion("REMINDER not in", values, "reminder");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderBetween(Long value1, Long value2) {
+            addCriterion("REMINDER between", value1, value2, "reminder");
+            return (Criteria) this;
+        }
+
+        public Criteria andReminderNotBetween(Long value1, Long value2) {
+            addCriterion("REMINDER not between", value1, value2, "reminder");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

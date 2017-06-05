@@ -15,46 +15,57 @@
 </head>
 
 <body>
+	<!-- 导航头 -->
 	<nav class="navbar navbar-default" role="navigation">
 	<div class="container-fluid container">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#example-navbar-collapse">
-				<span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span>
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+				<span class="sr-only">切换导航</span> <span class="icon-bar"></span> 
+				<span class="icon-bar"></span> <span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="#">codeground</a>
 		</div>
 		<div class="collapse navbar-collapse" id="example-navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li class=""><a href="#">论坛</a></li>
+				<li class=""><a href="/bulletin/home">论坛</a></li>
 				<li><a href="/q">问答</a></li>
 			</ul>
 			<ul class="nav navbar-nav float-right">
-				<c:if
-					test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication==null }">
-					<li><a class="sign" href="javascript:;" data-toggle="modal"
-						data-target="#myModal">登陆/注册</a></li>
+				<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication==null }">
+					<li><a class="sign" href="javascript:;" data-toggle="modal" data-target="#signModal">登陆/注册</a></li>
 				</c:if>
-				<c:if
-					test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"><img
-							src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
-							height="20" width="20"><b class="caret"></b> </a>
+				
+				<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<img src="${currentUser.protraitUrl}" height="20" width="20"><b class="caret"></b>
+						</a>
 						<ul class="dropdown-menu">
-							<li><a href="#">个人信息</a></li>
-							<li><a href="#">EJB</a></li>
+							<li><p class="p-cur-user">当前用户：${currentUser.nickname}</p></li>
 							<li class="divider"></li>
+							
+							<li><a href="/u/${currentUser.id}?active=10">个人信息</a></li>
+							<li><a href="/u/post">我的帖子</a></li>
+							<li><a href="/myq">我的问题</a></li>
+							<li class="divider"></li>
+							
+							<li><a href="/u/${currentUser.id}?active=20">消息
+							<c:if test="${messageCnt!=0}">
+								<span class="badge">新</span>
+							</c:if></a></li>
+							<li class="divider"></li>
+							
 							<li><a href="/logout">登出</a></li>
 							<li class="divider"></li>
-							<li><a href="#">设置</a></li>
+							
+							<li><a href="/u/${currentUser.id}?active=30">设置</a></li>
 						</ul></li>
 				</c:if>
 			</ul>
 		</div>
 	</div>
 	</nav>
+	<!-- 导航尾 -->
 	<div align="center">
 		<div class="content" id="test" style="width: 800px">
 			<div class="panel panel-default">
@@ -86,15 +97,14 @@
 										<tbody>
 											<tr>
 												<td align="center"><img
-													src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
-													height="100" width="100" class="img-rounded img-responsive"></td>
+													src="${postuser.protraitUrl}"></td>
 											</tr>
 											<tr>
-												<td  height="60px" align="center"><button type="button"
-														class="btn btn-info">关注</button></td>
+												<td  height="60px" align="center"><a href="/u/${post.postUser}" type="button"
+														class="btn btn-info">关注</a></td>
 											</tr>
 											<tr>
-												<td align="center"><a href="#">${post.name}</a></td>
+												<td align="center"><a href="/u/${post.postUser}">${post.name}</a></td>
 											</tr>
 										</tbody>
 									</table>
@@ -133,20 +143,19 @@
 										<tbody>
 											<tr>
 												<td align="center"><img
-													src="https://avatars0.githubusercontent.com/u/26128332?v=3&s=460"
-													height="100" width="100" class="img-rounded img-responsive"></td>
+													src="${replyusers[vs.count-1].protraitUrl}"></td>
 											</tr>
 											<tr>
-												<td  height="60px" align="center"><button type="button"
-														class="btn btn-info">关注</button></td>
+												<td  height="60px" align="center"><a href="/u/${replys.replyUser}" type="button"
+														class="btn btn-info">关注</a></td>
 											</tr>
 											<tr>
-												<td align="center"><a href="#">${replys.name}</a></td>
+												<td align="center"><a href="/u/${replys.replyUser}">${replys.name}</a></td>
 											</tr>
 										</tbody>
 									</table>
 								</td>
-								<td><c:if test="${replys.citeId!=null}">引用${replys.citeFlorr}的回复：<br>${replys.citeContent}<br></c:if>${replys.content}</td>
+								<td><c:if test="${replys.citeId!=null}"><p class="text-primary">引用${replys.citeFlorr}的回复：<br>${replys.citeContent}<br></p></c:if>${replys.content}</td>
 							</tr>
 							<tr>
 								<td></td>
@@ -200,11 +209,13 @@
 	<div align="center">
 		<div style="width: 800px;" id="input">
 			<form id="add_form" class="form-horizontal" action="/bulletin/reply" method="post">
+			<c:if test="${post.replys!=0}">
 			<div align="left">
 				<div class="form-group">
 					<label style="width: 225px;" class="col-sm-2 control-label">回复楼层（回复楼层范围1-${post.replys}） </label><div class="col-sm-2"><input class="form-control" placeholder="NULL" name="citeId" data-toggle="collapse" data-parent="#accordion"/></div>
 				</div>
 			</div>
+			</c:if>
 				<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
 				<input type="hidden" name="replyUser" value="${user.id}"/>
 				<input type="hidden" name="name" value="${user.nickname}"/>
@@ -283,7 +294,61 @@
 
 			</div>
 		</div>
-
+	<!-- 注册登录模态框头 -->
+	<div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="modalLabel">登陆/注册</h4>
+				</div>
+				<div class="modal-body">
+					<ul id="myTab1" class="nav nav-tabs">
+						<li class="active"><a href="#signIn" data-toggle="tab">登陆</a></li>
+						<li><a href="#signUp" data-toggle="tab">注册</a></li>
+					</ul>
+					<div id="myTabContent1" class="tab-content">
+						<div class="tab-pane fade active in" id="signIn">
+							<div style="height: 235px; padding: 0 30px 30px 30px;">
+								<iframe frameborder="no" style="scrolling: auto; width: 100%; height: 100%;" src="/loginPage"></iframe>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="signUp">
+							<div style="margin: 10px 30px 20px 30px">
+								<form name="register_form" action="/signUp" method="post"
+									class="form-horizontal">
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+									<div class='form-group'>
+										<label class="label-control">用户名</label> <input type="text" class="form-control" name="username">
+									</div>
+									<div class='form-group'>
+										<label class="label-control">密码</label> <input type="password" class="form-control" name="password">
+									</div>
+									<div class='form-group'>
+										<label class="label-control">确认密码</label> 
+										<input type="password" class="form-control" name="confirm" placeholder="请再次输入密码">
+									</div>
+									<div class='form-group'>
+										<label class="label-control">昵称</label> 
+										<input type="text" class="form-control" name="nickname">
+									</div>
+									<div class='form-group'>
+										<label class="label-control">性别</label> 
+										<label class="checkbox-inline"><input type="radio" name="sex" value="0" checked>男</label> 
+										<label class="checkbox-inline"><input type="radio" name="sex" value="1">女</label>
+									</div>
+									<div class='form-group'>
+										<input type="submit" class="btn btn-block btn-success form-control" value="注册">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 注册登录模态框尾 -->
 	<script src="/js/commons/editorInit.js"></script>
 	<script defer type="text/javascript">
 	    

@@ -13,4 +13,6 @@ public interface ReplyService {
 	void updateById(Reply record);
 	
 	List<Reply> getAllByPostId(long id);
+	
+	List<Reply> getAllByPo(Reply record);
 }

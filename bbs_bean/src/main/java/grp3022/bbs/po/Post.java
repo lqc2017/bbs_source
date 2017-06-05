@@ -31,6 +31,8 @@ public class Post {
 
     private Long acceptId;
 
+    private Long reminder;
+
     public Long getId() {
         return id;
     }
@@ -141,5 +143,13 @@ public class Post {
 
     public void setAcceptId(Long acceptId) {
         this.acceptId = acceptId;
+    }
+
+    public Long getReminder() {
+        return reminder;
+    }
+
+    public void setReminder(Long reminder) {
+        this.reminder = reminder;
     }
 }

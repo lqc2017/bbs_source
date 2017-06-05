@@ -50,7 +50,17 @@ public class ReplyServiceImpl implements ReplyService{
 		Criteria c = example.or();
 		c.andPostIdEqualTo(id);
 		List<Reply> records = replyDao.selectByExample(example);
-        
+        return records;
+	}
+	
+	@Override
+	public List<Reply> getAllByPo(Reply record){
+		long id = record.getPostId();
+		ReplyExample example = new ReplyExample();
+		example.setOrderByClause("REPLY_TIME ASC");
+		Criteria c = example.or();
+		c.andPostIdEqualTo(id);
+		List<Reply> records = replyDao.selectByExample(example);
         return records;
 	}
 }

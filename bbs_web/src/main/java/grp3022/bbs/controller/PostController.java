@@ -20,15 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
-import grp3022.bbs.po.Answer;
-import grp3022.bbs.po.AnswerHelpKey;
+import grp3022.bbs.aop.UpdateMessage;
 import grp3022.bbs.po.BBSUser;
 import grp3022.bbs.po.BBSUserExample;
 import grp3022.bbs.po.Browse;
 import grp3022.bbs.po.BrowseKey;
 import grp3022.bbs.po.Post;
 import grp3022.bbs.po.PostExample;
-import grp3022.bbs.po.Question;
 import grp3022.bbs.po.Reply;
 import grp3022.bbs.po.ReplyHelpKey;
 import grp3022.bbs.service.BBSUserService;
@@ -36,8 +34,7 @@ import grp3022.bbs.service.BrowseService;
 import grp3022.bbs.service.PostService;
 import grp3022.bbs.service.ReplyHelpService;
 import grp3022.bbs.service.ReplyService;
-import grp3022.bbs.so.AnswerSo;
-import grp3022.bbs.so.QuestionSo;
+import grp3022.bbs.so.PostSo;
 import grp3022.bbs.type.Tag;
 import grp3022.bbs.util.Format;
 import grp3022.bbs.util.TagUtil;
@@ -61,6 +58,7 @@ public class PostController {
 	
 	
 	@RequestMapping(value = "/post")
+	@UpdateMessage(description = "发布帖子")
 	public String post(Model model,HttpSession session) {
 		if(session.getAttribute("userId")!=null){
 			long userId = Long.parseLong(session.getAttribute("userId").toString());
@@ -71,7 +69,8 @@ public class PostController {
 	}
 	
 	@RequestMapping(value = "/add")
-	public String add(Post poster) {
+	@UpdateMessage(description = "添加帖子")
+	public @ResponseBody String add(Post poster) {
 		try {
 			//System.out.println(""+poster.getTitle());
 			poster.setRewards((short) 50);
@@ -85,31 +84,71 @@ public class PostController {
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "/question/ask_fail";
+			return "fail";
 		}
-		return "/question/ask_success";
+		return "success";
 	}
 	
 	@RequestMapping(value = "/home")
-	public ModelAndView home(PostExample poster, BBSUserExample user) {
-		List<Post> post = postService.getAllByPo(poster);
+	@UpdateMessage(description = "论坛主页")
+	public ModelAndView home(PostSo postSo,Integer pn,PostExample poster, BBSUserExample usere, HttpSession session) {
+		
+		/*if ((postSo.getKeywords() == null || postSo.getKeywords().equals(""))
+				&& postSo.getTimeFrame() == null)
+			postSo.setTimeFrame((short) 10);*/
+		PageInfo<Post> pageInfo = postService.getPageBySo(postSo, pn, 10);
+
+		/* 初始化标签 */
+		Map<String, List<Tag>> tagsMap = new HashMap<String, List<Tag>>();
+		for (Post post : pageInfo.getList()) {
+			List<Integer> indexes = JSON.parseArray(post.getTags(), Integer.class);
+			List<Tag> tags = TagUtil.getTagListByIndex(indexes);
+			tagsMap.put(post.getId().toString(), tags);
+		}
+		/* 初始化选中标签 */
+		Tag s_tag = null;
+		if (postSo.getTagIndex() != null && !postSo.getTagIndex().equals("")) {
+			int index = Integer.parseInt(postSo.getTagIndex());
+			for (Tag tag : Tag.values()) {
+				if (tag.getIndex() == index) {
+					s_tag = tag;
+				}
+			}
+		}
+
+		
+		/*List<Post> post = postService.getAllByPo(poster);*/
 		
 		ModelAndView mav = new ModelAndView(pathPrefix + "/home");
 		
 		/*获取排行榜信息*/
-		List<BBSUser> rankuser = userService.getAllByPo(user);
+		List<BBSUser> rankuser = userService.getAllByPo(usere);
 		
+		if(session.getAttribute("userId")!=null){
+			long userId = Long.parseLong(session.getAttribute("userId").toString());
+			BBSUser user = userService.getById(userId);
+			mav.addObject("user", user);
+		}
 		mav.addObject("rankuser",rankuser);
-		mav.addObject("post",post);
+		/*mav.addObject("post",post);*/
+		mav.addObject("pageInfo", pageInfo);
+		mav.addObject("tagsMap", tagsMap);
+		mav.addObject("s_tag", s_tag);
+		mav.addObject("postSo", postSo);
+		mav.addObject("format", new Format());
 		return mav;
 	}
 	
 	@RequestMapping(value = "/home/{pId}")
+	@UpdateMessage(description = "读帖页面")
 	public String question(@PathVariable Long pId, HttpSession session,Model model) {
 		
 		System.out.print(""+pId);
 		/*初始化帖子*/
 		Post post = postService.getById(pId);
+		
+		/*初始化发表用户信息*/
+		BBSUser postuser = userService.getById(post.getPostUser());
 		
 		/*初始化回复*/
 		List<Reply> replys = replyService.getAllByPostId(pId);
@@ -136,11 +175,20 @@ public class PostController {
 				record.setUserId(userId);
 				browseService.add(record);
 			}
+			
+			/*更新未读回复情况*/
+			if(userId==post.getPostUser()){
+				post.setReminder(post.getReplys());
+			}
 		}
 		
+		/*初始化回复用户信息*/
+		List<BBSUser> replyusers = new ArrayList<BBSUser>();
 		/*初始化是否点赞*/ 
 		List<Integer> helpEnable = new ArrayList<Integer>();
 		for (Reply reply : replys) {
+			BBSUser replyuser = userService.getById(reply.getReplyUser());
+			replyusers.add(replyuser);
 			ReplyHelpKey key = new ReplyHelpKey();
 			key.setUserId(userId);
 			key.setReplyId(reply.getId());
@@ -184,14 +232,16 @@ public class PostController {
 			}
 		}
 		
-		
 		model.addAttribute("post", post);
+		model.addAttribute("postuser", postuser);
 		model.addAttribute("tags", tags);
 		model.addAttribute("replys", replys);
+		model.addAttribute("replyusers", replyusers);
 		return "/bulletin/poster";
 	}
 	
 	@RequestMapping(value = "/finish")
+	@UpdateMessage(description = "结帖")
 	public @ResponseBody String finish(@RequestParam(value = "p")Long postId,HttpSession session) {
 		try {
 			//BBSUser user = userService.getById(reply.getReplyUser());

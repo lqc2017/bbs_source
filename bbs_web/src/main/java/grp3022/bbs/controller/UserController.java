@@ -29,6 +29,7 @@ import grp3022.bbs.po.Browse;
 import grp3022.bbs.po.FollowKey;
 import grp3022.bbs.po.Post;
 import grp3022.bbs.po.Question;
+import grp3022.bbs.po.Reply;
 import grp3022.bbs.service.AnswerHelpService;
 import grp3022.bbs.service.AnswerService;
 import grp3022.bbs.service.BBSUserService;
@@ -36,14 +37,17 @@ import grp3022.bbs.service.BrowseService;
 import grp3022.bbs.service.FollowService;
 import grp3022.bbs.service.PostService;
 import grp3022.bbs.service.QuestionService;
+import grp3022.bbs.service.ReplyService;
 import grp3022.bbs.so.AnswerHelpSo;
 import grp3022.bbs.so.AnswerSo;
+import grp3022.bbs.so.PostSo;
 import grp3022.bbs.so.QuestionSo;
 import grp3022.bbs.type.Tag;
 import grp3022.bbs.util.Format;
 import grp3022.bbs.util.TagUtil;
 import grp3022.bbs.wo.Activity;
 import grp3022.bbs.wo.UnreadMessage;
+import grp3022.bbs.wo.UnreadReply;
 
 @Controller
 public class UserController {
@@ -62,6 +66,8 @@ public class UserController {
 	private PostService postService;
 	@Resource
 	private BrowseService browseService;
+	@Resource
+	private ReplyService replyService;
 
 	/**
 	 * 2017年6月3日 下午9:01:09
@@ -150,7 +156,19 @@ public class UserController {
 		model.addAttribute("format", new Format());
 		return "my_question";
 	}
-
+	
+	@RequestMapping(value = "/u/post")
+	@UpdateMessage(description = "我的帖子")
+	public String myPost(Model model, Integer pn,PostSo postSo,HttpSession session) {
+		long currentUserId = Long.parseLong(session.getAttribute("userId").toString());
+		if(postSo.getPostUser()==null)
+			postSo.setPostUser(currentUserId);
+		PageInfo<Post> pageInfo =  postService.getPageBySo(postSo, pn, 10);
+		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("so", postSo);
+		model.addAttribute("format", new Format());
+		return "my_post";
+	}
 	/*---------------------------以上返回视图---------------------------*/
 	
 	/**
@@ -353,6 +371,32 @@ public class UserController {
 			}
 		});
 		model.addAttribute("unreadMessages", unreadMessages);
+		// 获得未读的已更新的用户帖子
+		List<Post> posts = postService.getUpdateByCreateBy(user.getId());
+
+		List<UnreadReply> unreadReplys = new ArrayList<UnreadReply>();
+		for (Post p : posts) {
+			long cnt = p.getReplys() - p.getReminder();
+			Reply reply = new Reply();
+			reply.setPostId(p.getId());
+			// 获得未读的已更新的用户帖子下未读的回复
+			List<Reply> unReadReplys = replyService.getAllByPo(reply).subList(0, (int)cnt);
+
+			// 包装回复
+			for (Reply r : unReadReplys) {
+				BBSUser u = userService.getById(r.getReplyUser());
+				UnreadReply ur = new UnreadReply(r.getReplyTime(), (short) 10, p, u);
+				unreadReplys.add(ur);
+			}
+		}
+		// 将包装类按时间排序
+		Collections.sort(unreadReplys, new Comparator<UnreadReply>() {
+			@Override
+			public int compare(UnreadReply arg0, UnreadReply arg1) {
+				return arg1.getCreateTime().compareTo(arg0.getCreateTime());
+			}
+		});
+		model.addAttribute("unreadReplys", unreadReplys);
 	}
 	
 

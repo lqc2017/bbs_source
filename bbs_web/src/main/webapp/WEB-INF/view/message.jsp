@@ -23,7 +23,7 @@
 		</div>
 		<div class="collapse navbar-collapse" id="example-navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li class=""><a href="#">论坛</a></li>
+				<li class=""><a href="/bulletin/home">论坛</a></li>
 				<li><a href="/q">问答</a></li>
 			</ul>
 			<ul class="nav navbar-nav float-right">
@@ -42,7 +42,7 @@
 							<li><p class="p-cur-user">当前用户：${currentUser.nickname}</p></li>
 							<li class="divider"></li>
 							<li><a href="/u/${currentUser.id}?active=10">个人信息</a></li>
-							<li><a href="/u/${currentUser.id}?active=20">消息 <c:if test="${messageCnt!=null}"><span class="badge">新</span></c:if></a></li>
+							<li><a href="/u/${currentUser.id}?active=20">消息 <c:if test="${messageCnt!=0}"><span class="badge">新</span></c:if></a></li>
 							<li class="divider"></li>
 							<li><a href="/logout">登出</a></li>
 							<li class="divider"></li>

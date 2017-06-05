@@ -27,7 +27,7 @@
 		</div>
 		<div class="collapse navbar-collapse" id="example-navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li class=""><a href="#">论坛</a></li>
+				<li class=""><a href="/bulletin/home">论坛</a></li>
 				<li><a href="/q">问答</a></li>
 			</ul>
 			<ul class="nav navbar-nav float-right">
@@ -50,7 +50,7 @@
 							<li class="divider"></li>
 							
 							<li><a href="/u/${currentUser.id}?active=20">消息
-							<c:if test="${messageCnt!=null}">
+							<c:if test="${messageCnt!=0}">
 								<span class="badge">新</span>
 							</c:if></a></li>
 							<li class="divider"></li>
@@ -123,7 +123,7 @@
 				<c:if test="${user.id==currentUser.id }">
 					<li <c:if test="${active==20}">class="active"</c:if>><a
 						class="spacing" href="#message" data-toggle="tab">消息
-						<c:if test="${messageCnt!=null}">
+						<c:if test="${messageCnt!=0}">
 								<span class="badge">新</span>
 							</c:if></a></li>
 					<li <c:if test="${active==30}">class="active"</c:if>><a
@@ -209,9 +209,9 @@
 									<thead>
 										<tr>
 											<td>帖子名称</td>
-											<td>发布者</td>
 											<td>发布时间</td>
 											<td>最后回复时间</td>
+											<td>回复量</td>
 										</tr>
 									</thead>
 									<tbody>
@@ -219,9 +219,11 @@
 										<c:if test="${vs.count<=10}">
 										<tr>
 											<td><a href="/bulletin/home/${myPost.id}">${myPost.title}</a></td>
-											<td><a href="#">${myPost.name}</a></td>
-											<td>${myPost.postTime}</td>
-											<td>${myPost.updateTime}</td>
+											<td><fmt:formatDate value="${myPost.postTime}"
+											pattern="yyyy-MM-dd HH:mm" /></td>
+											<td><fmt:formatDate value="${myPost.updateTime}"
+											pattern="yyyy-MM-dd HH:mm" /></td>
+											<td>${myPost.replys}</td>
 										</tr>
 										</c:if>
 										</c:forEach>
@@ -232,6 +234,9 @@
 					<div class="panel panel-default">
 							<div class="panel-heading">最近浏览（最近五条）</div>
 							<div class="panel-body">
+							<c:if test="${user.id!=currentUser.id&&userSetting.showActivity==0}">
+							用户已隐藏</c:if>
+							<c:if test="${(user.id!=currentUser.id&&userSetting.showActivity==1)||user.id==currentUser.id}">
 								<table class="table">
 									<thead>
 										<tr>
@@ -246,17 +251,20 @@
 										<c:if test="${vs.count<=5}">
 										<tr>
 											<td><a href="/bulletin/home/${myBrowsePost.id}">${myBrowsePost.title}</a></td>
-											<td><a href="#">${myBrowsePost.name}</a></td>
-											<td>${myBrowsePost.postTime}</td>
-											<td>${myBrowsePost.updateTime}</td>
+											<td><a href="/u/${myBrowsePost.postUser}">${myBrowsePost.name}</a></td>
+											<td><fmt:formatDate value="${myBrowsePost.postTime}"
+											pattern="yyyy-MM-dd HH:mm" /></td>
+											<td><fmt:formatDate value="${myBrowsePost.updateTime}"
+											pattern="yyyy-MM-dd HH:mm" /></td>
 										</tr>
 										</c:if>
 										</c:forEach>
 									</tbody>
 								</table>
+								</c:if>
 							</div>
 					</div>
-					<div class="panel panel-default" style="width: 450px">
+					<!-- <div class="panel panel-default" style="width: 450px">
 								<div class="panel-heading">推荐达人</div>
 								<div class="panel-body">
 									<table style="border: 0;">
@@ -288,10 +296,12 @@
 										<button type="button" class="btn btn-info btn-sm">换一批</button>
 									</div>
 								</div>
-							</div>
+							</div> -->
+							<c:if test="${user.id==currentUser.id }">
 							<div align="center">
 								<a href="/bulletin/post" type="button" class="btn btn-success btn-lg">我要发帖</a>
 							</div>
+							</c:if>
 						</div>
 				</div>
 				<div class="tab-pane fade" id="AQ">
@@ -390,6 +400,27 @@
 									<tr>
 										<td colspan="2"><button class="btn btn-default btn-block" onclick="javascript:location.href='/u/message'">more...</button></td>
 									</tr></c:if>
+								</tbody>
+							</table>
+							<table class="table table-hover table-condensed" style="table-layout: fixed;">
+								<caption>帖子动态：${unreadReplys.size()}</caption>
+								<tbody>
+									<c:if test="${unreadReplys.size()==0}">暂时没有新的回复</c:if>
+									<c:forEach items="${unreadReplys}" var="unreadReply">
+										<c:choose>
+											<c:when test="${unreadReply.type==10}">
+												<tr>
+													<td style="width: 10%">${format.getTime(unreadReply.createTime)}</td>
+													<td style="width: 90%"><p class="p-control"
+															style="font-size: 14px;">
+															<a href="/u/${unreadReply.user.id}">${unreadReply.user.nickname}</a>回复了你发表的<a
+																title="${unreadReply.post.title}"
+																href="/bulletin/home/${unreadReply.post.id}">${unreadReply.post.title}</a>
+														</p></td>
+												</tr>
+											</c:when>
+										</c:choose>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>

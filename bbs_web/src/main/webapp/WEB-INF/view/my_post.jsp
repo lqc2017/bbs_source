@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>订单列表</title>
+<title>我的帖子列表</title>
 <%@ include file="source.jsp"%>
 <script src="/js/commons/paginator.js"></script>
 </head>
@@ -78,8 +78,8 @@
 				<label for="status">状态:</label> <select name="status" id="status"
 					class="form-control">
 					<option value="">无</option>
-					<option value="10" <c:if test="${so.status==10}">selected</c:if>>未解决</option>
-					<option value="20" <c:if test="${so.status==20}">selected</c:if>>已解决</option>
+					<option value="0" <c:if test="${so.status==0}">selected</c:if>>未结贴</option>
+					<option value="1" <c:if test="${so.status==1}">selected</c:if>>已结帖</option>
 				</select>
 			</div>
 			
@@ -111,35 +111,39 @@
 					<th width="13%">发布时间</th>
 					<th width="29%">标题名</th>
 					<th width="13%">最后更新时间</th>
-					<th width="12%">更新人</th>
 					<th width="8%">浏览数</th>
-					<th width="8%">回答数</th>
+					<th width="8%">回复数</th>
 					<th width="5%">状态</th>
+					<th width="12%">打赏情况</th>
 					<th width="12%">操作</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${pageInfo.getList()}" var="question" varStatus="vs">
+				<c:forEach items="${pageInfo.getList()}" var="post" varStatus="vs">
 					<tr>
-						<td><fmt:formatDate value="${question.createTime}"
+						<td><fmt:formatDate value="${post.postTime}"
 										pattern="yyyy-MM-dd  HH:mm" /></td>
-						<td><p class="p-control" style="font-size: 14px;">${question.title}</p></td>
-						<td><fmt:formatDate value="${question.updateTime}"
+						<td><p class="p-control" style="font-size: 14px;">${post.title}</p></td>
+						<td><fmt:formatDate value="${post.updateTime}"
 										pattern="yyyy-MM-dd  HH:mm" /></td>
-						<td><a href="/u/${users[vs.index].id}">${users[vs.index].nickname}</a></td>
-						<td>${question.views}</td>
-						<td>${question.answers}</td>
+						<td>${post.views}</td>
+						<td>${post.replys}</td>
 						<td><c:choose>
-								<c:when test="${question.status==10}">未解决</c:when>
-								<c:when test="${question.status==20}">已解决</c:when>
+								<c:when test="${post.status==0}">未结帖</c:when>
+								<c:when test="${post.status==1}">已结帖</c:when>
 							</c:choose></td>
+						<c:if test="${post.acceptId!=0}">
+						<td>${post.rewards}  <span class="label label-success">已打赏</span></td>
+						</c:if>
+						<c:if test="${post.acceptId==0}">
+						<td>${post.rewards}</td>
+						</c:if>
 						<td><div class="btn-toolbar">
 								<button type="button" class="btn btn-default btn-xs"
-									onclick="javascript:location.href='/q/${question.id}'">查看</button>
+									onclick="javascript:location.href='/bulletin/home/${post.id}'">查看</button>
 								<c:choose>
-									<c:when test="${question.status==10}"><button name="solved-btn" type="button"
-									class="btn btn-danger btn-xs" qId="${question.id}"
-									uId="${currentUser.id}">关闭问题</button>
+									<c:when test="${post.status==0}"><button name="finish-btn" type="button"
+									class="btn btn-danger btn-xs" p="${post.id}">结帖</button>
 									</c:when>
 								</c:choose>
 							</div></td>
@@ -213,31 +217,34 @@
 	<!-- 注册登录模态框尾 -->
 
 	<script defer type="text/javascript">
-	$("button[name='solved-btn']").bind("click",function(){
-		var qId = $(this).attr("qId");
-		var uId = $(this).attr("uId");
-		$.ajax({	
-			async : false,
-			type : "get",
-			url : "/q/solved?q="+qId+"&u="+uId,
-			datatype : 'json',
-			success : function(result) {
-				if (result == "success") {
-					toastr.success("设置成功！");
-					setTimeout(function(){location.reload();},1500);
-				}
-				if (result == "fail")
-					toastr.error("确认失败，没有权限");
+	$("button[name='finish-btn']").bind("click",function(){
+		if(confirm("结帖将使得该帖子不再具有回复功能，确认结帖吗？")){
+			var p = $(this).attr("p");
+			var data = {"p":p};
+			$.ajax({	
+				async : false,
+				type : "POST",
+				url : "/bulletin/finish",
+				data : $.param(data),
+				datatype : 'json',
+				success : function(result) {
+					if (result != "fail") {
+						toastr.success("结帖成功！");
+						setTimeout(function(){location.reload();},1500);
+					}else{
+						toastr.error("结帖失败");
+					}
 				},
-			error : function(jqXHR,textStatus,errorThrown) {
-						alert(textStatus);
-			}
-		});
-	})
+				error : function(jqXHR,textStatus,errorThrown) {
+							alert(textStatus);
+				}
+			});
+		}
+	});
 	
 		function select() {
 			var form = $("#search_form");
-			form.attr("action", "/myq");
+			form.attr("action", "/u/post");
 			form.submit();
 		}
 

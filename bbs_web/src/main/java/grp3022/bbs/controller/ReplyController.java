@@ -11,17 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import grp3022.bbs.po.Answer;
+import grp3022.bbs.aop.UpdateMessage;
 import grp3022.bbs.po.BBSUser;
 import grp3022.bbs.po.Post;
-import grp3022.bbs.po.Question;
 import grp3022.bbs.po.Reply;
 import grp3022.bbs.po.ReplyHelp;
 import grp3022.bbs.service.BBSUserService;
 import grp3022.bbs.service.PostService;
 import grp3022.bbs.service.ReplyHelpService;
 import grp3022.bbs.service.ReplyService;
-import grp3022.bbs.so.AnswerSo;
 
 @Controller
 @RequestMapping("/bulletin")
@@ -37,6 +35,7 @@ public class ReplyController {
 	private PostService postService;
 
 	@RequestMapping(value = "/reply")
+	@UpdateMessage(description = "回复")
 	public @ResponseBody String add(Reply reply) {
 		try {
 			
@@ -72,6 +71,7 @@ public class ReplyController {
 	}
 	
 	@RequestMapping(value = "/reply_help")
+	@UpdateMessage(description = "评价")
 	public @ResponseBody String reply_helpful(@RequestParam(value = "r")Long replyId
 			,@RequestParam(value = "value")Short value,HttpSession session) {
 		try {
@@ -112,13 +112,14 @@ public class ReplyController {
 	}
 	
 	@RequestMapping(value = "/accept")
+	@UpdateMessage(description = "采纳")
 	public @ResponseBody String accept(@RequestParam(value = "r")Long replyId,@RequestParam(value = "p")Long postId,HttpSession session) {
 		try {
 			//BBSUser user = userService.getById(reply.getReplyUser());
 			if(session.getAttribute("userId")==null){
 				return "fail";
 			}
-			long userId = Long.parseLong(session.getAttribute("userId").toString());
+			//long userId = Long.parseLong(session.getAttribute("userId").toString());
 			
 			/*更新帖子表*/
 			Post post = postService.getById(postId);
