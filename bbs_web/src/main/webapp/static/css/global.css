@@ -47,3 +47,9 @@ p.p-control{
 	overflow:hidden;
 	text-overflow:ellipsis;
 }
+
+/* 固定导航栏内容宽度 */
+div.nav-container{
+	margin-left:80px;
+	margin-right:150px;
+}

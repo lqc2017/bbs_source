@@ -121,12 +121,16 @@ public class UserController {
 	@RequestMapping(value = "/u/message")
 	@UpdateMessage(description = "消息页面")
 	public String message(Model model, HttpSession session) {
+		if (session.getAttribute("userId") != null) {
 		long currentUserId = Long.parseLong(session.getAttribute("userId").toString());
 		BBSUser currentUser = userService.getById(currentUserId);
 		this.loadUnreadMessage(currentUser, model);
 		
 		model.addAttribute("format", new Format());
 		return "message";
+		}else{
+			return "redirect:/bulletin/home";
+		}
 	}
 	
 	/**
@@ -138,36 +142,44 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/myq")
 	@UpdateMessage(description = "我的问题")
-	public String myQuestion(Model model, Integer pn,QuestionSo questionSo,HttpSession session) {
-		long currentUserId = Long.parseLong(session.getAttribute("userId").toString());
-		if(questionSo.getCreateBy()==null)
-			questionSo.setCreateBy(currentUserId);
-		PageInfo<Question> pageInfo =  questionService.getPageBySo(questionSo, pn, 10);
-		
-		//加载最后回复人
-		List<BBSUser> users = new ArrayList<BBSUser>();
-		for(Question q : pageInfo.getList()){
-			users.add(userService.getById(q.getUpdateBy()));
+	public String myQuestion(Model model, Integer pn, QuestionSo questionSo, HttpSession session) {
+		if (session.getAttribute("userId") != null) {
+			long currentUserId = Long.parseLong(session.getAttribute("userId").toString());
+			if (questionSo.getCreateBy() == null)
+				questionSo.setCreateBy(currentUserId);
+			PageInfo<Question> pageInfo = questionService.getPageBySo(questionSo, pn, 10);
+
+			// 加载最后回复人
+			List<BBSUser> users = new ArrayList<BBSUser>();
+			for (Question q : pageInfo.getList()) {
+				users.add(userService.getById(q.getUpdateBy()));
+			}
+
+			model.addAttribute("pageInfo", pageInfo);
+			model.addAttribute("so", questionSo);
+			model.addAttribute("users", users);
+			model.addAttribute("format", new Format());
+			return "my_question";
+		} else {
+			return "redirect:/q";
 		}
-		
-		model.addAttribute("pageInfo", pageInfo);
-		model.addAttribute("so", questionSo);
-		model.addAttribute("users", users);
-		model.addAttribute("format", new Format());
-		return "my_question";
 	}
 	
 	@RequestMapping(value = "/u/post")
 	@UpdateMessage(description = "我的帖子")
-	public String myPost(Model model, Integer pn,PostSo postSo,HttpSession session) {
-		long currentUserId = Long.parseLong(session.getAttribute("userId").toString());
-		if(postSo.getPostUser()==null)
-			postSo.setPostUser(currentUserId);
-		PageInfo<Post> pageInfo =  postService.getPageBySo(postSo, pn, 10);
-		model.addAttribute("pageInfo", pageInfo);
-		model.addAttribute("so", postSo);
-		model.addAttribute("format", new Format());
-		return "my_post";
+	public String myPost(Model model, Integer pn, PostSo postSo, HttpSession session) {
+		if (session.getAttribute("userId") != null) {
+			long currentUserId = Long.parseLong(session.getAttribute("userId").toString());
+			if (postSo.getPostUser() == null)
+				postSo.setPostUser(currentUserId);
+			PageInfo<Post> pageInfo = postService.getPageBySo(postSo, pn, 10);
+			model.addAttribute("pageInfo", pageInfo);
+			model.addAttribute("so", postSo);
+			model.addAttribute("format", new Format());
+			return "my_post";
+		} else {
+			return "redirect:/bulletin/home";
+		}
 	}
 	/*---------------------------以上返回视图---------------------------*/
 	

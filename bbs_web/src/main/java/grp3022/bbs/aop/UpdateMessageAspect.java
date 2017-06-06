@@ -66,8 +66,6 @@ public  class UpdateMessageAspect {
 			List<Post> posts = postService.getUpdateByCreateBy(currentUser.getId());
 			int messageCnt = 0;
 			messageCnt = questions.size()+posts.size();
-			System.out.println("aaaaaaa" + posts.size());
-			System.out.println("aaaaaaa" + questions.size());
 			request.setAttribute("messageCnt", messageCnt);
 			/*if(questions.size()>0||posts.size()>0)
 				request.setAttribute("messageCnt", questions.size()+posts.size());*/

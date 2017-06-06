@@ -14,7 +14,7 @@
 <body>
 	<!-- 导航头 -->
 	<nav class="navbar navbar-default" role="navigation">
-	<div class="container-fluid container">
+	<div class="container-fluid nav-container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
 				<span class="sr-only">切换导航</span> <span class="icon-bar"></span> 
@@ -67,7 +67,7 @@
 	<input id="totalPages" type="hidden" value="${pageInfo.getPages()}" />
 	<input id="currentPn" type="hidden" value="${pageInfo.getPageNum()}" />
 	
-	<div style="width: 86%; margin: 0 auto 15px auto;">
+	<div style="margin-top: 0;margin-bottom: 15px;margin-left:80px;margin-right:80px;">
 		<form id="search_form" class="form-inline" method="get">
 			<div class="form-group">
 				<label for="name">关键字:</label> <input type="text" name="keywords"
@@ -104,7 +104,7 @@
 		</form>
 	</div>
 
-	<div class="table-responsive" style="width: 86%; margin: 30px auto;">
+	<div class="table-responsive" style="margin: 30px 80px;">
 		<table class="table table-hover">
 			<thead>
 				<tr>

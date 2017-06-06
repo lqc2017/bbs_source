@@ -12,7 +12,7 @@
 
 <body>
 	<nav class="navbar navbar-default" role="navigation">
-	<div class="container-fluid container">
+	<div class="container-fluid nav-container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
 				data-target="#example-navbar-collapse">
@@ -148,6 +148,7 @@
 		</div>
 	</div>
 	<!-- 注册登录模态框尾 -->
+	
 	<script defer type="text/javascript">
 	$("button[name='solved-btn']").bind("click",function(){
 		var qId = $(this).attr("qId");
