@@ -117,7 +117,7 @@
 									<div style="display: inline">
 										回复数：${post.replys} 浏览数：${post.views}
 										<div class="btn-group" style="float: right;">
-											<button type="button" class="btn btn-default">收藏本帖</button>
+											<button disabled="disabled" type="button" class="btn btn-default">收藏本帖</button>
 											<a href="#input" type="button" class="btn btn-default">回复</a>
 										</div>
 									</div>
