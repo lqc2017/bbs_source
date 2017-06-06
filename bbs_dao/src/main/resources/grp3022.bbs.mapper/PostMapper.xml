@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="grp3022.bbs.dao.PostMapper" >
+  <resultMap id="BaseResultMap" type="grp3022.bbs.po.Post" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="POST_TIME" property="postTime" jdbcType="TIMESTAMP" />
+    <result column="TAGS" property="tags" jdbcType="VARCHAR" />
+    <result column="VIEWS" property="views" jdbcType="DECIMAL" />
+    <result column="REPLYS" property="replys" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="FLOOR" property="floor" jdbcType="DECIMAL" />
+    <result column="POST_USER" property="postUser" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="REWARDS" property="rewards" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ACCEPT_ID" property="acceptId" jdbcType="DECIMAL" />
+    <result column="REMINDER" property="reminder" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, CONTENT, TITLE, POST_TIME, TAGS, VIEWS, REPLYS, STATUS, FLOOR, POST_USER, UPDATE_TIME, 
+    REWARDS, NAME, ACCEPT_ID, REMINDER
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="grp3022.bbs.po.PostExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from POST
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from POST
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from POST
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="grp3022.bbs.po.PostExample" >
+    delete from POST
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="grp3022.bbs.po.Post" >
+    insert into POST (ID, CONTENT, TITLE, 
+      POST_TIME, TAGS, VIEWS, 
+      REPLYS, STATUS, FLOOR, 
+      POST_USER, UPDATE_TIME, REWARDS, 
+      NAME, ACCEPT_ID, REMINDER
+      )
+    values (#{id,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{postTime,jdbcType=TIMESTAMP}, #{tags,jdbcType=VARCHAR}, #{views,jdbcType=DECIMAL}, 
+      #{replys,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{floor,jdbcType=DECIMAL}, 
+      #{postUser,jdbcType=DECIMAL}, #{updateTime,jdbcType=TIMESTAMP}, #{rewards,jdbcType=DECIMAL}, 
+      #{name,jdbcType=VARCHAR}, #{acceptId,jdbcType=DECIMAL}, #{reminder,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="grp3022.bbs.po.Post" >
+    insert into POST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="postTime != null" >
+        POST_TIME,
+      </if>
+      <if test="tags != null" >
+        TAGS,
+      </if>
+      <if test="views != null" >
+        VIEWS,
+      </if>
+      <if test="replys != null" >
+        REPLYS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="floor != null" >
+        FLOOR,
+      </if>
+      <if test="postUser != null" >
+        POST_USER,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="rewards != null" >
+        REWARDS,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="acceptId != null" >
+        ACCEPT_ID,
+      </if>
+      <if test="reminder != null" >
+        REMINDER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="postTime != null" >
+        #{postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="views != null" >
+        #{views,jdbcType=DECIMAL},
+      </if>
+      <if test="replys != null" >
+        #{replys,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null" >
+        #{floor,jdbcType=DECIMAL},
+      </if>
+      <if test="postUser != null" >
+        #{postUser,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rewards != null" >
+        #{rewards,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptId != null" >
+        #{acceptId,jdbcType=DECIMAL},
+      </if>
+      <if test="reminder != null" >
+        #{reminder,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="grp3022.bbs.po.PostExample" resultType="java.lang.Integer" >
+    select count(*) from POST
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update POST
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.content != null" >
+        CONTENT = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postTime != null" >
+        POST_TIME = #{record.postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tags != null" >
+        TAGS = #{record.tags,jdbcType=VARCHAR},
+      </if>
+      <if test="record.views != null" >
+        VIEWS = #{record.views,jdbcType=DECIMAL},
+      </if>
+      <if test="record.replys != null" >
+        REPLYS = #{record.replys,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.floor != null" >
+        FLOOR = #{record.floor,jdbcType=DECIMAL},
+      </if>
+      <if test="record.postUser != null" >
+        POST_USER = #{record.postUser,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rewards != null" >
+        REWARDS = #{record.rewards,jdbcType=DECIMAL},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acceptId != null" >
+        ACCEPT_ID = #{record.acceptId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reminder != null" >
+        REMINDER = #{record.reminder,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update POST
+    set ID = #{record.id,jdbcType=DECIMAL},
+      CONTENT = #{record.content,jdbcType=VARCHAR},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      POST_TIME = #{record.postTime,jdbcType=TIMESTAMP},
+      TAGS = #{record.tags,jdbcType=VARCHAR},
+      VIEWS = #{record.views,jdbcType=DECIMAL},
+      REPLYS = #{record.replys,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      FLOOR = #{record.floor,jdbcType=DECIMAL},
+      POST_USER = #{record.postUser,jdbcType=DECIMAL},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      REWARDS = #{record.rewards,jdbcType=DECIMAL},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      ACCEPT_ID = #{record.acceptId,jdbcType=DECIMAL},
+      REMINDER = #{record.reminder,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="grp3022.bbs.po.Post" >
+    update POST
+    <set >
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="postTime != null" >
+        POST_TIME = #{postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tags != null" >
+        TAGS = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="views != null" >
+        VIEWS = #{views,jdbcType=DECIMAL},
+      </if>
+      <if test="replys != null" >
+        REPLYS = #{replys,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="floor != null" >
+        FLOOR = #{floor,jdbcType=DECIMAL},
+      </if>
+      <if test="postUser != null" >
+        POST_USER = #{postUser,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rewards != null" >
+        REWARDS = #{rewards,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptId != null" >
+        ACCEPT_ID = #{acceptId,jdbcType=DECIMAL},
+      </if>
+      <if test="reminder != null" >
+        REMINDER = #{reminder,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="grp3022.bbs.po.Post" >
+    update POST
+    set CONTENT = #{content,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      POST_TIME = #{postTime,jdbcType=TIMESTAMP},
+      TAGS = #{tags,jdbcType=VARCHAR},
+      VIEWS = #{views,jdbcType=DECIMAL},
+      REPLYS = #{replys,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      FLOOR = #{floor,jdbcType=DECIMAL},
+      POST_USER = #{postUser,jdbcType=DECIMAL},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      REWARDS = #{rewards,jdbcType=DECIMAL},
+      NAME = #{name,jdbcType=VARCHAR},
+      ACCEPT_ID = #{acceptId,jdbcType=DECIMAL},
+      REMINDER = #{reminder,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="selectBySo" resultMap="BaseResultMap" parameterType="grp3022.bbs.so.PostSo">
+		SELECT
+		<include refid="Base_Column_List" />
+		from POST
+		<where>
+			<if test="postUser!=null">
+				POST_USER = #{postUser,jdbcType=DECIMAL}
+			</if>
+			
+			<if test="status!=null">
+				AND STATUS = #{status,jdbcType=DECIMAL}
+			</if>
+			
+			<if test="tagIndex!=null and tagIndex!=''">
+				AND TAGS LIKE '%'||#{tagIndex,jdbcType=VARCHAR}||'%'
+			</if>
+			
+			<if test="timeFrame!=null and startTime!=null and endTime!=null">
+				AND POST_TIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+			</if>
+			
+			<if test="keywords!=null and keywords!=''">
+				AND (TITLE LIKE '%'||#{keywords,jdbcType=VARCHAR}||'%' OR CONTENT LIKE '%'||#{keywords,jdbcType=VARCHAR}||'%')
+			</if>
+			
+		</where>
+		ORDER BY 
+		<if test="order==0 or order==null">
+			POST_TIME DESC
+		</if>
+		<if test="order==1">
+			VIEWS DESC,REPLYS DESC
+		</if>
+		<if test="order==2">
+			UPDATE_TIME DESC
+		</if>
+	</select>
+	<select id="selectNewByCreateBy" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT
+		<include refid="Base_Column_List" />
+		<![CDATA[
+		from POST
+		where POST_USER = #{postUser,jdbcType=DECIMAL} AND STATUS = 0 AND REMINDER < REPLYS
+		ORDER BY POST_TIME DESC
+		]]>
+	</select>
+</mapper>
