@@ -17,7 +17,7 @@
 <body>
 	<!-- 导航头 -->
 	<nav class="navbar navbar-default" role="navigation">
-	<div class="container-fluid container">
+	<div class="container-fluid nav-container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
 				<span class="sr-only">切换导航</span> <span class="icon-bar"></span> 
@@ -27,7 +27,7 @@
 		</div>
 		<div class="collapse navbar-collapse" id="example-navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li class=""><a href="/bulletin/home">论坛</a></li>
+				<li><a href="/bulletin/home">论坛</a></li>
 				<li><a href="/q">问答</a></li>
 			</ul>
 			<ul class="nav navbar-nav float-right">
@@ -349,6 +349,8 @@
 		</div>
 	</div>
 	<!-- 注册登录模态框尾 -->
+	
+	<script src="/js/commons/registerFormValidateInit.js"></script>
 	<script src="/js/commons/editorInit.js"></script>
 	<script defer type="text/javascript">
 	    

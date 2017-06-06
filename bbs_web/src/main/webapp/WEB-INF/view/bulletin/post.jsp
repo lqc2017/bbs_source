@@ -14,7 +14,7 @@
 <body>
 	<!-- 导航头 -->
 	<nav class="navbar navbar-default" role="navigation">
-	<div class="container-fluid container">
+	<div class="container-fluid nav-container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
 				<span class="sr-only">切换导航</span> <span class="icon-bar"></span> 
@@ -306,6 +306,7 @@
 	</div>
 	<!-- 注册登录模态框尾 -->
 
+	<script src="/js/commons/registerFormValidateInit.js"></script>
 	<script src="/js/commons/editorInit.js"></script>
 	<script defer type="text/javascript">
 		var tagList = new Array();
