@@ -96,7 +96,7 @@
 				test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication!=null }">
 				<c:choose>
 					<c:when test="${user.id==currentUser.id }">
-						<a class="btn btn-default btn-block btn-op" data-toggle="modal" data-target="#modal">编辑头像</a>
+						<a class="btn btn-default btn-block btn-op" data-toggle="modal" data-target="#portraitModal">编辑头像</a>
 					</c:when>
 					<c:otherwise>
 						<c:if test="${followed}">
@@ -523,22 +523,39 @@
 	</div>
 	<!-- 注册登录模态框尾 -->
 
+	<!-- 头像编辑模态框头 -->
 	<c:if test="${user.id==currentUser.id }">
-	<div class="modal fade" id="portraitModal" tabindex="-1" role="dialog" aria-labelledby="portraitModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h4 class="modal-title" id="portraitModalLabel">上传头像</h4>
+		<div class="modal fade" id="portraitModal"
+			aria-labelledby="portraitModalLabel" role="dialog" tabindex="-1">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="portraitModalLabel">上传头像</h4>
+					</div>
+					<div class="modal-body">
+						<div>
+							<div class="avatar-upload">
+								<input type="hidden" class="avatar-src" name="avatar_src">
+								<input type="hidden" class="avatar-data" name="avatar_data">
+								<label for="avatarInput">Local upload</label> <input type="file"
+									class="avatar-input" id="avatarInput" name="avatar_file">
+							</div>
+
+							<img id="image" src="${user.protraitUrl}">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="upload" type="button" class="btn btn-default">upload</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
 				</div>
-				<div class="modal-body">
-<!-- 						<input name="myFile" id="portrait" type="file" class="file" data-show-preview="true" data-allowed-file-extensions='["jepg","jpg", "png", "bmp"]'>
- -->			
- 				</div>
 			</div>
 		</div>
-	</div></c:if>
-	
+	</c:if>
+	<!-- 头像编辑模态框尾 -->
+
 	<script src="/js/commons/registerFormValidateInit.js"></script>
 	<script type="text/javascript">
 	var infoBuffer = new Array()
@@ -550,7 +567,7 @@
 	      var canvasData;
 	      var url;
 
-	      $('#modal').on('shown.bs.modal', function () {
+	      $('#portraitModal').on('shown.bs.modal', function () {
 	        $image.cropper({
 	        	aspectRatio: 1 / 1,
 	  		  modal: false,
