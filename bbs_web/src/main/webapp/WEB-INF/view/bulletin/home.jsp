@@ -149,7 +149,7 @@
 				</div>
 				<div class="info">
 				<div class="title"><a href="/bulletin/home/${post.id}">${post.title}</a></div>
-				<div class="status"><c:if test="${post.status==1}"><span class="label label-default">已解决</span></c:if>
+				<div class="status"><c:if test="${post.status==1}"><span class="label label-default">已结帖</span></c:if>
 				<c:if test="${post.acceptId!=0}"><span class="label label-success">已打赏(${post.rewards})</span></c:if>
 				<c:if test="${post.acceptId==0}"><span class="label label-info">未打赏(${post.rewards})</span></c:if>
 				</div>

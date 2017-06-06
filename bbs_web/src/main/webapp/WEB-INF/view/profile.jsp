@@ -80,6 +80,7 @@
 	<div class="container">
 		<div class="left-panel">
 			<img src="${user.protraitUrl}" height="200" width="100%" class="img-rounded">
+			<div align="center">论坛积分${user.score}</div>
 			<div>
 				<div class="left-block">
 					关注
